@@ -29,11 +29,11 @@ jobs:
         run: npm ci
         working-directory: html/dui/laptop
 
-      - name: Build Project
+      - name: Build DUI
         run: npm run build
         working-directory: html/dui/laptop
       
-      - name: Bundle files
+      - name: Bundle Files
         run: |
           mkdir -p ./temp/evidences
           mkdir -p ./temp/evidences/html

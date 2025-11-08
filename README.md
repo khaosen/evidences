@@ -141,11 +141,14 @@ Below, we show all scenarios in which evidence is created, how criminals can des
 
 By using the `evidence_laptop` item, players can place evidence laptops on a table. After that, they can target the laptop to flip it open and access it. Once placed, the laptop will remain in its position (even persisting through server restarts) until it's picked up again.
 
+> [!IMPORTANT]  
+> Please make sure to set your mouse input method to "Raw Input" (this is the default setting) in your game settings as otherwise you won't be able to use the laptop interface.
+
 <p align="center">
     <img src="/.github/assets/evidence_laptop.gif">
 </p>
 
-Only players with an autorized job can access those laptops. They log into their user account automatically, so there is no need for creating/deleting accounts and no one has to remember their password. You can edit the list of allowed jobs in `config.lua`:
+Only players with an authorized job can access those laptops. They log into their user account automatically, so there is no need for creating/deleting accounts and no one has to remember their password. You can edit the list of allowed jobs in `config.lua`:
 ```lua
 25     config.permissions = {
 26         pickup = {

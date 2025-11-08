@@ -23,7 +23,6 @@ lib.callback.register("evidences:laptops:select", function(source)
 end)
 
 lib.callback.register("evidences:laptops:place", function(source, coords)
-    --local success <const> = database.insertEvidenceLaptop(coords)
     local success <const> = MySQL.insert.await("INSERT INTO evidence_laptops (x, y, z, w) VALUES (?, ?, ?, ?)", {
         tostring(coords.x), 
         tostring(coords.y), 
