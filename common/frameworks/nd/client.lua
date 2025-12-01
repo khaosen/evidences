@@ -2,15 +2,7 @@ local framework = {}
 
 function framework.getPlayerName()
     local player <const> = exports.ND_Core:getPlayer()
-    
-    if player then
-        return {
-            firstName = player.firstname,
-            lastName = player.lastname
-        }
-    end
-
-    return {}
+    return player and (player.firstname .. " " .. player.lastname) or nil
 end
 
 function framework.getGrade(job)

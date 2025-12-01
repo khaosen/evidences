@@ -16,8 +16,6 @@ export const TranslationProvider = ({ children }: { children: React.ReactNode })
     const [translations, setTranslations] = useState<TranslationObject>(defaultTranslations);
 
     useEffect(() => {
-        if (lang == "en") return;
-
         fetch(`../../../../../locales/${lang}.json`)
             .then((res) => {
                 if (!res.ok) throw new Error(`Could not load language file: ${lang}`);

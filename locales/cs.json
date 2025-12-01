@@ -14,7 +14,7 @@
         }
     },
     "evidences": {
-        "evidece_box_label_dialog": {
+        "evidence_box_label_dialog": {
             "title": "Přejmenovat krabici",
             "name_textfield_title": "Název",
             "name_textfield_details": "Název zobrazený v inventáři",
@@ -120,7 +120,7 @@
                 "title": "Důkazy",
                 "description": "Chyba při zvedání laptopu"
             },
-            "input_help": "Stiskněte %s pro položení laptopu.%sPoužijte %s pro zrušení této akce."
+            "input_help": "Stiskněte %s pro položení laptopu.%sPoužijte %s pro zrušení této akce"
         },
         "target": {
             "interact": "Použít",
@@ -159,7 +159,6 @@
             "dna_app": {
                 "name": "DNA",
                 "tooltip_save": "Pokud existuje záznam v databázi pro DNA na tomto důkazu, je zde zobrazen a lze jej upravit; jinak lze vytvořit nový záznam.",
-                "tooltip_label": "",
                 "no_dna_selected": "Vyberte ze seznamu důkaz obsahující DNA.",
                 "no_items_with_dna": "Ve vašem inventáři nejsou žádné předměty s DNA."
             },
@@ -176,7 +175,69 @@
                 "search_result_error": "Při načítání dat došlo k chybě!",
                 "search_result_empty": "Nebyly nalezeny žádné záznamy!",
                 "inspect_button": "Prohlédnout"
+            },
+            "wiretap_app": {
+                "name": "Odposlech",
+                "warning_popup": {
+                    "title": "Důležité upozornění",
+                    "warning": "Telefonní nebo radiová komunikace může být odposlouchávána pouze na základě platného soudního příkazu k odposlechu. V naléhavých situacích mohou být přijata opatření i bez předchozího soudního schválení.",
+                    "accept_button": "Potvrdit"
+                },
+                "phone_calls": {
+                    "header": "Telefonní hovory",
+                    "no_calls_running": "Neprobíhají žádné telefonní hovory",
+                    "lacking_permissions": "Chybí oprávnění k odposlechu telefonních hovorů"
+                },
+                "spy_microphones": {
+                    "header": "Špionážní mikrofony",
+                    "no_spy_microphones_placed": "Nejsou umístěny žádné špionážní mikrofony",
+                    "lacking_permissions": "Chybí oprávnění k poslechu špionážních mikrofonů"
+                },
+                "radio": {
+                    "header": "Rádio",
+                    "lacking_permissions": "Chybí oprávnění k zachycování rádiových kanálů"
+                },
+                "latest_actions": {
+                    "header": "Poslední akce",
+                    "no_actions_available": "Žádné protokolizované akce",
+                    "loading": "Načítání...",
+                    "end_reached": "Konec seznamu",
+                    "action_duration": "%s od %s do %s",
+                    "actions": {
+                        "ObservableCall": "%s zachytil(a) telefonní hovor mezi %s",
+                        "ObservableRadioFreq": "%s zachytil(a) rádiový kanál na %s MHz",
+                        "ObservableSpyMicrophone": "%s poslouchal(a) špionážní mikrofon %s"
+                    }
+                },
+                "running_observation_popup": {
+                    "ObservableCall": "Probíhající odposlech telefonního hovoru #%s",
+                    "ObservableRadioFreq": "Probíhající odposlech rádiového kanálu na %s MHz",
+                    "ObservableSpyMicrophone": "Poslech špionážního mikrofonu %s"
+                },
+                "protocol_popup": {
+                    "header": {
+                        "ObservableCall": "Protokol o odposlechu telefonního hovoru #%s",
+                        "ObservableRadioFreq": "Protokol o odposlechu rádiového kanálu #%s",
+                        "ObservableSpyMicrophone": "Protokol o sledování špionážního mikrofonu #%s"
+                    },
+                    "observation_started": "Sledování zahájeno.",
+                    "observation_ended": "Sledování ukončeno."
+                }
             }
         }
+    },
+    "spy_microphone": {
+        "input_help": "Stiskněte %s pro umístění špionážního mikrofonu.%sPomocí %s tuto akci zrušíte",
+        "error_spy_microphone_creation": {
+            "title": "Evidences",
+            "description": "Špionážní mikrofon s tímto označením již existuje"
+        },
+        "spy_microphone_label_dialog": {
+            "title": "Špionážní mikrofon s štítkem",
+            "label_textfield_title": "Jméno",
+            "label_textfield_details": "Vyberte jedinečný název pro identifikaci tohoto špionážního mikrofonu v aplikaci pro odposlech na notebooku s důkazy"
+        },
+        "target_destroy": "Zničte špionážní mikrofon",
+        "target_collect": "Sebrat špionážní mikrofon"
     }
 }

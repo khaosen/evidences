@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import LoginScreen, { type PlayerName } from "./screens/LoginScreen";
+import LoginScreen from "./screens/LoginScreen";
 import UserCursor from "./UserCursor";
 import ScreenSaverScreen from "./screens/ScreenSaverScreen";
 import DesktopScreen from "./screens/DesktopScreen";
@@ -10,11 +10,19 @@ import { useTranslation } from "./TranslationContext";
 // Here, all different screens are specified.
 export type ScreenType = "screensaver" | "login" | "desktop";
 
+export interface Options {
+    isWiretapAppEnabled: boolean;
+    mayInterceptCalls: boolean;
+    mayInterceptRadio: boolean;
+    mayListenToSpyMicrophones: boolean;
+}
+
 
 export default function App() {
     const [screen, setScreen] = useState<ScreenType>("screensaver"); // set first screen to screen saver
-    const [playerName, setPlayerName] = useState<PlayerName | null>(null);
+    const [playerName, setPlayerName] = useState<string | undefined>();
     const [canAccess, setCanAccess] = useState<boolean>(false);
+    const [options, setOptions] = useState<Options | undefined>();
     const [isMuted, setMuted] = useState<boolean>(false);
     const { setLang } = useTranslation();
 
@@ -38,12 +46,19 @@ export default function App() {
 
             if (event.data.action && event.data.action == "focus") {
                 setLang(event.data.language);
-                setPlayerName(event.data.playerName);
+                if (event.data.playerName) setPlayerName(event.data.playerName);
 
-                setCanAccess(event.data.canAccess);
+                setCanAccess(event.data.playerName && event.data.canAccess);
                 if (!event.data.canAccess) {
                     switchScreen("screensaver");
                 }
+
+                setOptions({
+                    isWiretapAppEnabled: event.data.isWiretapAppEnabled,
+                    mayInterceptCalls: event.data.mayInterceptCalls,
+                    mayInterceptRadio: event.data.mayInterceptRadio,
+                    mayListenToSpyMicrophones: event.data.mayListenToSpyMicrophones
+                })
             }
 
             if (event.data.action && event.data.action == "keydown") {
@@ -62,6 +77,7 @@ export default function App() {
                 const cursorPosition = input.selectionStart ?? 0;
                 const currentValue = input.value;
 
+                let newChar = char;
                 let newValue = currentValue;
                 let newCursorPosition = cursorPosition;
 
@@ -92,15 +108,15 @@ export default function App() {
                         break;
                     default:
                         if (char == "Enter") {
-                            char = "\n";
+                            newChar = "\n";
                         }
 
-                        if (char.length > 1) {
+                        if (newChar.length > 1) {
                             return;
                         }
 
-                        newValue = currentValue.substring(0, cursorPosition) + char + currentValue.substring(cursorPosition);
-                        newCursorPosition += char.length;
+                        newValue = currentValue.substring(0, cursorPosition) + newChar + currentValue.substring(cursorPosition);
+                        newCursorPosition += newChar.length;
 
                         if (input.maxLength && input.maxLength > 0 && newValue.length > input.maxLength) {
                             return;
@@ -111,11 +127,18 @@ export default function App() {
 
                 nativeInputValueSetter?.call(input, newValue);
                 input.setSelectionRange(newCursorPosition, newCursorPosition);
-                if (char.length == 1) input.scrollLeft += 30;
-                if (char == "\n") input.scrollTop = input.scrollHeight;
+                if (newChar.length == 1) input.scrollLeft += 30;
+                if (newChar == "\n") input.scrollTop = input.scrollHeight;
 
-                const event = new Event("input", { bubbles: true });
-                input.dispatchEvent(event);
+                const inputEvent = new Event("input", { bubbles: true, cancelable: true });
+                input.dispatchEvent(inputEvent);
+
+                const keydownEvent = new KeyboardEvent("keydown", {
+                    key: char,
+                    bubbles: true,
+                    cancelable: true
+                });
+                input.dispatchEvent(keydownEvent);
             }
         };
 
@@ -129,6 +152,6 @@ export default function App() {
         <UserCursor muted={isMuted} />
         {screen === "screensaver" && <ScreenSaverScreen switchScreen={switchScreen} />}
         {screen === "login" && <LoginScreen playerName={playerName} canAccess={canAccess} switchScreen={switchScreen} />}
-        {screen === "desktop" && <DesktopScreen switchScreen={switchScreen} mute={mute} />}
+        {screen === "desktop" && <DesktopScreen playerName={playerName} options={options} switchScreen={switchScreen} mute={mute} />}
     </div>;
 }

@@ -50,8 +50,9 @@ local registeredNetEvents = {}
 function eventHandler.onNet(eventName, callback)
     if not registeredNetEvents[eventName] then
         RegisterNetEvent(eventName, function(...)
+            local src <const> = lib.context == "server" and source or nil
             local netEventClass <const> = require "common.events.classes.net_event"
-            eventHandler.emit(netEventClass:new(eventName, {...}))
+            eventHandler.emit(netEventClass:new(eventName, src, {...}))
         end)
         registeredNetEvents[eventName] = true
     end
@@ -80,8 +81,9 @@ local addedEventHandlers = {}
 function eventHandler.onLocal(eventName, callback)
     if not addedEventHandlers[eventName] then
         AddEventHandler(eventName, function(...)
+            local src <const> = lib.context == "server" and source or nil
             local localEventClass <const> = require "common.events.classes.local_event"
-            eventHandler.emit(localEventClass:new(eventName, {...}))
+            eventHandler.emit(localEventClass:new(eventName, src, {...}))
         end)
         addedEventHandlers[eventName] = true
     end

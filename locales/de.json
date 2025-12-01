@@ -14,7 +14,7 @@
         }
     },
     "evidences": {
-        "evidece_box_label_dialog": {
+        "evidence_box_label_dialog": {
             "title": "Box beschriften",
             "name_textfield_title": "Name",
             "name_textfield_details": "Angezeigter Name im Inventar",
@@ -120,7 +120,7 @@
                 "title": "Evidences",
                 "description": "Fehler beim Aufheben des Laptops"
             },
-            "input_help": "Drücke %s, um den Laptop zu platzieren.%sBenutze %s um abzubrechen."
+            "input_help": "Drücke %s, um den Laptop zu platzieren.%sBenutze %s um abzubrechen"
         },
         "target": {
             "interact": "Zugreifen",
@@ -153,7 +153,6 @@
             "fingerprint_app": {
                 "name": "Fingerabdrücke",
                 "tooltip_save": "Wenn ein Datenbankeintrag zu dem Fingerabdruck auf diesem Beweisstück existiert, wird er hier angezeigt und kann bearbeitet werden; ansonsten kann ein neuer Eintrag angelegt werden.",
-                "tooltip_label": "",
                 "no_fingerprint_selected": "Wähle aus der Liste ein Beweisstück mit einem Fingerabdruck aus.",
                 "no_items_with_fingerprints": "Es befinden sich keine Items mit Fingerabdrücken in deinem Inventar."
             },
@@ -176,7 +175,69 @@
                 "search_result_error": "Fehler beim Laden der Daten!",
                 "search_result_empty": "Keine Einträge gefunden!",
                 "inspect_button": "Ansicht"
+            },
+            "wiretap_app": {
+                "name": "Abhören",
+                "warning_popup": {
+                    "title": "Wichtiger Hinweis",
+                    "warning": "Tele- und Fernkommunikation darf nur aufgrund eines Gerichtsbeschlusses überwacht werden. Ist Gefahr im Verzug können Maßnahmen auch ohne richterliche Anordnung getroffen werden.",
+                    "accept_button": "Verstanden"
+                },
+                "phone_calls": {
+                    "header": "Anrufe",
+                    "no_calls_running": "Keine laufenden Anrufe",
+                    "lacking_permissions": "Fehlende Berechtigungen zum Abhören von Telefonaten"
+                },
+                "spy_microphones": {
+                    "header": "Abhör-Wanzen",
+                    "no_spy_microphones_placed": "Keine Wanzen vorhanden",
+                    "lacking_permissions": "Fehlende Berechtigungen um Wanzen zu überwachen"
+                },
+                "radio": {
+                    "header": "Funk",
+                    "lacking_permissions": "Fehlende Berechtigungen zum Abhören von Funkkanälen"
+                },
+                "latest_actions": {
+                    "header": "Letzte Aktionen",
+                    "no_actions_available": "Keine protokollierten Aktionen vorhanden",
+                    "loading": "Lade...",
+                    "end_reached": "Ende der Liste erreicht",
+                    "action_duration": "%s von %s bis %s",
+                    "actions": {
+                        "ObservableCall": "%s hat einen Anruf zwischen %s abgehört",
+                        "ObservableRadioFreq": "%s hat den Funkkanal %s MHz abgehört",
+                        "ObservableSpyMicrophone": "%s hat die Wanze %s überwacht"
+                    }
+                },
+                "running_observation_popup" : {
+                    "ObservableCall": "Laufende Telekommunikationsüberwachung #%s",
+                    "ObservableRadioFreq": "Laufende Überwachung des Funkkanals %s MHz",
+                    "ObservableSpyMicrophone": "Laufende Überwachung der Wanze %s"
+                },
+                "protocol_popup": {
+                    "header": {
+                        "ObservableCall": "Protokoll der Telekommunikationsüberwachung #%s",
+                        "ObservableRadioFreq": "Protokoll der Funküberwachung #%s",
+                        "ObservableSpyMicrophone": "Protokoll der Wanzen-Überwachung #%s"
+                    },
+                    "observation_started": "Überwachung gestartet.",
+                    "observation_ended": "Überwachung beendet."
+                }
             }
         }
+    },
+    "spy_microphone": {
+        "input_help": "Drücke %s, um die Wanze zu platzieren.%sBenutze %s um abzubrechen",
+        "error_spy_microphone_creation": {
+            "title": "Evidences",
+            "description": "Es existiert bereits eine Wanze mit diesem Namen"
+        },
+        "spy_microphone_label_dialog": {
+            "title": "Wanze benennen",
+            "label_textfield_title": "Name",
+            "label_textfield_details": "Anhand dieses Namens kannst du die Wanze in der Abhör-App auf dem Laptop finden"
+        },
+        "target_destroy": "Wanze entfernen",
+        "target_collect": "Wanze aufheben"
     }
 }

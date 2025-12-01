@@ -14,7 +14,7 @@
         }
     },
     "evidences": {
-        "evidece_box_label_dialog": {
+        "evidence_box_label_dialog": {
             "title": "Kutu etiketi",
             "name_textfield_title": "İsim",
             "name_textfield_details": "Envanterде görüntülenen isim",
@@ -120,7 +120,7 @@
                 "title": "Deliller",
                 "description": "Dizüstü bilgisayar alınırken hata oluştu"
             },
-            "input_help": "Dizüstü bilgisayarı yerleştirmek için %s tuşuna basın.%sBu işlemi iptal etmek için %s kullanın."
+            "input_help": "Dizüstü bilgisayarı yerleştirmek için %s tuşuna basın.%sBu işlemi iptal etmek için %s kullanın"
         },
         "target": {
             "interact": "Etkileşim",
@@ -159,7 +159,6 @@
             "dna_app": {
                 "name": "DNA",
                 "tooltip_save": "Bu delil üzerindeki DNA için veritabanında bir kayıt varsa burada görüntülenir ve düzenlenebilir; aksi takdirde yeni bir kayıt oluşturulabilir.",
-                "tooltip_label": "",
                 "no_dna_selected": "Listeden DNA içeren bir delil seçin.",
                 "no_items_with_dna": "Envanterinizde DNA içeren öğe yok."
             },
@@ -176,7 +175,69 @@
                 "search_result_error": "Veriler yüklenirken bir hata oluştu!",
                 "search_result_empty": "Kayıt bulunamadı!",
                 "inspect_button": "İncele"
+            },
+            "wiretap_app": {
+                "name": "Gizli Dinleme",
+                "warning_popup": {
+                    "title": "Önemli Uyarı",
+                    "warning": "Telefon veya radyo iletişimi yalnızca geçerli bir dinleme emri kapsamında izlenebilir. Acil durumlarda mahkeme onayı olmadan da işlem yapılabilir.",
+                    "accept_button": "Onayla"
+                },
+                "phone_calls": {
+                    "header": "Telefon Görüşmeleri",
+                    "no_calls_running": "Devam eden telefon görüşmesi yok",
+                    "lacking_permissions": "Telefon görüşmelerini dinleme izni yok"
+                },
+                "spy_microphones": {
+                    "header": "Casus Mikrofonlar",
+                    "no_spy_microphones_placed": "Yerleştirilmiş casus mikrofon yok",
+                    "lacking_permissions": "Casus mikrofonları dinlemek için izin eksikliği"
+                },
+                "radio": {
+                    "header": "Radyo",
+                    "lacking_permissions": "Radyo kanallarını dinlemek için gerekli izinler eksik"
+                },
+                "latest_actions": {
+                    "header": "Son Eylemler",
+                    "no_actions_available": "Protokollenmiş eylem yok",
+                    "loading": "Yükleniyor...",
+                    "end_reached": "Listenin sonuna ulaşıldı",
+                    "action_duration": "%s, %s'den %s'ye kadar",
+                    "actions": {
+                        "ObservableCall": "%s, %s arasındaki telefon görüşmesini ele geçirdi",
+                        "ObservableRadioFreq": "%s, %s MHz'deki radyo kanalını ele geçirdi",
+                        "ObservableSpyMicrophone": "%s, %s casus mikrofonunu dinledi"
+                    }
+                },
+                "running_observation_popup" : {
+                    "ObservableCall": "Devam eden telefon görüşmesi ele geçirme #%s",
+                    "ObservableRadioFreq": "%s MHz'deki radyo kanalının devam eden ele geçirilmesi",
+                    "ObservableSpyMicrophone": "%s casus mikrofonu dinleniyor"
+                },
+                "protocol_popup": {
+                    "header": {
+                        "ObservableCall": "Telefon görüşmesi ele geçirme protokolü #%s",
+                        "ObservableRadioFreq": "Radyo kanalı ele geçirme protokolü #%s",
+                        "ObservableSpyMicrophone": "Casus mikrofon gözlem protokolü #%s"
+                    },
+                    "observation_started": "Gözlem başladı.",
+                    "observation_ended": "Gözlem sona erdi."
+                }
             }
         }
+    },
+    "spy_microphone": {
+        "input_help": "Casus mikrofonu yerleştirmek için %s tuşuna basın.%sBu işlemi iptal etmek için %s tuşunu kullanın",
+        "error_spy_microphone_creation": {
+            "title": "Evidences",
+            "description": "Bu etikete sahip bir casus mikrofon zaten mevcuttur"
+        },
+        "spy_microphone_label_dialog": {
+            "title": "Etiketli casus mikrofon",
+            "label_textfield_title": "Ad",
+            "label_textfield_details": "Kanıt dizüstü bilgisayarındaki dinleme uygulamasında bu casus mikrofonu tanımlamak için benzersiz bir ad seçin"
+        },
+        "target_destroy": "Casus mikrofonu yok et",
+        "target_collect": "Casus mikrofonu topla"
     }
 }

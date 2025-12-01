@@ -69,3 +69,13 @@
 		export = 'evidences.fingerprint_scanner',
 	},
 },
+['spy_microphone'] = {
+    label = 'Casus Mikrofon',
+    description = 'Yakındaki kişileri gözlemlemek için mikrofon',
+    weight = 1500,
+    stack = true,
+    close = true,
+    client = {
+        export = 'evidences.spy_microphone'
+    }
+},

@@ -3,15 +3,7 @@ local ox <const> = require "@ox_core.lib.init"
 
 function framework.getPlayerName()
     local oxPlayer <const> = ox.GetPlayer()
-
-    if oxPlayer then
-        return {
-            firstName = oxPlayer.get("firstName"),
-            lastName = oxPlayer.get("lastName")
-        }
-    end
-
-    return {}
+    return oxPlayer and (oxPlayer.get("firstName") .. " " .. oxPlayer.get("lastName")) or nil
 end
 
 function framework.getGrade(job)

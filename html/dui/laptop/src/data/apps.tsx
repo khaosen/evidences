@@ -2,10 +2,12 @@ import type React from "react";
 import DNAApp from "../components/desktop/apps/dna/DNAApp";
 import FingerprintApp from "../components/desktop/apps/fingerprint/FingerprintApp";
 import DatabaseApp from "../components/desktop/apps/database/DatabaseApp";
+import WiretapApp from "../components/desktop/apps/wiretap/WiretapApp";
 import { useTranslation } from "../components/TranslationContext";
 import fingerprintIcon from "../assets/app_icons/fingerprint.png";
 import dnaIcon from "../assets/app_icons/dna.png";
 import databaseIcon from "../assets/app_icons/database.png";
+import wiretapIcon from "../assets/app_icons/wiretap.png";
 
 export interface App {
     name: string;
@@ -31,6 +33,11 @@ export const AppsList = () => {
             name: t("laptop.desktop_screen.database_app.name"),
             icon: (width: string, height: string) => <img width={width} height={height} src={databaseIcon} draggable="false" />,
             content: <DatabaseApp />
+        },
+        {
+            name: t("laptop.desktop_screen.wiretap_app.name"),
+            icon: (width: string, height: string) => <img width={width} height={height} src={wiretapIcon} draggable="false" />,
+            content: <WiretapApp />
         }
     ];
 };

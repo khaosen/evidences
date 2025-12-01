@@ -69,3 +69,13 @@
         export = 'evidences.fingerprint_scanner',
     },
 },
+['spy_microphone'] = {
+    label = 'Spy Microphone',
+    description = 'Microphone for observing nearby people',
+    weight = 1500,
+    stack = true,
+    close = true,
+    client = {
+        export = 'evidences.spy_microphone'
+    }
+},

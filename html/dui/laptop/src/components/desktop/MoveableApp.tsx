@@ -1,5 +1,6 @@
 import React, { createContext, useEffect, useRef, useState } from "react";
 import type { OpenApp } from "../screens/DesktopScreen";
+import type { Options } from "../App";
 import styles from "../../css/MoveableApp.module.css";
 
 
@@ -10,6 +11,8 @@ interface MoveableAppProps {
     defaultPosition?: { x: number, y: number };
     width: number;
     height: number;
+    options: Options | undefined;
+    playerName: string | undefined;
     onClose: (app: OpenApp) => void;
     onFocus: (app: OpenApp) => void;
     onMinimize: (app: OpenApp) => void;
@@ -20,6 +23,8 @@ interface MoveableAppProps {
 
 
 interface AppContextType {
+    playerName: string | undefined;
+    options: Options | undefined;
     openPopUp: (name: string, content: React.ReactNode) => void;
 }
 
@@ -128,7 +133,7 @@ export default function MoveableApp(props: MoveableAppProps) {
                         display: "flex",
                         alignItems: "center"
                     }}>
-                        <span style={{ fontSize: "25px" }}>{props.app.name.toUpperCase()}</span>
+                        <span style={{ fontSize: "25px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{props.app.name.toUpperCase()}</span>
                     </div>
 
                     <div style={{ height: "100%", display: "flex", alignItems: "center", gap: "7.5px", marginRight: "20px"}}>
@@ -148,7 +153,7 @@ export default function MoveableApp(props: MoveableAppProps) {
                     </div>
                 </div>
                 <div style={{ width: "100%", height: (props.height - 42) + "px", background: "transparent" }}>
-                    <AppContext.Provider value={{ openPopUp: props.openPopUp }}>
+                    <AppContext.Provider value={{ options: props.options, playerName: props.playerName, openPopUp: props.openPopUp }}>
                         {props.app.content}
                     </AppContext.Provider>
                 </div>

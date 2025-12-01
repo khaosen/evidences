@@ -71,7 +71,7 @@ export default function EvidenceChooser(props: EvidenceChooserProps) {
                 arguments: {
                     type: props.type
                 }
-            }),
+            })
         }).then(response => response.json()).then(response => {
             setInventories(response);
         });

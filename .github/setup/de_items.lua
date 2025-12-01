@@ -69,3 +69,13 @@
         export = 'evidences.fingerprint_scanner',
     },
 },
+['spy_microphone'] = {
+    label = 'Abhörwanze',
+    description = 'Mikrofon zum Überwachen von Personen in der Nähe',
+    weight = 1500,
+    stack = true,
+    close = true,
+    client = {
+        export = 'evidences.spy_microphone'
+    }
+},

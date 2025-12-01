@@ -119,8 +119,8 @@ end)
 ---@param types table[string]
 ---@param search string
 ---@param page number
-lib.callback.register("evidences:getStoredBiometricDataEntries", function(source, data)
-    return database.getStoredBiometricDataEntries(data.types, data.search, data.page)
+lib.callback.register("evidences:getStoredBiometricDataEntries", function(source, arguments)
+    return database.getStoredBiometricDataEntries(arguments.types, arguments.search, arguments.page)
 end)
 
 lib.callback.register("evidences:labelEvidenceItem", function(source, arguments)
@@ -152,4 +152,19 @@ lib.callback.register("evidences:labelEvidenceItem", function(source, arguments)
     end
 
     return false
+end)
+
+lib.callback.register("evidences:storeWiretap", function(source, arguments)
+    local type <const> = arguments.type
+    local startedAt <const> = arguments.startedAt
+    local endedAt <const> = arguments.endedAt
+    local observer <const> = arguments.observer
+    local target <const> = arguments.target
+    local protocol <const> = arguments.protocol
+
+    database.storeWiretap(type, startedAt, endedAt, observer, target, protocol)
+end)
+
+lib.callback.register("evidences:getWiretaps", function(source, arguments)
+    return database.getWiretaps(arguments.limit, arguments.offset)
 end)

@@ -13,15 +13,7 @@ end)
 
 function framework.getPlayerName()
     local playerData <const> = ESX.PlayerData
-    
-    if playerData then
-        return {
-            firstName = playerData.firstName,
-            lastName = playerData.lastName
-        }
-    end
-
-    return {}
+    return playerData and (playerData.firstName .. " " .. playerData.lastName) or nil
 end
 
 function framework.getGrade(job)

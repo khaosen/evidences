@@ -1,13 +1,15 @@
 import backgroundImage from "../../assets/background.png";
 import DesktopContent from "../desktop/DesktopContent";
 import Taskbar from "../desktop/Taskbar";
-import type { ScreenType } from "../App";
+import type { Options, ScreenType } from "../App";
 import React, { useState } from "react";
 import type { App } from "../../data/apps";
 
 
 // Interface for the props parsed by the parent.
 interface DesktopScreenProps {
+    playerName: string | undefined;
+    options: Options | undefined;
     switchScreen: (newScreen: ScreenType) => void;
     mute: (muted: boolean) => void;
 }
@@ -21,7 +23,6 @@ export type OpenApp = App & { minimized: boolean, isPopUp?: boolean, parent?: Op
 // Renders the desktop screen of the laptop.
 export default function DesktopScreen(props: DesktopScreenProps) {
     const [openApps, setOpenApps] = useState<OpenApp[]>([]); // all open apps, default none
-    // const [focusedApp, setFocusedApp] = useState<OpenApp | null>(null); // sets the app that is focused by the player.
     const [focusedAppIndex, setFocusedAppIndex] = useState<number>(1);
 
 
@@ -90,6 +91,13 @@ export default function DesktopScreen(props: DesktopScreenProps) {
 
     // Creates an pop-up to the app.
     function openPopUp(parentApp: OpenApp, name: string, content: React.ReactNode) {
+        const existingPopUp = openApps.find((a) => a.parent?.name === parentApp.name && a.name === name && a.isPopUp);
+
+        if (existingPopUp) {
+            setOpenApps((apps) => apps.map((a) => a == existingPopUp ? { ...existingPopUp, content: content } : a));
+            return;
+        }
+
         const popupApp: OpenApp = {
             name: name,
             icon: parentApp.icon,
@@ -117,7 +125,7 @@ export default function DesktopScreen(props: DesktopScreenProps) {
                 position: "relative"
             }}
         >
-            <DesktopContent openApps={openApps} openPopUp={openPopUp} openApp={handleAppOpen} onMinimize={handleMinimizeApp} focusApp={handleBringToFront} closeApp={handleAppClose} />
+            <DesktopContent playerName={props.playerName} options={props.options} openApps={openApps} openPopUp={openPopUp} openApp={handleAppOpen} onMinimize={handleMinimizeApp} focusApp={handleBringToFront} closeApp={handleAppClose} />
             <Taskbar switchScreen={props.switchScreen} mute={props.mute} maximizeApp={handleMaximizeApp} openApps={openApps} />
         </div>
     );

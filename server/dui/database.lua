@@ -1,6 +1,7 @@
-local database = {}
-
+local config <const> = require "config"
 local allowedTypes <const> = { "fingerprint", "dna" }
+
+local database = {}
 
 MySQL.query.await([[CREATE TABLE IF NOT EXISTS stored_fingerprint (
     fingerprint VARCHAR(16) PRIMARY KEY NOT NULL,
@@ -17,6 +18,22 @@ MySQL.query.await([[CREATE TABLE IF NOT EXISTS stored_dna (
     birthdate TEXT DEFAULT NULL,
     FOREIGN KEY (dna) REFERENCES biometric_data(dna)
 )]])
+
+MySQL.query.await([[CREATE TABLE IF NOT EXISTS wiretaps (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    type ENUM('ObservableCall', 'ObservableRadioFreq', 'ObservableSpyMicrophone') NOT NULL,
+    startedAt BIGINT NOT NULL,
+    endedAt BIGINT NOT NULL,
+    observer TEXT NOT NULL,
+    target TEXT NOT NULL,
+    protocol TEXT NULL
+)]])
+
+local actionStorageDuration <const> = config.wiretap.actionStorageDuration
+if actionStorageDuration and type(actionStorageDuration) == "number" and actionStorageDuration > 0 then
+    local currentMillis <const> = os.time() * 1000
+    MySQL.query.await("DELETE FROM wiretaps WHERE (? - endedAt) > ?", { currentMillis, actionStorageDuration })
+end
 
 function database.storePersonalDataForBiometricData(type, biometricData, firstname, lastname, birthdate)
     if not lib.table.contains(allowedTypes, type) then return nil end
@@ -102,6 +119,15 @@ function database.getStoredBiometricDataEntries(types, search, page)
         maxPages = math.max(1, math.ceil(totalCount / entriesPerPage)),
         currentPage = page
     }
+end
+
+function database.storeWiretap(type, startedAt, endedAt, observer, target, protocol)
+    MySQL.insert.await("INSERT INTO wiretaps (type, startedAt, endedAt, observer, target, protocol) VALUES (?, ?, ?, ?, ?, ?)",
+        { type, startedAt, endedAt, observer, target, protocol })
+end
+
+function database.getWiretaps(limit, offset)
+    return MySQL.query.await("SELECT * FROM wiretaps ORDER BY endedAt DESC LIMIT ? OFFSET ?", { limit, offset })
 end
 
 return database

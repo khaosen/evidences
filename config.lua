@@ -21,6 +21,51 @@ config.isPedWearingGloves = function()
 end
 
 
+config.wiretap = {
+    -- Enable or disable the wiretap app itself (requires pma-voice)
+    enabled = true,
+
+    -- Every action inside the wiretap app gets logged so everyone can check if the action was taken without justification.
+    -- How long should these logs keep stored before deleting them on server start? (in milliseconds)
+    -- Set to -1 to keep the actions logged forever.
+    actionStorageDuration = 1000 * 60 * 60 * 24 * 7, -- default: one week in millis
+
+    calls = {
+        -- If you have npwd or roadphone installed on your server you can choose between phone numbers or player names
+        displayPhoneNumbers = false,
+
+        -- Allowed jobs and their minimum grades required to intercept phone calls.
+        -- If permissions = {} the phone call section is disabled for everyone.
+        permissions = {
+            police = 0,
+            fib = 0
+        }
+    },
+
+    -- Spy microphenes can be placed by everyone on the server (they do not percist during server restarts)
+    -- If someone is talking in the specified radius around a spy microphone, permitted players can listen to them using the wiretap app on the laptop
+    spyMicrophones = {
+        radius = 5,
+
+        -- Allowed jobs and their minimum grades required to listen to spy microphones. If they destroy them, they get the spy microphone item back into their inventory.
+        -- If permissions = {} the spy microphones section is disabled for everyone.
+        permissions = {
+            police = 0,
+            fib = 0
+        }
+    },
+
+    radio = {
+        -- Allowed jobs and their minimum grades required to intercept radio channels.
+        -- If permissions = {} the radio section is disabled for everyone.
+        permissions = {
+            police = 0,
+            fib = 0
+        }
+    }
+}
+
+
 -- Defines the conditions a player must match to perform specific actions of this script.
 config.permissions = {
     pickup = { -- Allowed jobs and their minimum grades required to pick up a laptop

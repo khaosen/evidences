@@ -66,7 +66,11 @@ function focus.start(laptop)
             action = "focus",
             language = GetConvar("ox:locale", "en"),
             playerName = framework.getPlayerName(),
-            canAccess = framework.hasPermission("access")
+            canAccess = framework.hasPermission(config.permissions.access),
+            isWiretapAppEnabled = GetResourceState("pma-voice"):find("start") and config.wiretap.enabled or false,
+            mayInterceptCalls = framework.hasPermission(config.wiretap.calls.permissions),
+            mayInterceptRadio = framework.hasPermission(config.wiretap.radio.permissions),
+            mayListenToSpyMicrophones = framework.hasPermission(config.wiretap.spyMicrophones.permissions)
         })
 
         -- Create a cam that faces the laptop's screen and render it for the player.
@@ -101,6 +105,9 @@ end
 function focus.stop()
     if started then
         started = false
+
+        dui:sendMessage({ action = "unfocus" })
+
         RenderScriptCams(false, true, 500, true, false)
         DestroyCam(cam, false)
 

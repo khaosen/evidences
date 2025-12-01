@@ -12,7 +12,13 @@ require "client.scanner.scanner"
 
 require "client.items"
 
+
 local config <const> = require "config"
+
+if config.wiretap.enabled and GetResourceState("pma-voice"):find("start") then
+    require "client.wiretap.wiretap"
+end
+
 RegisterNetEvent("evidences:notify", function(translation, type, duration)
     config.notify(translation, type, duration)
 end)

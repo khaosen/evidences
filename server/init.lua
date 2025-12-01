@@ -24,5 +24,7 @@ if require "server.items" then
     require "server.dui.callbacks"
     require "server.dui.laptops"
 
+    require "server.wiretap.wiretap"
+
     require "server.commands"
 end

@@ -69,3 +69,13 @@
         export = 'evidences.fingerprint_scanner',
     },
 },
+['spy_microphone'] = {
+    label = 'Špionážní mikrofon',
+    description = 'Mikrofon pro pozorování lidí v okolí',
+    weight = 1500,
+    stack = true,
+    close = true,
+    client = {
+        export = 'evidences.spy_microphone'
+    }
+},

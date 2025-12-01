@@ -54,33 +54,6 @@ local function getBiometricData(identifier)
             return row
         end
 
-        -- local p = promise.new()
-
-        -- CreateThread(function()
-        --     local data
-
-        --     for i = 1, 5 do
-        --         local fingerprint <const> = createFingerprint(playerId)
-        --         local dna <const> = createDNA()
-
-        --         if insertBiometricData(identifier, fingerprint, dna) then
-        --             data = {
-        --                 fingerprint = fingerprint,
-        --                 dna = dna
-        --             }
-        --             break
-        --         end
-
-        --         Wait(0)
-        --     end
-
-        --     p:resolve(data)
-        -- end)
-
-        -- local result <const> = Citizen.Await(p)
-        -- cache[identifier] = result
-        -- return result
-
         for i = 1, 5 do
             local fingerprint <const> = createFingerprint(identifier)
             local dna <const> = createDNA()

@@ -61,7 +61,7 @@ export default function DatabaseApp() {
             body: JSON.stringify({
                 name: "evidences:getStoredBiometricDataEntries",
                 arguments: data
-            }),
+            })
         }).then(response => response.json()).then(response => {
             setData(response);
 

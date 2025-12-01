@@ -14,7 +14,7 @@
         }
     },
     "evidences": {
-        "evidece_box_label_dialog": {
+        "evidence_box_label_dialog": {
             "title": "Label box",
             "name_textfield_title": "Name",
             "name_textfield_details": "Name displayed in inventory",
@@ -120,7 +120,7 @@
                 "title": "Evidences",
                 "description": "Error picking up the laptop"
             },
-            "input_help": "Press %s to place the laptop.%sUse %s to cancel this action."
+            "input_help": "Press %s to place the laptop.%sUse %s to cancel this action"
         },
         "target": {
             "interact": "Interact",
@@ -159,7 +159,6 @@
             "dna_app": {
                 "name": "DNA",
                 "tooltip_save": "If a database record exists for the DNA on this piece of evidence, it is displayed here and can be edited; otherwise, a new record can be created.",
-                "tooltip_label": "",
                 "no_dna_selected": "Select a piece of evidence bearing a DNA from the list.",
                 "no_items_with_dna": "No items holding DNA in your inventory."
             },
@@ -176,7 +175,69 @@
                 "search_result_error": "An error occurred while loading data!",
                 "search_result_empty": "No entries found!",
                 "inspect_button": "Inspect"
+            },
+            "wiretap_app": {
+                "name": "Wiretap",
+                "warning_popup": {
+                    "title": "Important Notice",
+                    "warning": "Phone or radio communication may be intercepted only pursuant to a wiretap warrant. Actions may be taken without a court order in exigent circumstances.",
+                    "accept_button": "Acknowledge"
+                },
+                "phone_calls": {
+                    "header": "Phone calls",
+                    "no_calls_running": "No phone calls running",
+                    "lacking_permissions": "Lacking permissions to intercept phone calls"
+                },
+                "spy_microphones": {
+                    "header": "Spy microphones",
+                    "no_spy_microphones_placed": "No spy microphones placed",
+                    "lacking_permissions": "Lacking permissions to listen to spy microphones"
+                },
+                "radio": {
+                    "header": "Radio",
+                    "lacking_permissions": "Lacking permissions to intercept radio channels"
+                },
+                "latest_actions": {
+                    "header": "Latest actions",
+                    "no_actions_available": "No protocolized actions",
+                    "loading": "Loading...",
+                    "end_reached": "End of the list reached",
+                    "action_duration": "%s from %s to %s",
+                    "actions": {
+                        "ObservableCall": "%s intercepted a phone call between %s",
+                        "ObservableRadioFreq": "%s intercepted the radio channel at %s MHz",
+                        "ObservableSpyMicrophone": "%s listend to spy microphone %s"
+                    }
+                },
+                "running_observation_popup" : {
+                    "ObservableCall": "Running interception of phone call #%s",
+                    "ObservableRadioFreq": "Running interception of radio channel at %s MHz",
+                    "ObservableSpyMicrophone": "Listening to spy microphone %s"
+                },
+                "protocol_popup": {
+                    "header": {
+                        "ObservableCall": "Protocol of phone call interception #%s",
+                        "ObservableRadioFreq": "Protocol of radio channel inteception #%s",
+                        "ObservableSpyMicrophone": "Protocol of spy microphone observation #%s"
+                    },
+                    "observation_started": "Observation started.",
+                    "observation_ended": "Observation ended."
+                }
             }
         }
+    },
+    "spy_microphone": {
+        "input_help": "Press %s to place the spy microphone.%sUse %s to cancel this action",
+        "error_spy_microphone_creation": {
+            "title": "Evidences",
+            "description": "A spy microphone with this label does already exist"
+        },
+        "spy_microphone_label_dialog": {
+            "title": "Label spy microphone",
+            "label_textfield_title": "Label",
+            "label_textfield_details": "Choose a unique name to identify this spy microphone in the wiretap app on the evidence laptop"
+        },
+        "target_destroy": "Destroy spy microphone",
+        "target_collect": "Collect spy microphone"
     }
 }

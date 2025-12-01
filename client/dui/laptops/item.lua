@@ -5,7 +5,7 @@ local framework <const> = require "common.frameworks.framework"
 local tempObject = nil
 
 exports("evidence_laptop", function(data, slot)
-    if not framework.hasPermission("place") then
+    if not framework.hasPermission(config.permissions.place) then
         config.notify({
             key = "laptop.notifications.error_laptop_creation"
         }, "error")
