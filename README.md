@@ -3,20 +3,20 @@
 Evidences is an advanced FiveM script adding evidences like blood, fingerprints and magazines to your server.
 
 <p align="center">
-    <img width="13.5%" src="https://github.com/user-attachments/assets/f6a7ee60-ab1b-4c19-bb06-acb74a1a7b90" />
-    <img width="13.5%" src="https://github.com/user-attachments/assets/ab5f7f4b-701b-4738-a0cc-f3e1ae419660" />
-    <img width="13.5%" src="https://github.com/user-attachments/assets/06297bdc-b5d4-4734-bcfc-b1125cbb3912" />
-    <img width="13.5%" src="https://github.com/user-attachments/assets/b46dd04a-dcf6-4dc2-9059-21693da2d599" />
-    <img width="13.5%" src="https://github.com/user-attachments/assets/55dbf092-65d1-451b-bfb0-33855fe42760" />
-    <img width="13.5%" src="https://github.com/user-attachments/assets/fe353352-d7bd-4c36-bda4-b040d5879b87" />
-    <img width="13.5%" src="https://github.com/user-attachments/assets/b990c23c-78c1-4156-a3fb-0160b4086a06" />
+    <img width="13.5%" src="https://github.com/user-attachments/assets/8d839f26-9cca-41cf-b237-b6f09b7f553d" />
+    <img width="13.5%" src="https://github.com/user-attachments/assets/9e0f38b4-b58d-4ba7-ba05-08d2999791d9" />
+    <img width="13.5%" src="https://github.com/user-attachments/assets/24b93e12-d67d-42e4-849a-b3d18aac3198" />
+    <img width="13.5%" src="https://github.com/user-attachments/assets/2ef205d8-a41e-41f5-9e19-7e4ed9eed453" />
+    <img width="13.5%" src="https://github.com/user-attachments/assets/61efcbec-45f5-4a4f-8a78-fbbee5e26148" />
+    <img width="13.5%" src="https://github.com/user-attachments/assets/8f861c93-3b14-4636-98fb-4209db9b48ea" />
+    <img width="13.5%" src="https://github.com/user-attachments/assets/756c7a66-28a9-4262-9195-b6e24fcda11d" />
 </p>
 
 This item-based script provides law enforcement authorities with all the information they need to reconstruct the sequence of events of a crime, identify the perpetrators, and prove their guilt later on. If the criminals acted without caution, fingerprints and DNA traces can be secured at the crime scene and compared with database records of previous offenders by using the evidence laptop. In addition, dropped magazines provide information about the weapon used at the crime scene. Now the laptop also has an app that can be used to wiretap phone calls, for example.
 
 <p align="center">
-    <img width="49%" height="auto" src="https://github.com/user-attachments/assets/fca31d45-315f-43a7-8313-1c3329232cfe" />
-    <img width="49%" height="auto" src="https://github.com/user-attachments/assets/1ae2d634-c272-4456-86d8-084105e3df53" />
+    <img width="49%" height="auto" src="https://github.com/user-attachments/assets/816c6dcc-011f-48ec-9edd-c07369adb0aa" />
+    <img width="49%" height="auto" src="https://github.com/user-attachments/assets/d4a1931a-584c-4a1d-a09e-69a0255c286d" />
 </p>
 
 > [!IMPORTANT]
