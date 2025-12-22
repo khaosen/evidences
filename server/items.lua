@@ -13,7 +13,7 @@ if lib.checkDependency("ox_inventory", "2.44.4") then
         slots = 20,
         maxWeight = 5000
     })
-else
+elseif lib.checkDependency("ox_inventory", "2.34.3") then
     -- https://github.com/noobsystems/evidences/discussions/1
     -- Create a temporary stash to check if the item evidence_box is a container.
     -- That's needed because old versions of ox_inventory don't return the item metadata via exports.ox_inventory:Items(itemName).metadata.
@@ -32,6 +32,8 @@ else
         lib.print.error("Setup step missing: Make the evidence_box a container item (https://coxdocs.dev/ox_inventory/Guides/creatingItems#creating-container-items) or use ox_inventory version 2.44.4 or higher")
         return false
     end
+else
+    lib.print.warn("Your ox_inventory version is outdated. We do not guarantee compatibility and highly recommend updating ox_inventory!")
 end
 
 
