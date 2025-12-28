@@ -2,7 +2,8 @@ local config <const> = require "config"
 local supportedPhones <const> = {
     ["npwd"] = "npwd",
     ["roadphone"] = "roadphone",
-    ["lb-phone"] = "lb-phone"
+    ["lb-phone"] = "lb-phone",
+    ["yseries"] = "yseries"
 }
 
 if config.wiretap.calls.displayPhoneNumbers then
