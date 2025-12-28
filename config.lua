@@ -31,7 +31,7 @@ config.wiretap = {
     actionStorageDuration = 1000 * 60 * 60 * 24 * 7, -- default: one week in millis
 
     calls = {
-        -- If you have npwd or roadphone installed on your server you can choose between phone numbers or player names
+        -- If you have npwd, roadphone or lb-phone installed on your server you can choose between phone numbers or player names
         displayPhoneNumbers = false,
 
         -- Allowed jobs and their minimum grades required to intercept phone calls.
