@@ -6,6 +6,7 @@ import { useTranslation } from "../../../TranslationContext";
 import useLocalStorage from "../../../../hooks/useLocalStorage";
 import styles from "../../../../css/WiretapApp.module.css";
 import { sha256 } from "../../../../utils/hash";
+import WiretapNotificationPopUp from "./WiretapNotificationPopUp";
 
 export interface Observation {
     type: "ObservableCall" | "ObservableRadioFreq" | "ObservableSpyMicrophone";
@@ -16,7 +17,7 @@ export interface Observation {
             playerId: number;
             name: string;
         }
-    }
+    };
 }
 
 export default function WiretapApp() {
@@ -40,6 +41,10 @@ export default function WiretapApp() {
         }
         runHashing();
     }, []);
+
+    const openNotificationsPopup = () => {
+        appContext.openPopUp(t("laptop.desktop_screen.wiretap_app.phone_calls.notifications.popup_header"), <WiretapNotificationPopUp />);
+    };
 
     const startInterception = (newObservation: Observation) => {
         observation.current = newObservation;
@@ -96,7 +101,10 @@ export default function WiretapApp() {
                 name: "evidences:getActiveCalls"
             })
         }).then(response => response.json()).then(response => {
-            if (response) setActiveCalls(response);
+            if (!response) return;
+
+            const filteredCalls = Object.values(response as Record<string, Observation | null>).filter((call: Observation | null): call is Observation => call !== null);
+            setActiveCalls(filteredCalls);
         });
 
         // Retrieve list of spy microphones
@@ -115,7 +123,10 @@ export default function WiretapApp() {
         const handleMessage = (event: MessageEvent) => {
             // Retrieve updates regarding the active calls
             if (event.data.action && event.data.action == "updateActiveCalls") {
-                if (event.data.activeCalls) setActiveCalls(event.data.activeCalls);
+                if (event.data.activeCalls) {
+                    const filteredCalls = event.data.activeCalls.filter((call: Observation | null): call is Observation => call !== null);
+                    setActiveCalls(filteredCalls);
+                }
             }
             
             // Retrieve updates regarding the spy microphones
@@ -165,7 +176,15 @@ export default function WiretapApp() {
             <div style={{ width: "50%", height: "100%", display: "flex", flexDirection: "column", gap: "20px" }}>
                 <div style={{ width: "100%", flexGrow: 1, display: "flex", flexDirection: "column", gap: "20px" }}>
                     <div style={{ width: "100%", height: "50%", padding: "30px", display: "flex", flexDirection: "column", gap: "10px", background: "rgba(255, 255, 255, 0.2)", boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)", border: "2px solid rgba(255, 255, 255, 0.8)", borderRadius: "16px" }}>
-                        <p style={{ fontSize: "20px", lineHeight: "20px", margin: 0, textTransform: "uppercase" }}>{t("laptop.desktop_screen.wiretap_app.phone_calls.header")}</p>
+                        <div style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "-5px" }}>
+                            <p style={{ fontSize: "20px", lineHeight: "20px", margin: 0, textTransform: "uppercase" }}>{t("laptop.desktop_screen.wiretap_app.phone_calls.header")}</p>
+                            
+                            {appContext.options?.mayInterceptCalls
+                                && <div className={`${styles.button} hoverable`} onClick={openNotificationsPopup}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" width="20px" fill="black" viewBox="0 -960 960 960"><path d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"/></svg>
+                                </div>
+                            }
+                        </div>                        
                         <div className={styles.observation__chooser}>
                             {appContext.options?.mayInterceptCalls
                                 ? Object.values(activeCalls).length == 0

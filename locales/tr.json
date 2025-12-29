@@ -186,7 +186,21 @@
                 "phone_calls": {
                     "header": "Telefon Görüşmeleri",
                     "no_calls_running": "Devam eden telefon görüşmesi yok",
-                    "lacking_permissions": "Telefon görüşmelerini dinleme izni yok"
+                    "lacking_permissions": "Telefon görüşmelerini dinleme izni yok",
+                    "notifications": {
+                        "popup_header": "Telefon Görüşmesi Bildirimleri",
+                        "status_loading": "Yükleniyor...",
+                        "status_subscribed": "%s bir telefon görüşmesine katıldığında bildirim alacaksınız. Bildirimleri durdurabilir veya hedefi buradan değiştirebilirsiniz:",
+                        "status_unsubscribed": "Bir vatandaşın %s bilgisini girin, telefon görüşmesine katıldığında bildirim alın:",
+                        "placeholder_full_name": "ad soyad",
+                        "placeholder_phone_number": "telefon numarası",
+                        "subscribe_button": "Abone Ol",
+                        "unsubscribe_button": "Abonelikten Çık",
+                        "notification": {
+                            "title": "Telefon görüşmesi dinleme",
+                            "description": "%s şu anda dinlenebilecek bir telefon görüşmesine katılıyor"
+                        }
+                    }
                 },
                 "spy_microphones": {
                     "header": "Casus Mikrofonlar",

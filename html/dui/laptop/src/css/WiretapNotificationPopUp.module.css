@@ -1,0 +1,32 @@
+.input {
+    width: 100%;
+    padding: 12.5px;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    font-size: 33px;
+}
+
+.button {
+    display: flex;
+    padding: 10px 20px;
+    border: unset;
+    border-radius: 10px;
+    color: white;
+    transition-duration: 0.4s;
+    font-size: 30px;
+}
+
+.button:hover {
+    transform: translate(0, -2.5px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+}
+
+.subscribe__button {
+    background: rgb(0, 136, 255);
+}
+
+.unsubscribe__button {
+    background: rgb(72, 72, 74);
+}

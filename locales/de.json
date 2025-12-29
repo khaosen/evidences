@@ -186,7 +186,21 @@
                 "phone_calls": {
                     "header": "Anrufe",
                     "no_calls_running": "Keine laufenden Anrufe",
-                    "lacking_permissions": "Fehlende Berechtigungen zum Abhören von Telefonaten"
+                    "lacking_permissions": "Fehlende Berechtigungen zum Abhören von Telefonaten",
+                    "notifications": {
+                        "popup_header": "Anruf Bemachrichtigungen",
+                        "status_loading": "Laden...",
+                        "status_subscribed": "Du wirst benachrichtigt, wenn %s an einem Telefonat teilnimmt. Du kannst hier den Empfang von Benachrichtigungen beenden oder die Zielperson ändern:",
+                        "status_unsubscribed": "%s des Bürgers eingeben, um benachrichtigt zu werden, wenn er an einem Telefonat teilnimmt:",
+                        "placeholder_full_name": "Name",
+                        "placeholder_phone_number": "Handynummer",
+                        "subscribe_button": "Benachrichtigen",
+                        "unsubscribe_button": "Deaktivieren",
+                        "notification": {
+                            "title": "Telekommunikationsüberwachung",
+                            "description": "%s nimmt nun in einem Anruf teil, der abgehört werden kann"
+                        }
+                    }
                 },
                 "spy_microphones": {
                     "header": "Abhör-Wanzen",

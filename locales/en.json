@@ -186,7 +186,21 @@
                 "phone_calls": {
                     "header": "Phone calls",
                     "no_calls_running": "No phone calls running",
-                    "lacking_permissions": "Lacking permissions to intercept phone calls"
+                    "lacking_permissions": "Lacking permissions to intercept phone calls",
+                    "notifications": {
+                        "popup_header": "Phone Call Notifications",
+                        "status_loading": "Loading...",
+                        "status_subscribed": "You're receving notifications when %s enters a phone call. You can stop receiving notifications or change your target here:",
+                        "status_unsubscribed": "Enter a citizen's %s to get notified when they enter a phone call:",
+                        "placeholder_full_name": "full name",
+                        "placeholder_phone_number": "phone number",
+                        "subscribe_button": "Subscribe",
+                        "unsubscribe_button": "Unsubscribe",
+                        "notification": {
+                            "title": "Phone call interception",
+                            "description": "%s is now participating in a phone call that can be intercepted"
+                        }
+                    }
                 },
                 "spy_microphones": {
                     "header": "Spy microphones",

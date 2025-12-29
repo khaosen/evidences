@@ -12,6 +12,7 @@ export type ScreenType = "screensaver" | "login" | "desktop";
 
 export interface Options {
     isWiretapAppEnabled: boolean;
+    displayPhoneNumbers: boolean;
     mayInterceptCalls: boolean;
     mayInterceptRadio: boolean;
     mayListenToSpyMicrophones: boolean;
@@ -53,12 +54,7 @@ export default function App() {
                     switchScreen("screensaver");
                 }
 
-                setOptions({
-                    isWiretapAppEnabled: event.data.isWiretapAppEnabled,
-                    mayInterceptCalls: event.data.mayInterceptCalls,
-                    mayInterceptRadio: event.data.mayInterceptRadio,
-                    mayListenToSpyMicrophones: event.data.mayListenToSpyMicrophones
-                })
+                setOptions(event.data.options)
             }
 
             if (event.data.action && event.data.action == "keydown") {

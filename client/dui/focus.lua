@@ -76,10 +76,13 @@ function focus.start(laptop)
             language = GetConvar("ox:locale", "en"),
             playerName = framework.getPlayerName(),
             canAccess = framework.hasPermission(config.permissions.access),
-            isWiretapAppEnabled = GetResourceState("pma-voice"):find("start") and config.wiretap.enabled or false,
-            mayInterceptCalls = framework.hasPermission(config.wiretap.calls.permissions),
-            mayInterceptRadio = framework.hasPermission(config.wiretap.radio.permissions),
-            mayListenToSpyMicrophones = framework.hasPermission(config.wiretap.spyMicrophones.permissions)
+            options = {
+                isWiretapAppEnabled = GetResourceState("pma-voice"):find("start") and config.wiretap.enabled or false,
+                displayPhoneNumbers = config.wiretap.calls.displayPhoneNumbers or false,
+                mayInterceptCalls = framework.hasPermission(config.wiretap.calls.permissions),
+                mayInterceptRadio = framework.hasPermission(config.wiretap.radio.permissions),
+                mayListenToSpyMicrophones = framework.hasPermission(config.wiretap.spyMicrophones.permissions)
+            }
         })
 
         -- Create a cam that faces the laptop's screen and render it for the player.

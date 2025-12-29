@@ -104,8 +104,8 @@ export default function InterceptionChooser(props: InterceptionChooserProps) {
         return new Date(dateMillis).toLocaleDateString(t("laptop.screen_saver.date_locales"), { day: "numeric", month: "long", year: "numeric" });
     };
 
-    return <div style={{ width: "50%", height: "100%", padding: "20px", display: "flex", flexDirection: "column", gap: "10px", background: "rgba(255, 255, 255, 0.2)", boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)", border: "2px solid rgba(255, 255, 255, 0.8)", borderRadius: "16px" }}>
-        <div style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+    return <div style={{ width: "50%", height: "100%", padding: "30px", display: "flex", flexDirection: "column", gap: "10px", background: "rgba(255, 255, 255, 0.2)", boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)", border: "2px solid rgba(255, 255, 255, 0.8)", borderRadius: "16px" }}>
+        <div style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "-5px" }}>
             <p style={{ fontSize: "20px", lineHeight: "20px", margin: 0, textTransform: "uppercase" }}>{t("laptop.desktop_screen.wiretap_app.latest_actions.header")}</p>
             <div ref={reloadRef} className={`${styles.button} hoverable`} onClick={handleReload}>
                 <svg xmlns="http://www.w3.org/2000/svg" height="20px" width="20px" viewBox="0 -960 960 960" fill="black"><path d="M480-160q-134 0-227-93t-93-227q0-134 93-227t227-93q69 0 132 28.5T720-690v-110h80v280H520v-80h168q-32-56-87.5-88T480-720q-100 0-170 70t-70 170q0 100 70 170t170 70q77 0 139-44t87-116h84q-28 106-114 173t-196 67Z"/></svg>

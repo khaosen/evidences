@@ -37,15 +37,26 @@ end
 function Observation:addTarget(playerId, name)
     playerId = tonumber(playerId)
 
+    name = name or framework.getPlayerName(playerId)
+    name = tostring(name)
+
     self.targets[playerId] = {
         playerId = playerId,
-        name = name or framework.getPlayerName(playerId)
+        name = name
     }
 
     for observer, _ in pairs(self.observers) do
         TriggerClientEvent("evidences:startListeningTo", observer, playerId)
         TriggerClientEvent("evidences:startTalkingTo", playerId, observer)
     end
+
+    eventHandler.emit(eventClass:new("observationTargetAdded", {
+        observation = self,
+        addedTarget = {
+            playerId = playerId,
+            name = name
+        }
+    }))
 end
 
 function Observation:removeTarget(playerId)

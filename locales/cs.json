@@ -186,7 +186,21 @@
                 "phone_calls": {
                     "header": "Telefonní hovory",
                     "no_calls_running": "Neprobíhají žádné telefonní hovory",
-                    "lacking_permissions": "Chybí oprávnění k odposlechu telefonních hovorů"
+                    "lacking_permissions": "Chybí oprávnění k odposlechu telefonních hovorů",
+                    "notifications": {
+                        "popup_header": "Oznámení o telefonních hovorech",
+                        "status_loading": "Načítání...",
+                        "status_subscribed": "Dostáváte oznámení, když %s zahájí telefonní hovor. Zde můžete odběr oznámení zrušit nebo změnit sledovaný cíl:",
+                        "status_unsubscribed": "Zadejte %s občana, abyste dostali oznámení, když zahájí telefonní hovor:",
+                        "placeholder_full_name": "celé jméno",
+                        "placeholder_phone_number": "telefonní číslo",
+                        "subscribe_button": "Odebírat",
+                        "unsubscribe_button": "Zrušit odběr",
+                        "notification": {
+                            "title": "Odposlech hovoru",
+                            "description": "%s se právě účastní telefonního hovoru, který lze odposlouchávat"
+                        }
+                    }
                 },
                 "spy_microphones": {
                     "header": "Špionážní mikrofony",
