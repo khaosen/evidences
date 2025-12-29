@@ -1,8 +1,15 @@
-for _, item in pairs({"evidence_laptop", "evidence_box", "baggy_empty", "baggy_blood", "baggy_magazine", "hydrogen_peroxide", "fingerprint_brush", "fingerprint_taken"}) do
+local config <const> = require "config"
+
+for _, item in pairs({"evidence_laptop", "evidence_box", "baggy_empty", "baggy_blood", "baggy_magazine", "hydrogen_peroxide", "fingerprint_brush", "fingerprint_taken", "fingerprint_scanner"}) do
     if not exports.ox_inventory:Items(item) then
         lib.print.error("Setup step missing: The script requires you to create the " .. item .. " item")
         return false
     end
+end
+
+if config.wiretap.enabled and not exports.ox_inventory:Items("spy_microphone") then
+    lib.print.error("Setup step missing: The script requires you to create the spy_microphone item")
+    return false
 end
 
 
