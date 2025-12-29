@@ -68,6 +68,13 @@ export default function App() {
                 }
             }
 
+            if (event.data.action && event.data.action == "paste") {
+                if (document.activeElement
+                    && (document.activeElement instanceof HTMLInputElement || document.activeElement instanceof HTMLTextAreaElement)) {
+                    insertTextAtCursor(document.activeElement, event.data.clipboard || "")
+                }
+            }
+
             function simulateTyping(char: string, input: HTMLInputElement | HTMLTextAreaElement) {
                 const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
                     input instanceof HTMLInputElement ? window.HTMLInputElement.prototype : window.HTMLTextAreaElement.prototype,
@@ -141,6 +148,31 @@ export default function App() {
                 input.dispatchEvent(keydownEvent);
             }
         };
+
+        function insertTextAtCursor(input: HTMLInputElement | HTMLTextAreaElement, text: string) {
+            const start = input.selectionStart ?? 0;
+            const end = input.selectionEnd ?? 0;
+            const currentValue = input.value;
+
+            let newValue = currentValue.substring(0, start) + text + currentValue.substring(end);
+
+            if (input.maxLength && input.maxLength > 0 && newValue.length > input.maxLength) {
+                newValue = newValue.slice(0, input.maxLength);
+            }
+
+            const newCursorPos = start + text.length;
+
+            const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
+                input instanceof HTMLInputElement ? window.HTMLInputElement.prototype : window.HTMLTextAreaElement.prototype,
+                "value"
+            )?.set;
+
+            nativeInputValueSetter?.call(input, newValue);
+            input.setSelectionRange(newCursorPos, newCursorPos);
+            if (newValue.length >= 1) input.scrollLeft += newValue.length * 30;
+
+            input.dispatchEvent(new Event("input", { bubbles: true }));
+        }
 
         window.addEventListener("message", handleMessage);
 

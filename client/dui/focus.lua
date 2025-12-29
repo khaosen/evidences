@@ -53,6 +53,15 @@ eventHandler.onNui("keydown", function(event)
     end
 end)
 
+eventHandler.onNui("paste", function(event)
+    if started then
+        dui:sendMessage({
+            action = "paste",
+            clipboard = event.data.clipboard
+        })
+    end
+end)
+
 function focus.start(laptop)
     if not started then
         started = true
