@@ -22,3 +22,5 @@ end
 RegisterNetEvent("evidences:notify", function(translation, type, duration)
     config.notify(translation, type, duration)
 end)
+
+TriggerServerEvent("evidences:playerLoaded", cache.serverId)

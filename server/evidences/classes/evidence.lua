@@ -194,7 +194,7 @@ function EVIDENCE:atCoords(coords, metadata)
 
     -- Sync the evidence at the given coords with players joining after the creation.
     -- This is not done for the other holding types beacuse the metadata in statebags is synced by default.
-    self.eventHandlers[coords] = eventHandler.onLocal("evidences:server:playerSpawned", function(event)
+    self.eventHandlers[coords] = eventHandler.onNet("evidences:playerLoaded", function(event)
         TriggerClientEvent("evidences:sync:atCoords", event.arguments[1], self.__name, self.owner, coords, metadata)
     end)
 
@@ -209,7 +209,7 @@ function EVIDENCE:removeFromCoords(coords)
     TriggerClientEvent("evidences:remove:atCoords", -1, self.__name, coords)
 
     if self.eventHandlers[coords] then
-        eventHandler.removeCallback("evidences:server:playerSpawned", self.eventHandlers[coords])
+        eventHandler.removeCallback("evidences:playerLoaded", self.eventHandlers[coords])
     end
 
     EvidencesAtCoords[coords] = nil
