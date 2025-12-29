@@ -33,8 +33,12 @@ lib.callback.register("evidences:collect", function(source, evidenceType, owner,
     end
 
     local success <const>, response <const> = exports.ox_inventory:AddItem(source, collectedItem, 1)
-    if requiredItem and not success then
-        exports.ox_inventory:AddItem(source, requiredItem, 1)
+
+    if not success then
+        if requiredItem then
+            exports.ox_inventory:AddItem(source, requiredItem, 1)
+        end
+
         return response
     end
 
