@@ -34,7 +34,7 @@ exports("evidence_box", function(slot)
         })
 
         if input then
-            TriggerServerEvent("evidences:server:renameEvidenceBox", slot, input)
+            TriggerServerEvent("evidences:renameEvidenceBox", slot, input)
         end
     end
 end)

@@ -45,18 +45,18 @@ local function spawnLaptops(coords)
     end
 end
 
-RegisterNetEvent("evidences:client:spawnLaptops", function(coords)
+RegisterNetEvent("evidences:spawnLaptops", function(coords)
     spawnLaptops(coords)
 end)
 
-spawnLaptops(lib.callback.await("evidences:laptops:select", false) or {})
+spawnLaptops(lib.callback.await("evidences:getLaptops", false) or {})
 
 local function destroyLaptop(point)
     point:onExit()
     point:remove()
 end
 
-RegisterNetEvent("evidences:client:destroyLaptop", function(coords)
+RegisterNetEvent("evidences:destroyLaptop", function(coords)
     local point <const> = sync.points[coords]
     if point then
         destroyLaptop(point)

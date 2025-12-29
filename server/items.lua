@@ -38,7 +38,7 @@ end
 
 
 -- This event renames the item on the specified slot in the player's inventory
-RegisterNetEvent("evidences:server:renameEvidenceBox", function(slot, input)
+RegisterNetEvent("evidences:renameEvidenceBox", function(slot, input)
     local playerId <const> = source
     local item <const> = exports.ox_inventory:GetSlot(playerId, slot)
 

@@ -5,7 +5,7 @@ MySQL.query.await([[CREATE TABLE IF NOT EXISTS evidence_laptops (
     w VARCHAR(50) NOT NULL
 )]])
 
-lib.callback.register("evidences:laptops:select", function(source)
+lib.callback.register("evidences:getLaptops", function(source)
     local response <const> = MySQL.query.await("SELECT * FROM evidence_laptops")
     local result = {}
 
@@ -22,7 +22,7 @@ lib.callback.register("evidences:laptops:select", function(source)
     return result
 end)
 
-lib.callback.register("evidences:laptops:place", function(source, coords)
+lib.callback.register("evidences:placeLaptop", function(source, coords)
     local success <const> = MySQL.insert.await("INSERT INTO evidence_laptops (x, y, z, w) VALUES (?, ?, ?, ?)", {
         tostring(coords.x), 
         tostring(coords.y), 
@@ -31,13 +31,13 @@ lib.callback.register("evidences:laptops:place", function(source, coords)
     }) and true or false
 
     if success then
-        TriggerClientEvent("evidences:client:spawnLaptops", -1, coords)
+        TriggerClientEvent("evidences:spawnLaptops", -1, coords)
     end
 
     return success
 end)
 
-lib.callback.register("evidences:laptops:pickup", function(source, coords)
+lib.callback.register("evidences:pickupLaptop", function(source, coords)
     if MySQL.update.await("DELETE FROM evidence_laptops WHERE x = ? AND y = ? AND z = ? AND w = ?", {
         tostring(coords.x), 
         tostring(coords.y), 
@@ -47,7 +47,7 @@ lib.callback.register("evidences:laptops:pickup", function(source, coords)
         local success <const> = exports.ox_inventory:AddItem(source, "evidence_laptop", 1)
 
         if success then
-            TriggerClientEvent("evidences:client:destroyLaptop", -1, coords)
+            TriggerClientEvent("evidences:destroyLaptop", -1, coords)
         end
 
         return success

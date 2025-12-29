@@ -63,7 +63,7 @@ exports("evidence_laptop", function(data, slot)
         config.inputHelp.hide()
 
         if confirmed then
-            lib.callback("evidences:laptops:place", false, function(success)
+            lib.callback("evidences:placeLaptop", false, function(success)
                 if success then
                     exports.ox_inventory:useItem(data, function(data)
                         lib.playAnim(cache.ped, "mp_common", "givetake1_a")
