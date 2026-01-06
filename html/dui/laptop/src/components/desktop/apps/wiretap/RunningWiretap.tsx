@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import AudioWave from "./AudioWave";
-import { useTranslation } from "../../../TranslationContext";
+import { useTranslation } from "@/components/TranslationContext";
 import type { Observation } from "./WiretapApp";
-import { useAppContext } from "../../../../hooks/useAppContext";
-import styles from "../../../../css/RunningWiretap.module.css";
+import { useAppContext } from "@/hooks/useAppContext";
 
 interface RunningWiretapProps {
     observation: Observation;
@@ -141,25 +140,25 @@ export default function RunningWiretap(props: RunningWiretapProps) {
         }
     };
 
-    return <div style={{ width: "100%", height: "100%", padding: "20px", display: "flex", flexDirection: "column", gap: "20px", background: "#c0c0c0ff" }}>
-        <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+    return <div className="w-full h-full p-4 flex flex-col gap-4 bg-window">
+        <div className="flex flex-col gap-1">
             {props.observation.type == "ObservableCall"
                 ? Object.values(props.observation.targets!).filter((target) => target).map((target) => 
-                    <div key={target.playerId} style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-                        <p style={{ fontSize: "30px", whiteSpace: "nowrap" }}>{target.name}</p>
+                    <div key={target.playerId} className="flex text-center gap-1">
+                        <p className="text-30 whitespace-nowrap">{target.name}</p>
                         <AudioWave active={activeTargets.includes(target.playerId)} />
                     </div>)
-                : <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                : <div className="flex items-center gap-1">
                     {(props.observation.type != "ObservableSpyMicrophone") &&
-                        <p style={{ fontSize: "30px", whiteSpace: "nowrap" }}>{props.observation.channel} MHz</p>
+                        <p className="text-30 whitespace-nowrap">{props.observation.channel} MHz</p>
                     }
                     <AudioWave active={activeTargets.length > 0} />
                 </div>
             }
         </div>
-        <div style={{ display: "flex", flexGrow: 1 }}>
+        <div className="flex grow">
             <textarea
-                className={`${styles.input} ${styles.textarea} textable`}
+                className="input leading-8 resize-none w-full h-full scrollbar textable"
                 value={protocol}
                 onChange={(e) => setProtocol(e.target.value)}
                 onFocus={handleFocus}

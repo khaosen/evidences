@@ -1,5 +1,5 @@
 import AppIcon from "./AppIcon";
-import type { App } from "../../data/apps";
+import type { App } from "@/data/apps";
 
 
 // Props parsed by the parsed.
@@ -11,14 +11,7 @@ interface AppIconsProps {
 
 // Renders all the icons on the desktop.
 export default function AppIcons(props: AppIconsProps) {
-    return <div style={{
-        display: "grid",
-        gridAutoFlow: "column",
-        gridTemplateColumns: "repeat(5, 1fr)",
-        gridTemplateRows: "repeat(5, 1fr)",
-        width: "600px",
-        height: "600px"
-    }}>
+    return <div className="grid grid-flow-col grid-cols-[repeat(5,1fr)] grid-rows-[repeat(5,1fr)] w-120 h-120">
         {props.apps.map(app => <AppIcon app={app} width="95px" height="95px" onClick={(app) => props.openApp(app)} />)}
     </div>
 }

@@ -176,7 +176,7 @@ export default function App() {
     }, []);
 
 
-    return <div style={{ width: "100%", height: "100vh", overflow: "hidden" }}>
+    return <div className="w-full h-screen overflow-hidden">
         <UserCursor muted={isMuted} />
         {screen === "screensaver" && <ScreenSaverScreen switchScreen={switchScreen} />}
         {screen === "login" && <LoginScreen playerName={playerName} canAccess={canAccess} switchScreen={switchScreen} />}

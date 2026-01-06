@@ -62,7 +62,7 @@ export default function AudioWave(props: AudioWaveProps) {
             }
 
             for (let i = 0; i < pointsCount; i++) {
-                points[i] += (targets[i] - points[i]) * 0.15;
+                points[i]! += (targets[i]! - points[i]!) * 0.15;
             }
 
             canvasCtx.clearRect(0, 0, width, height);
@@ -108,5 +108,5 @@ export default function AudioWave(props: AudioWaveProps) {
         }
     }, [props.active]);
 
-    return <canvas ref={canvasRef} style={{ width: "100%", height: "30px" }}></canvas>;
+    return <canvas ref={canvasRef} className="w-full h-6"></canvas>;
 }

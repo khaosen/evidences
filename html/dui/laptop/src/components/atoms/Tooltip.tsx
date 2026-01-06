@@ -7,20 +7,10 @@ export const Tooltip = ({ text, children }: { text: string, children: React.Reac
         <div
             onMouseEnter={() => setVisisble(true)}
             onMouseLeave={() => setVisisble(false)}
-            style={{ position: "relative", display: "flex", alignItems: "center" }}
+            className="relative flex items-center"
         >
             {children}
-            {isVisible && <span style={{
-                position: "absolute",
-                top: "calc(-100% - 100px)",
-                backgroundColor: "#333",
-                borderRadius: "10px",
-                zIndex: 1,
-                minWidth: "300px",
-                color: "white",
-                padding: "10px",
-                fontSize:" 20px"
-            }}>{text}</span>}
+            {isVisible && <span className="absolute top-[calc(-100%-100px)] bg-[#333] rounded-10 z-1 min-w-60 text-white p-2 text-20 leading-5">{text}</span>}
         </div>
     );
 };

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react"
 import DatabaseSearchFilters from "./DatabaseSearchFilters";
 import DatabaseDataTable from "./DatabaseDataTable";
-import { useDebounce } from "../../../../hooks/useDebounce";
+import { useDebounce } from "@/hooks/useDebounce";
 
 type BiometricType = "fingerprint" | "dna";
 
@@ -147,7 +147,7 @@ export default function DatabaseApp() {
     }, [data]);
 
 
-    return <div style={{ width: "100%", height: "100%", padding: "20px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-between", gap: "30px", background: "#c0c0c0ff" }}>
+    return <div className="w-full h-full p-4 flex flex-col justify-between items-center gap-6 bg-window">
         <DatabaseSearchFilters dnaChecked={dnaChecked} fingerprintsChecked={fingerprintsChecked} handleDnaCheckedChange={dnaChecked => setDnaChecked(dnaChecked)} handleFinterprintsChecked={fingerprintsChecked => setFingerprintsChecked(fingerprintsChecked)} searchText={searchText} handleSearchTextChange={searchText => setSearchText(searchText)} />
         <DatabaseDataTable data={data} error={error} loading={loading} maxPages={maxPages} page={page} handlePageChange={newPage => setPage(newPage)} handleDatabaseEntryDeletion={handleDatabaseEntryDeletion} handleDatabaseEntrySave={handleDatabaseEntrySave} />
     </div>

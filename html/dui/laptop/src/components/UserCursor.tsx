@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import mouseClick from "../assets/mouse_click.mp3";
+import mouseClick from "@/assets/mouse_click.mp3";
 
 type CursorType = "normal" | "hover" | "blocked" | "text"; // Defines the possible visual states of the custom cursor.
 
@@ -93,20 +93,14 @@ export default function UserCursor(props: UserCursorProps) {
     return (
         <div
             ref={cursorRef}
-            style={{
-                position: "fixed",
-                pointerEvents: "none",
-                zIndex: 9999,
-                left: 0,
-                top: 0
-            }}
+            className="fixed z-9999 left-0 top-0 pointer-events-none"
         >
-            {/*debug cursor position: <div style={{ position: "absolute", left: 0, top: 0, width: "6px", height: "6px", backgroundColor: "red", borderRadius: "50%", transform: "translate(-50%, -50%)" }}/>*/}
+            {/*debug cursor position: <div className="absolute left-0 top-0 w-[6px] h-[6px] bg-[#ff0000] rounded-full -translate-x-1/2 -translate-y-1/2" />*/}
 
             {cursorType === "normal" && <CursorSvg />}
             {cursorType === "blocked" && <CursorBlockedSvg />}
-            {cursorType === "hover" && (<div style={{ transform: "translate(-11px, 0)" }}><CursorHoverSvg /></div>)}
-            {cursorType === "text" && (<div style={{ transform: "translate(-30px, -35px)" }}><CursorTextSvg /></div>)}
+            {cursorType === "hover" && (<div className="translate-x-[-11px]"><CursorHoverSvg /></div>)}
+            {cursorType === "text" && (<div className="-translate-x-6 -translate-y-7"><CursorTextSvg /></div>)}
         </div>
     );
 }

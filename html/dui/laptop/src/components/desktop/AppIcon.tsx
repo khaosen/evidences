@@ -1,5 +1,4 @@
-import type { App } from "../../data/apps";
-import styles from "../../css/AppIcon.module.css";
+import type { App } from "@/data/apps";
 
 
 // Props parsed by the parent.
@@ -8,36 +7,21 @@ interface AppIconProps {
     width: string;
     height: string;
     onClick: (app: App) => void;
-    hideName?: boolean;
-    disableMargin?: boolean;
+    taskbarIcon?: boolean;
 }
 
 
 // Renders a specific app icon (on desktop and taskbar).
 export default function AppIcon(props: AppIconProps) {
-    return <div
-        className="hoverable"
-        onClick={() => props.onClick(props.app)}
-        style={{
-            width: "100%",
-            height: "100%",
-            padding: !props.disableMargin ? "10px 10px" : "0",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column"
-    }}>
-        <div className={styles.app__icon} style={{
-            width: "100%",
-            height: "100%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column",
-            padding: "5px"
-        }}>
-            {props.app.icon(props.width, props.height)}
-            {!props.hideName && <p style={{ color: "white", fontSize: "24px", height: "40%", width: "100%", textAlign: "center" }}>{props.app.name}</p>}
+    return (
+        <div
+            className={`w-full h-full flex justify-center items-center flex-col hoverable ${!props.taskbarIcon ? "p-2" : "p-0"}`}
+            onClick={() => props.onClick(props.app)}
+        >
+            <div className={`w-full h-full flex justify-center items-center flex-col gap-1 p-1 hover:bg-white/33 hover:rounded-10`}>
+                {props.app.icon(props.width, props.height)}
+                {!props.taskbarIcon && <p className="h-[40%] w-full text-white text-24 leading-none text-center">{props.app.name}</p>}
+            </div>
         </div>
-    </div>
+    );
 }

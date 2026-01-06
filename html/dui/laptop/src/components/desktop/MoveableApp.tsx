@@ -1,7 +1,6 @@
 import React, { createContext, useEffect, useRef, useState } from "react";
 import type { OpenApp } from "../screens/DesktopScreen";
 import type { Options } from "../App";
-import styles from "../../css/MoveableApp.module.css";
 
 
 // Props parsed by the parent.
@@ -19,7 +18,6 @@ interface MoveableAppProps {
     openPopUp: (name: string, content: React.ReactNode) => void;
     onUpdatePosition: (x: number, y: number) => void;
 }
-
 
 
 interface AppContextType {
@@ -89,70 +87,47 @@ export default function MoveableApp(props: MoveableAppProps) {
     return (
         <div
             ref={screenRef}
-            style={{
-                width: "100%",
-                height: "100%",
-                position: "absolute",
-                overflow: "hidden",
-                top: 0,
-                left: 0,
-                pointerEvents: "none"
-            }}
+            className="w-full h-full absolute overflow-hidden top-0 left-0 pointer-events-none"
         >
             <div
                 onMouseDown={() => props.onFocus(props.app)}
+                className={`absolute select-none overflow-hidden pointer-events-auto rounded-10 shadow-[0_0_5px_1px_rgba(0,0,0,0.4)] ${props.app.minimized ? "hidden" : "block"}`}
                 style={{
                     width: props.width + "px",
                     height: props.height + "px",
-                    position: "absolute",
                     left: position.x,
                     top: position.y,
-                    userSelect: "none",
-                    borderRadius: "10px",
-                    overflow: "hidden",
-                    pointerEvents: "auto",
-                    zIndex: props.app.zIndex,
-                    display: props.app.minimized ? "none" : "block",
-                    boxShadow: "0px 0px 5px 1px rgba(0, 0, 0, 0.4)"
+                    zIndex: props.app.zIndex
                 }}
             >
-                <div onMouseDown={onMouseDown} style={{
-                    width: "100%",
-                    height: "42px",
-                    background: "#c0c0c0ff",
-                    position: "relative",
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    alignItems: "center"
-                }}>
-                    <div style={{
-                        position: "absolute",
-                        left: "50%",
-                        transform: "translateX(-50%)",
-                        height: "100%",
-                        display: "flex",
-                        alignItems: "center"
-                    }}>
-                        <span style={{ fontSize: "25px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{props.app.name.toUpperCase()}</span>
+                <div onMouseDown={onMouseDown} className="w-full h-[42px] bg-window relative flex justify-end items-center">
+                    <div className="absolute left-1/2 -translate-x-1/2 h-full flex items-center">
+                        <span className="text-25 truncate">{props.app.name.toUpperCase()}</span>
                     </div>
 
-                    <div style={{ height: "100%", display: "flex", alignItems: "center", gap: "7.5px", marginRight: "20px"}}>
+                    <div className="h-full flex items-center gap-1.5 mr-4">
                         {!props.isPopUp &&
-                            <button className={`${styles.minimize__button} hoverable`} onClick={() => props.onMinimize(props.app)}>
-                                <svg width="25px" height="25px" fill="#c0c0c0ff" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+                            <button
+                                className="group h-4 w-4 flex items-center justify-center bg-[#383838] border-none rounded-full duration-400 transition-all hoverable hover:h-5 hover:w-5"
+                                onClick={() => props.onMinimize(props.app)}
+                            >
+                                <svg className="opacity-0 group-hover:opacity-100 transition-opacity duration-400 ease-in-out" width="25px" height="25px" fill="#c0c0c0ff" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
                                     <path d="M440-440v240h-80v-160H200v-80h240Zm160-320v160h160v80H520v-240h80Z"/>
                                 </svg>
                             </button>
                         }
 
-                        <button className={`${styles.close__button} hoverable`} onClick={() => props.onClose(props.app)}>
-                            <svg width="25px" height="25px" fill="#c0c0c0ff" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+                        <button
+                            className="group h-4 w-4 flex items-center justify-center bg-[#d62e30] border-none rounded-full duration-400 transition-all hoverable hover:h-5 hover:w-5"
+                            onClick={() => props.onClose(props.app)}
+                        >
+                            <svg className="opacity-0 group-hover:opacity-100 transition-opacity duration-400 ease-in-out" width="25px" height="25px" fill="#c0c0c0ff" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
                                 <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
                             </svg>
                         </button>
                     </div>
                 </div>
-                <div style={{ width: "100%", height: (props.height - 42) + "px", background: "transparent" }}>
+                <div className="w-full bg-transparent" style={{ height: (props.height - 42) + "px" }}>
                     <AppContext.Provider value={{ options: props.options, playerName: props.playerName, openPopUp: props.openPopUp }}>
                         {props.app.content}
                     </AppContext.Provider>

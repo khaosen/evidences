@@ -1,9 +1,9 @@
-import backgroundImage from "../../assets/background.png";
+import backgroundImage from "@/assets/background.png";
 import DesktopContent from "../desktop/DesktopContent";
 import Taskbar from "../desktop/Taskbar";
 import type { Options, ScreenType } from "../App";
 import React, { useState } from "react";
-import type { App } from "../../data/apps";
+import type { App } from "@/data/apps";
 
 
 // Interface for the props parsed by the parent.
@@ -117,14 +117,7 @@ export default function DesktopScreen(props: DesktopScreenProps) {
 
 
     return (
-        <div
-            style={{
-                width: "100%",
-                height: "100%",
-                background: `url(${backgroundImage})`,
-                position: "relative"
-            }}
-        >
+        <div className="w-full h-full relative" style={{ background: `url(${backgroundImage})` }}>
             <DesktopContent playerName={props.playerName} options={props.options} openApps={openApps} openPopUp={openPopUp} openApp={handleAppOpen} onMinimize={handleMinimizeApp} focusApp={handleBringToFront} closeApp={handleAppClose} />
             <Taskbar switchScreen={props.switchScreen} mute={props.mute} maximizeApp={handleMaximizeApp} openApps={openApps} />
         </div>

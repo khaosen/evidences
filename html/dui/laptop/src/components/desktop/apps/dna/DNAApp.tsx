@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
-import { useTranslation } from "../../../TranslationContext";
-import EvidenceChooser, { type ChosenEvidence, type EvidenceData, type EvidenceDetails } from "../../../atoms/EvidenceChooser";
-import EvidenceDataView from "../../../atoms/EvidenceDataView";
+import { useTranslation } from "@/components/TranslationContext";
+import EvidenceChooser, { type ChosenEvidence, type EvidenceData, type EvidenceDetails } from "@/components/atoms/EvidenceChooser";
+import EvidenceDataView from "@/components/atoms/EvidenceDataView";
 
 
 export default function DNAApp() {
@@ -128,7 +128,7 @@ export default function DNAApp() {
         return () => window.removeEventListener("message", handleMessage);
     }, []);
 
-    return <div style={{ width: "100%", height: "100%", padding: "0 20px 20px", display: "flex", justifyContent: "flex-end", background: "#c0c0c0ff" }}>
+    return <div className="w-full h-full px-4 pb-4 flex gap-4 bg-window">
         <EvidenceChooser
             type="DNA"
             chosenEvidence={chosenEvidence}

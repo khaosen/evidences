@@ -1,7 +1,7 @@
 import AppIcons from "./AppIcons";
 import MoveableApp from "./MoveableApp";
 import type { OpenApp } from "../screens/DesktopScreen";
-import { AppsList, type App } from "../../data/apps";
+import { AppsList, type App } from "@/data/apps";
 import { useRef } from "react";
 import type { Options } from "../App";
 import { useTranslation } from "../TranslationContext";
@@ -33,7 +33,7 @@ export default function DesktopContent(props: DesktopContentProps) {
         return true;
     });
 
-    return <div style={{ width: "100%", height: "100%", position: "relative" }}>
+    return <div className="w-full h-full relative">
         <AppIcons apps={filteredAppsList} openApp={props.openApp} />
         {props.openApps.map((app) => {
             const width = app.isPopUp ? 1000 : 1400;

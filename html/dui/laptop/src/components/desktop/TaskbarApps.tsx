@@ -11,13 +11,10 @@ interface TaskbarAppsProps {
 
 // Renders the app icons in the taskbar.
 export default function TaskbarApps(props: TaskbarAppsProps) {
-    return <div style={{ flex: 1, padding: "0 10px", display: "flex", alignItems: "center", height: "100%" }}>
+    return <div className="h-full flex flex-1 items-center gap-1 px-2">
         {props.openApps.filter(app => !app.isPopUp).map(app =>
-            <div style={{
-                height: "80%",
-                margin: "0 2px"
-            }}>
-                <AppIcon app={app} width="auto" height="100%" onClick={() => props.maximizeApp(app)} hideName disableMargin />
+            <div key={app.name} className="h-[80%] aspect-square my-0">
+                <AppIcon app={app} width="100%" height="100%" onClick={() => props.maximizeApp(app)} taskbarIcon />
             </div>
         )}
     </div>

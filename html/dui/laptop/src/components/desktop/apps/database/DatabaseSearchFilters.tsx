@@ -1,4 +1,4 @@
-import { useTranslation } from "../../../TranslationContext";
+import { useTranslation } from "@/components/TranslationContext";
 
 interface DatabaseSearchFiltersProps {
     searchText: string;
@@ -13,39 +13,31 @@ export default function DatabaseSearchFilters(props: DatabaseSearchFiltersProps)
     const { t } = useTranslation();
 
     return (
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "20px" }}>
+        <div className="flex justify-center items-center gap-4">
             <input
                 type="text"
-                className="textable"
+                className="input w-auto text-40 textable"
                 placeholder={t("laptop.desktop_screen.database_app.search_placeholder")}
                 onChange={(e) => props.handleSearchTextChange(e.target.value)}
                 value={props.searchText}
-                style={{
-                    padding: "12.5px",
-                    background: "rgba(255, 255, 255, 0.2)",
-                    boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
-                    border: "2px solid rgba(255, 255, 255, 0.8)",
-                    borderRadius: "10px",
-                    fontSize: "40px"
-                }}
             />
-            <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
-                <label className="hoverable" style={{ display: "flex", alignItems: "center", gap: "5px", fontSize: "30px" }}>
+            <div className="flex flex-col justify-between">
+                <label className="flex items-center gap-1 text-30 hoverable">
                     <input
                         type="checkbox"
                         checked={props.dnaChecked}
                         onChange={(e) => props.handleDnaCheckedChange(e.target.checked)}
-                        style={{ width: "30px", height: "30px" }}
+                        className="w-6 h-6"
                     />
                     {t("laptop.desktop_screen.database_app.types.dna")}
                 </label>
 
-                <label className="hoverable" style={{ display: "flex", alignItems: "center", gap: "5px", fontSize: "30px" }}>
+                <label className="flex items-center gap-1 text-30 hoverable">
                     <input
                         type="checkbox"
                         checked={props.fingerprintsChecked}
                         onChange={(e) => props.handleFinterprintsChecked(e.target.checked)}
-                        style={{ width: "30px", height: "30px" }}
+                        className="w-6 h-6"
                     />
                     {t("laptop.desktop_screen.database_app.types.fingerprint")}
                 </label>

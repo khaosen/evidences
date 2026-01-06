@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { AppContext } from "../components/desktop/MoveableApp";
+import { AppContext } from "@/components/desktop/MoveableApp";
 
 export function useAppContext() {
     const ctx = useContext(AppContext);

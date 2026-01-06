@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import styles from "../../css/EvidenceChooser.module.css";
 
 export interface EvidenceDetails {
     crimeScene: string;
@@ -81,25 +80,30 @@ export default function EvidenceChooser(props: EvidenceChooserProps) {
         if (!props.chosenEvidence?.evidence) updateInventories();
     }, [props.chosenEvidence]);
 
-
     return inventories && (
-        <div className={styles.evidence__chooser}>
-            <div style={{ display: "flex", flexDirection: "column", gap: "30px" }}>
+        <div className="w-70 h-full px-3 py-4 bg-white/20 shadow-glass border-2 border-white/80 rounded-16 overflow-y-hidden hover:overflow-y-auto scrollbar">
+            <div className="flex flex-col gap-6">
                 {inventories.length == 0
-                    ? <p style={{ fontSize: "20px" }}>{props.translations.noItemsWithEvidences}</p>
+                    ? <p className="text-20 leading-none">{props.translations.noItemsWithEvidences}</p>
                     : inventories.map((inventory) =>
-                        <div key={inventory.container} style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
-                            <p style={{ padding: "0 5px", fontSize: "20px", textTransform: "uppercase" }}>{inventory.label}</p>
+                        <div key={inventory.container} className="flex flex-col gap-1">
+                            <p className="px-1 text-20 leading-none uppercase">{inventory.label}</p>
                             {inventory.items.map((item) => {
                                 const active = props.chosenEvidence?.evidence
                                     && inventory.container == props.chosenEvidence.evidence.container
                                     && item.slot == props.chosenEvidence.evidence.slot
                                     && item.identifier == props.chosenEvidence.evidence.identifier
 
-                                return <button key={item.identifier} className={`${styles.item__button} hoverable ${active ? styles.active : ""}`} onClick={() => props.onEvidenceSelection(item.label, item.imagePath, inventory.container, item.slot, item.identifier, item.details)}>
-                                    <img src={item.imagePath} style={{ width: "35px", height: "35px" }}></img>
-                                    <p style={{ fontSize: "30px", textAlign: "left", textTransform: "capitalize", overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" }}>{item.label}</p>
-                                </button>
+                                return (
+                                    <button
+                                        key={item.identifier}
+                                        className={`w-full flex justify-start items-center gap-4 px-1 py-1.5 border-none rounded-10 ${active ? "bg-button" : "bg-transparent"} duration-400 hover:bg-button hoverable`}
+                                        onClick={() => props.onEvidenceSelection(item.label, item.imagePath, inventory.container, item.slot, item.identifier, item.details)}
+                                    >
+                                        <img src={item.imagePath} className="w-7 h-7"></img>
+                                        <p className="text-30 leading-none text-left capitalize truncate">{item.label}</p>
+                                    </button>
+                                );
                             })}
                         </div>
                     )

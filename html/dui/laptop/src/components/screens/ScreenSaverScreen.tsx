@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import backgroundImage from "../../assets/background.png";
+import backgroundImage from "@/assets/background.png";
 import type { ScreenType } from "../App";
 import { useTranslation } from "../TranslationContext";
-import styles from "../../css/ScreenSaver.module.css";
 
 
 // This is the interface for the props parsed by the parent component.
@@ -48,18 +47,10 @@ export default function ScreenSaverScreen(props: ScreenSaverScreenProps) {
 
 
     return (
-        <div
-            onClick={handleClick}
-            style={{
-                width: "100%",
-                height: "100%",
-                background: `url(${backgroundImage})`,
-                position: "relative"
-            }}
-        >
-            <div style={{ position: "absolute", bottom: "50px", left: "50px", color: "white", zIndex: 10 }} className={`${styles.screensaver__container} ${animateOut ? styles.slide__up : ""}`}>
-                <p style={{ fontSize: "150px" }}>{formatTime(currentTime)}</p>
-                <p>{formatDate(currentTime)}</p>
+        <div className="w-full h-full relative" style={{ background: `url(${backgroundImage})` }} onClick={handleClick}>
+            <div className={`absolute flex flex-col gap-3 bottom-10 left-10 text-white z-10 transition-all duration-500 ease-in-out ${animateOut ? "-translate-y-150 opacity-0" : "translate-y-0 opacity-100"}`}>
+                <p className="text-150 leading-none">{formatTime(currentTime)}</p>
+                <p className="text-50 leading-none">{formatDate(currentTime)}</p>
             </div>
         </div>
     );

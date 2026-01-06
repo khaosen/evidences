@@ -1,13 +1,13 @@
-import styles from "../../css/Spinner.module.css"
-
 interface SpinnerProps {
     black?: boolean;
 }
 
 export default function Spinner(props: SpinnerProps) {
-    return <div className={props.black ? `${styles.spinner} ${styles.circle__black}` : `${styles.spinner} ${styles.circle__white}`}>
+    const bgColor = props.black ? "bg-black" : "bg-white";
+
+    return <div className="relative w-16 h-16">
         {Array.from({ length: 8 }).map((_, i) => (
-            <div key={i} className={`${styles.circle} ${styles[`circle__${i}`]}`} />
+            <div key={i} className={`absolute w-3 h-3 rounded-full top-1/2 left-1/2 -mt-[6px] -ml-[6px] animate-orbit ${bgColor}`} style={{ animationDelay: `${i * 0.125}s`, animationFillMode: "both" }} />
         ))}
     </div>
 }
