@@ -145,8 +145,6 @@
                 "firstname_placeholder": "Nombre",
                 "lastname_placeholder": "Apellido",
                 "birthdate_placeholder": "Fecha de nacimiento",
-                "save_button": "Guardar registro de base de datos",
-                "delete_button": "Eliminar",
                 "label_button": "Actualizar etiqueta del objeto",
                 "tooltip_label": "Aplique los cambios al lugar del delito, hora de recopilación e información adicional, así como la entrada mostrada de la base de datos a la etiqueta de la prueba."
             },
@@ -161,20 +159,6 @@
                 "tooltip_save": "Si existe un registro en la base de datos para el ADN en esta prueba, se muestra aquí y puede editarse; de lo contrario, se puede crear un nuevo registro.",
                 "no_dna_selected": "Seleccione una prueba con ADN de la lista.",
                 "no_items_with_dna": "No hay objetos con ADN en su inventario."
-            },
-            "database_app": {
-                "name": "Base de datos",
-                "search_placeholder": "Buscar...",
-                "type": "Tipo",
-                "types": {
-                    "fingerprint": "Huella digital",
-                    "dna": "ADN"
-                },
-                "citizen": "Ciudadano",
-                "page": "Página %s de %s",
-                "search_result_error": "¡Ocurrió un error al cargar los datos!",
-                "search_result_empty": "¡No se encontraron entradas!",
-                "inspect_button": "Inspeccionar"
             },
             "wiretap_app": {
                 "name": "Escuchas",

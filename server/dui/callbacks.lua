@@ -116,13 +116,6 @@ lib.callback.register("evidences:storePersonalData", function(source, arguments)
     database.storePersonalDataForBiometricData(type, biometricData, firstname, lastname, birthdate)
 end)
 
----@param types table[string]
----@param search string
----@param page number
-lib.callback.register("evidences:getStoredBiometricDataEntries", function(source, arguments)
-    return database.getStoredBiometricDataEntries(arguments.types, arguments.search, arguments.page)
-end)
-
 lib.callback.register("evidences:labelEvidenceItem", function(source, arguments)
     local container <const> = arguments.container
     local slot <const> = arguments.slot

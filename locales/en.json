@@ -145,8 +145,6 @@
                 "firstname_placeholder": "First name",
                 "lastname_placeholder": "Last name",
                 "birthdate_placeholder": "Birthdate",
-                "save_button": "Save database record",
-                "delete_button": "Delete",
                 "label_button": "Update item label",
                 "tooltip_label": "Apply changes to the crime scene, time of collection and additional information, as well as the displayed database entry to the label of the evidence."
             },
@@ -161,20 +159,6 @@
                 "tooltip_save": "If a database record exists for the DNA on this piece of evidence, it is displayed here and can be edited; otherwise, a new record can be created.",
                 "no_dna_selected": "Select a piece of evidence bearing a DNA from the list.",
                 "no_items_with_dna": "No items holding DNA in your inventory."
-            },
-            "database_app": {
-                "name": "Database",
-                "search_placeholder": "Search...",
-                "type": "Type",
-                "types": {
-                    "fingerprint": "Fingerprint",
-                    "dna": "DNA"
-                },
-                "citizen": "Citizen",
-                "page": "Page %s of %s",
-                "search_result_error": "An error occurred while loading data!",
-                "search_result_empty": "No entries found!",
-                "inspect_button": "Inspect"
             },
             "wiretap_app": {
                 "name": "Wiretap",

@@ -145,8 +145,6 @@
                 "firstname_placeholder": "Vorname",
                 "lastname_placeholder": "Nachname",
                 "birthdate_placeholder": "Geburtsdatum",
-                "save_button": "Datenbankeintrag speichern",
-                "delete_button": "Löschen",
                 "label_button": "Item-Label aktualisieren",
                 "tooltip_label": "Änderungen des Tatorts, der Fundzeit und weiterer Informationen, sowie den angezeigten Datenbankeintrag auf das Ettiket des Beweismittels übernehmen"
             },
@@ -161,20 +159,6 @@
                 "tooltip_save": "Wenn ein Datenbankeintrag zu der DNS auf diesem Beweisstück existiert, wird er hier angezeigt und kann bearbeitet werden; ansonsten kann ein neuer Eintrag angelegt werden.",
                 "no_dna_selected": "Wähle aus der Liste ein Beweisstück mit einer DNS aus.",
                 "no_items_with_dna": "Es befinden sich keine Items mit DNA in deinem Inventar."
-            },
-            "database_app": {
-                "name": "Datenbank",
-                "search_placeholder": "Suche...",
-                "type": "Typ",
-                "types": {
-                    "fingerprint": "Fingerabdruck",
-                    "dna": "DNS"
-                },
-                "citizen": "Bürger",
-                "page": "Seite %s von %s",
-                "search_result_error": "Fehler beim Laden der Daten!",
-                "search_result_empty": "Keine Einträge gefunden!",
-                "inspect_button": "Ansicht"
             },
             "wiretap_app": {
                 "name": "Abhören",

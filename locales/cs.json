@@ -145,8 +145,6 @@
                 "firstname_placeholder": "Jméno",
                 "lastname_placeholder": "Příjmení",
                 "birthdate_placeholder": "Datum narození",
-                "save_button": "Uložit záznam do databáze",
-                "delete_button": "Smazat",
                 "label_button": "Aktualizovat označení předmětu",
                 "tooltip_label": "Aplikovat změny na místo činu, čas sběru a další informace, stejně jako zobrazený záznam databáze na označení důkazu."
             },
@@ -161,20 +159,6 @@
                 "tooltip_save": "Pokud existuje záznam v databázi pro DNA na tomto důkazu, je zde zobrazen a lze jej upravit; jinak lze vytvořit nový záznam.",
                 "no_dna_selected": "Vyberte ze seznamu důkaz obsahující DNA.",
                 "no_items_with_dna": "Ve vašem inventáři nejsou žádné předměty s DNA."
-            },
-            "database_app": {
-                "name": "Databáze",
-                "search_placeholder": "Hledat...",
-                "type": "Typ",
-                "types": {
-                    "fingerprint": "Otisk prstu",
-                    "dna": "DNA"
-                },
-                "citizen": "Občan",
-                "page": "Strana %s z %s",
-                "search_result_error": "Při načítání dat došlo k chybě!",
-                "search_result_empty": "Nebyly nalezeny žádné záznamy!",
-                "inspect_button": "Prohlédnout"
             },
             "wiretap_app": {
                 "name": "Odposlech",

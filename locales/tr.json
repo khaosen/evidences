@@ -145,8 +145,6 @@
                 "firstname_placeholder": "Ad",
                 "lastname_placeholder": "Soyad",
                 "birthdate_placeholder": "Doğum tarihi",
-                "save_button": "Veritabanı kaydını kaydet",
-                "delete_button": "Sil",
                 "label_button": "Öğe etiketini güncelle",
                 "tooltip_label": "Suç mahali, toplama zamanı ve ek bilgiler ile görüntülenen veritabanı kaydındaki değişiklikleri delilin etiketine uygula."
             },
@@ -161,20 +159,6 @@
                 "tooltip_save": "Bu delil üzerindeki DNA için veritabanında bir kayıt varsa burada görüntülenir ve düzenlenebilir; aksi takdirde yeni bir kayıt oluşturulabilir.",
                 "no_dna_selected": "Listeden DNA içeren bir delil seçin.",
                 "no_items_with_dna": "Envanterinizde DNA içeren öğe yok."
-            },
-            "database_app": {
-                "name": "Veritabanı",
-                "search_placeholder": "Ara...",
-                "type": "Tür",
-                "types": {
-                    "fingerprint": "Parmak İzi",
-                    "dna": "DNA"
-                },
-                "citizen": "Vatandaş",
-                "page": "Sayfa %s / %s",
-                "search_result_error": "Veriler yüklenirken bir hata oluştu!",
-                "search_result_empty": "Kayıt bulunamadı!",
-                "inspect_button": "İncele"
             },
             "wiretap_app": {
                 "name": "Gizli Dinleme",
