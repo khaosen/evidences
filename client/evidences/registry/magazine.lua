@@ -56,7 +56,7 @@ AddEventHandler("ox_inventory:currentWeapon", function(weapon)
                     SetEntityAsMissionEntity(naturallySpawnedMagazine)
                     DeleteObject(naturallySpawnedMagazine)
 
-                    TriggerServerEvent("evidences:syncEvidence", "MAGAZINE", weapon.metadata.serial, 
+                    TriggerServerEvent("evidences:syncEvidence", "magazine", weapon.metadata.serial, 
                         "atVehicleSeat", NetworkGetNetworkIdFromEntity(cache.vehicle), cache.seat, {
                             plate = GetVehicleNumberPlateText(cache.vehicle),
                             weaponLabel = weapon.label or "unknown",
@@ -85,7 +85,7 @@ AddEventHandler("ox_inventory:currentWeapon", function(weapon)
                     end, "No magazine evidence was created because no native GTA-created magazine was lying on the ground within four seconds of reloading", 4000)
 
                     if result then
-                        TriggerServerEvent("evidences:syncEvidence", "MAGAZINE", weapon.metadata.serial,
+                        TriggerServerEvent("evidences:syncEvidence", "magazine", weapon.metadata.serial,
                             "atCoords", result.coords, {
                                 weaponLabel = weapon.label or "unknown",
                                 serialNumber = weapon.metadata.serial,

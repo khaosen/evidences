@@ -76,9 +76,7 @@ exports("spy_microphone", function(data, slot)
                         return
                     end
 
-                    config.notify({
-                        key = "spy_microphone.error_spy_microphone_creation"
-                    }, "error")
+                    config.notify({ key = "spy_microphone.error_spy_microphone_creation" }, "error")
                 end, input[1], finalCoords)
             end
         end

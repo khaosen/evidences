@@ -25,20 +25,13 @@
         end
     }}
 },
-['baggy_empty'] = {
-    label = 'Zip-Beutel',
-    weight = 100,
-    stack = true
-},
-['baggy_blood'] = {
-    label = 'Gesichertes Blut',
-    weight = 200,
-    stack = false
-},
-['baggy_magazine'] = {
-    label = 'Gesichertes Magazin',
-    weight = 200,
-    stack = false
+['forensic_kit'] = {
+    label = 'Spurensicherungskoffer',
+    description = 'Du benötigst diesen Koffer, um Beweismittel zu sichern. Der Koffer kann zehn Mal verwendet werden.',
+    weight = 2500,
+    close = false,
+    stack = false,
+    decay = true
 },
 ['hydrogen_peroxide'] = {
     label = 'Wasserstoffperoxid',
@@ -48,19 +41,9 @@
         export = 'evidences.hydrogen_peroxide'
     }
 },
-['fingerprint_brush'] = {
-    label = 'Fingerabdruck-Pinsel',
-    weight = 250,
-    stack = true
-},
-['fingerprint_taken'] = {
-    label = 'Gesicherter Fingerabdruck',
-    weight = 5,
-    stack = false
-},
 ['fingerprint_scanner'] = {
     label = 'Fingerabdruckscanner',
-    description = 'Scanne Fingerabdrücke',
+    description = 'Hiermit kannst den Fingerabdruck deines Gegenübers einscannen. Bei einem Datenbanktreffer zu dem Fingerabdruck wird dir dessen Identität angezeigt.',
     weight = 500,
     stack = false,
     close = true,
@@ -68,6 +51,26 @@
     client = {
         export = 'evidences.fingerprint_scanner',
     },
+},
+['collected_blood'] = {
+    label = 'Gesichertes Blut',
+    weight = 200,
+    stack = false
+},
+['collected_saliva'] = {
+    label = 'Gesicherter Speichel',
+    weight = 200,
+    stack = false
+},
+['collected_magazine'] = {
+    label = 'Gesichertes Magazin',
+    weight = 200,
+    stack = false
+},
+['collected_fingerprint'] = {
+    label = 'Gesicherter Fingerabdruck',
+    weight = 5,
+    stack = false
 },
 ['spy_microphone'] = {
     label = 'Abhörwanze',
@@ -78,4 +81,4 @@
     client = {
         export = 'evidences.spy_microphone'
     }
-},
+}

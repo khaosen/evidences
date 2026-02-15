@@ -1,8 +1,8 @@
-local DNA = lib.class("DNA", require "server.evidences.classes.evidence")
+local dna = lib.class("dna", require "server.evidences.classes.evidence")
+dna.superClassName = "dna"
 
-function DNA:constructor(owner)
+function dna:constructor(owner)
     self:super(owner)
 end
 
-DNA.superClassName = "DNA"
-return DNA
+return dna

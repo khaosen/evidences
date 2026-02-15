@@ -77,6 +77,7 @@ function focus.start(laptop)
             playerName = framework.getPlayerName(),
             canAccess = framework.hasPermission(config.permissions.access),
             options = {
+                areCitizensSynced = config.citizens.synced,
                 isWiretapAppEnabled = GetResourceState("pma-voice"):find("start") and config.wiretap.enabled or false,
                 displayPhoneNumbers = config.wiretap.calls.displayPhoneNumbers or false,
                 mayInterceptCalls = framework.hasPermission(config.wiretap.calls.permissions),
@@ -101,7 +102,7 @@ function focus.start(laptop)
                 SetEntityAnimCurrentTime(laptop, "switch@franklin@on_laptop", "001927_01_fras_v2_4_on_laptop_exit_laptop", 0.0)
                 DisablePlayerFiring(cache.playerId, true)
 
-                if not DoesEntityExist(laptop) or IsPedDeadOrDying(cache.ped, true) then
+                if not DoesEntityExist(laptop) or config.isPedDead(cache.ped) then
                     break
                 end
 

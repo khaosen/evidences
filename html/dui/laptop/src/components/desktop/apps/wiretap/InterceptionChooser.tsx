@@ -2,24 +2,12 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useAppContext } from "@/hooks/useAppContext";
 import WiretapProtocol from "./WiretapProtocol";
 import { useTranslation } from "@/components/TranslationContext";
-
-export interface Interception {
-    id: number;
-    type: "ObservableCall" | "ObservableRadioFreq" | "ObservableSpyMicrophone";
-    startedAt: number;
-    endedAt: number;
-    observer: string;
-    target: string;
-    protocol: string | null;
-}
+import useLuaCallback from "@/hooks/useLuaCallback";
+import type { Interception } from "@/types/wiretap.type";
+import type { InterceptionStoredEvent } from "@/types/events.type";
 
 
-interface InterceptionChooserProps {
-    reloadKey: number;
-}
-
-
-export default function InterceptionChooser(props: InterceptionChooserProps) {
+export default function InterceptionChooser() {
     const { t } = useTranslation();
     const appContext = useAppContext();
     const [interceptions, setInterceptions] = useState<Interception[]>([]);
@@ -28,15 +16,27 @@ export default function InterceptionChooser(props: InterceptionChooserProps) {
     const scrollRef = useRef(null);
 
     const offset = useRef<number>(0);
-    const [isLoading, setLoading] = useState<boolean>(true);
     const [isFullyLoaded, setFullyLoaded] = useState<boolean>(false);
 
     const openProtocol = (interception: Interception) => {
         appContext.openPopUp(t(`laptop.desktop_screen.wiretap_app.protocol_popup.header.${interception.type}`, interception.id), <WiretapProtocol interception={interception} />);
     };
 
+    const { trigger, loading } = useLuaCallback<{ limit: number, offset: number }, Interception[]>({
+        name: "evidences:getWiretaps",
+        onSuccess: (data) => {
+            if (!data) return;
+            const length = data.length;
+            offset.current += length;
+
+            setInterceptions(prev => [...prev, ...data]);
+            if (length < 10) setFullyLoaded(true);
+        }
+    });
+
     const fetchInterceptions = useCallback((forceReload: boolean = false) => {
         if (!forceReload && isFullyLoaded) return;
+        if (loading) return;
 
         if (forceReload) {
             offset.current = 0;
@@ -44,36 +44,30 @@ export default function InterceptionChooser(props: InterceptionChooserProps) {
             setFullyLoaded(false);
         }
 
-        setLoading(true);
+        trigger({
+            limit: 10,
+            offset: offset.current
+        });
+    }, [loading, isFullyLoaded]);
 
-        fetch(`https://${location.host}/triggerServerCallback`, {
-            method: "post",
-            headers: {
-                "Content-Type": "application/json; charset=UTF-8",
-            },
-            body: JSON.stringify({
-                name: "evidences:getWiretaps",
-                arguments: {
-                    limit: 10,
-                    offset: offset.current
-                }
-            })
-        }).then(response => response.json()).then(response => {
-            if (!response) return;
-            const length = response.length;
+    useEffect(() => {
+        fetchInterceptions(true);
 
-            offset.current += length;
+        const handleInterceptionStore = (e: Event) => {
+            const event = e as CustomEvent<InterceptionStoredEvent>;
+            const { interception } = event.detail;
 
-            setInterceptions(prev => [...prev, ...response]);
+            offset.current += 1;
+            setInterceptions(prev => [interception, ...prev]);
+        };
 
-            if (length < 10) setFullyLoaded(true);
-        }).finally(() => setLoading(false));
-    }, [isFullyLoaded]);
+        window.addEventListener("evidences:interceptionStored", handleInterceptionStore);
 
-    useEffect(() => fetchInterceptions(true), [props.reloadKey]);
+        return () => window.removeEventListener("evidence:interceptionStored", handleInterceptionStore);
+    }, []);
 
     const handleScroll = useCallback(() => {
-        if (!scrollRef.current || isLoading) return;
+        if (!scrollRef.current || loading) return;
 
         const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
         const isBottom = Math.abs(scrollHeight - (scrollTop + clientHeight)) <= 1;
@@ -81,7 +75,7 @@ export default function InterceptionChooser(props: InterceptionChooserProps) {
         if (isBottom) {
             fetchInterceptions();
         }
-    }, [isLoading]);
+    }, [loading]);
 
     const handleReload = () => {
         if (reloadRef.current) {
@@ -96,11 +90,11 @@ export default function InterceptionChooser(props: InterceptionChooserProps) {
     };
 
     const formatTime = (dateMillis: number): string => {
-        return new Date(dateMillis).toLocaleTimeString(t("laptop.screen_saver.date_locales"), { hour: "2-digit", minute: "2-digit", hour12: false });
+        return new Date(dateMillis).toLocaleTimeString(t("laptop.desktop_screen.common.date_locales"), { hour: "2-digit", minute: "2-digit", hour12: false });
     };
 
     const formatDate = (dateMillis: number): string => {
-        return new Date(dateMillis).toLocaleDateString(t("laptop.screen_saver.date_locales"), { day: "numeric", month: "long", year: "numeric" });
+        return new Date(dateMillis).toLocaleDateString(t("laptop.desktop_screen.common.date_locales"), { day: "numeric", month: "long", year: "numeric" });
     };
 
     return <div className="w-1/2 h-full p-6 flex flex-col gap-2 bg-white/20 shadow-glass border-2 border-white/80 rounded-16">
@@ -141,7 +135,7 @@ export default function InterceptionChooser(props: InterceptionChooserProps) {
             </div>
 
             <div className="w-full text-center text-20">
-                {isLoading && t("laptop.desktop_screen.wiretap_app.latest_actions.loading")}
+                {loading && t("laptop.desktop_screen.wiretap_app.latest_actions.loading")}
                 {interceptions.length > 0 && isFullyLoaded && t("laptop.desktop_screen.wiretap_app.latest_actions.end_reached")}
             </div>
         </div>

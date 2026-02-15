@@ -1,3 +1,4 @@
+import type { AppArgs } from "@/types/appargs.type";
 import type { App } from "@/data/apps";
 
 
@@ -6,7 +7,7 @@ interface AppIconProps {
     app: App;
     width: string;
     height: string;
-    onClick: (app: App) => void;
+    onClick: (app: App, args?: AppArgs) => void;
     taskbarIcon?: boolean;
 }
 

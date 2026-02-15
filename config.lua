@@ -21,6 +21,20 @@ config.isPedWearingGloves = function()
 end
 
 
+-- Players don't need to give consent if they are cuffed and an officer takes their DNA or fingerprints.
+-- If your police script uses a different cuff system, adjust the check (if a person is cuffed) here.
+config.isPedCuffed = function(ped)
+    return IsPedCuffed(ped) or IsEntityPlayingAnim(ped, "mp_arresting", "idle", 3)
+end
+
+
+-- If your server uses a custom death/down system, adjust the check (isPedDeadOrDying) accordingly here.
+-- Return true if the ped is dead and false if alive
+config.isPedDead = function(ped)
+    return IsPedDeadOrDying(ped, true)
+end
+
+
 config.wiretap = {
     -- Enable or disable the wiretap app itself (requires pma-voice)
     enabled = true,
@@ -87,6 +101,13 @@ config.permissions = {
         police = 0,
         fib = 0
     }
+}
+
+
+-- if set to false, all citizens must be registered manually by police
+-- if set to true, citizens are synced; they cannot be edited or deleted (buttons for that actions are not visible, too)
+config.citizens = {
+    synced = true
 }
 
 

@@ -8,10 +8,11 @@ require "client.evidences.registry.magazine"
 
 require "client.dui.handler"
 
+require "client.biometrics.biometrics_taking"
+
 require "client.scanner.scanner"
 
 require "client.items"
-
 
 local config <const> = require "config"
 

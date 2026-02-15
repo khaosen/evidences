@@ -1,8 +1,8 @@
-local MAGAZINE = lib.class("MAGAZINE", require "server.evidences.classes.evidence")
+local magazine = lib.class("magazine", require "server.evidences.classes.evidence")
+magazine.superClassName = "magazine"
 
-function MAGAZINE:constructor(serial)
+function magazine:constructor(serial)
     self:super(serial)
 end
 
-MAGAZINE.superClassName = "MAGAZINE"
-return MAGAZINE
+return magazine

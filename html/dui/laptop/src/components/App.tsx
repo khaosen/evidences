@@ -11,6 +11,7 @@ import { useTranslation } from "./TranslationContext";
 export type ScreenType = "screensaver" | "login" | "desktop";
 
 export interface Options {
+    areCitizensSynced: boolean;
     isWiretapAppEnabled: boolean;
     displayPhoneNumbers: boolean;
     mayInterceptCalls: boolean;

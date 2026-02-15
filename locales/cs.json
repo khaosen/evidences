@@ -29,6 +29,10 @@
             "collecting_label": "Sebrat krevní stopu",
             "destroying_label": "Zničit krevní stopu"
         },
+        "saliva": {
+            "collecting_label": "Odběr slin",
+            "destroying_label": "Likvidace slin"
+        },
         "magazine": {
             "collecting_label": "Sebrat zásobník",
             "destroying_label": "Zničit zásobník"
@@ -42,10 +46,7 @@
                 "collection_time": "Čas sběru",
                 "additionalData": "Informace",
                 "weapon_label": "Zbraň",
-                "serial_number": "Sériové číslo",
-                "firstname": "Jméno",
-                "lastname": "Příjmení",
-                "birthdate": "Datum narození"
+                "serial_number": "Sériové číslo"
             },
             "seats": {
                 "-1": "přední sedadlo řidiče",
@@ -71,21 +72,13 @@
                     "at_weapon": "na zbrani"
                 },
                 "errors": {
-                    "invalid_item": {
+                    "collect": {
                         "title": "Důkazy",
-                        "description": "Předmět %s neexistuje"
+                        "description": "Chyba při sběru důkazů"
                     },
-                    "invalid_inventory": {
+                    "destroy": {
                         "title": "Důkazy",
-                        "description": "Inventář %s neexistuje"
-                    },
-                    "not_enough_items": {
-                        "title": "Důkazy",
-                        "description": "Chybí vám: %s"
-                    },
-                    "inventory_full": {
-                        "title": "Důkazy",
-                        "description": "Váš inventář je plný"
+                        "description": "Chyba při likvidaci důkazů"
                     }
                 }
             },
@@ -101,13 +94,50 @@
     },
     "fingerprint_scanner": {
         "target": "Položte prst na skener",
-        "scanned_successful": {
-            "title": "Důkazy",
-            "description": "Otisk prstu byl naskenován"
+        "scan_match": {
+            "title": "Otisk prstu naskenován",
+            "description": "Shoda v databázi: %s (%s • %s)"
         },
-        "scan_failed": {
-            "title": "Důkazy",
+        "scan_no_match": {
+            "title": "Otisk prstu naskenován",
+            "description": "V databázi nebyla nalezena žádná shoda"
+        },
+        "scan_gloves": {
+            "title": "Skenování selhalo",
+            "description": "Máte na sobě rukavice"
+        },
+        "scan_error": {
+            "title": "Skenování selhalo",
             "description": "Otisk prstu se nepodařilo naskenovat"
+        }
+    },
+    "biometrics_taking": {
+        "description": "Policista %s od vás chce odebrat %s. Souhlasíte?",
+        "deny": "Ablehnen",
+        "accept": "Akzeptieren",
+        "target": {
+            "take_fingerprint": "Odebrat otisky prstů",
+            "take_dna": "Odebrat DNA",
+            "force_take_fingerprint": "Vynutit odběr otisků prstů",
+            "force_take_dna": "Vynutit odběr DNA"
+        },
+        "notifications": {
+            "request_sent": {
+                "title": "Důkazy",
+                "description": "Žádost byla odeslána"
+            },
+            "error": {
+                "title": "Důkazy",
+                "description": "Nebylo to úspěšné"
+            },
+            "no_consent": {
+                "title": "Důkazy",
+                "description": "Hráč odmítl"
+            },
+            "consent": {
+                "title": "Důkazy",
+                "description": "Hráč vyjádřil souhlas"
+            }
         }
     },
     "laptop": {
@@ -126,39 +156,105 @@
             "interact": "Použít",
             "pickup": "Zvednout"
         },
-        "screen_saver": {
-            "date_locales": "cs-CZ"
-        },
         "login_screen": {
             "title": "Jiný uživatel",
             "username_placeholder": "Uživatelské jméno",
             "password_placeholder": "Heslo",
             "welcome": "Vítejte",
-            "missing_permission": "Špatné uživatelské jméno nebo heslo",
-            "ok_button": "OK"
+            "missing_permission": "Špatné uživatelské jméno nebo heslo"
         },
         "desktop_screen": {
             "common": {
+                "date_locales": "cs-CZ",
+                "evidence_placeholder": "Důkaz",
                 "crime_scene_placeholder": "Místo činu",
                 "collection_time_placeholder": "Čas sběru",
                 "additional_data_placeholder": "Další informace",
+                "name_placeholder": "Jméno",
                 "firstname_placeholder": "Jméno",
                 "lastname_placeholder": "Příjmení",
+                "fullname_placeholder": "Jméno a příjmení",
                 "birthdate_placeholder": "Datum narození",
-                "label_button": "Aktualizovat označení předmětu",
-                "tooltip_label": "Aplikovat změny na místo činu, čas sběru a další informace, stejně jako zobrazený záznam databáze na označení důkazu."
+                "gender_placeholder": "Pohlaví",
+                "from": "z",
+                "by": "od",
+                "fingerprint": "Otisk prstu",
+                "dna": "DNA",
+                "statuses": {
+                    "search": "Hledat...",
+                    "loading": "Načítání...",
+                    "error": "Chyba",
+                    "no_data": "Žádná data",
+                    "delete": "Smazat",
+                    "save": "Uložit",
+                    "cancel": "Zrušit",
+                    "unknown": "neznámý",
+                    "analysed": "analyzováno",
+                    "no_selection": "Není co vybrat...",
+                    "select_evidence": "Vyberte prosím důkaz.",
+                    "select_citizen": "Vyberte prosím občana.",
+                    "fill_all_fields": "Prosím vyplňte všechna pole!"
+                }
+            },
+            "citizens_app": {
+                "name": "Občané",
+                "personal_data": "Osobní údaje",
+                "biometric_data": "Biometrické údaje",
+                "notes": {
+                    "header": "Poznámky",
+                    "create": "Vytvořit novou poznámku",
+                    "edit": "Upravit poznámku",
+                    "title": "Název",
+                    "text": "Text"
+                },
+                "registered_weapons": "Registrované zbraně",
+                "statuses": {
+                    "no_citizens_found": "Nenalezeni žádní občané",
+                    "no_notes_found": "Nenalezeny žádné poznámky",
+                    "no_registered_firearms": "Žádné registrované střelné zbraně",
+                    "select_evidence": "Vybrat důkaz"
+                },
+                "status_messages": {
+                    "citizen_creation_success": "Občan vytvořen!",
+                    "citizen_creation_error": "Vytvoření selhalo!",
+                    "citizen_update_success": "Občan aktualizován!",
+                    "citizen_update_error": "Nepodařilo se uložit občana!",
+                    "citizen_deletion_success": "Občan smazán!",
+                    "citizen_deletion_error": "Nepodařilo se smazat občana!",
+                    "note_save_success": "Poznámka uložena!",
+                    "note_save_error": "Nepodařilo se uložit poznámku!",
+                    "note_deletion_success": "Poznámka smazána!",
+                    "note_deletion_error": "Nepodařilo se smazat poznámku!",
+                    "biometric_data_link_success": "%s propojen s vybraným občanem!",
+                    "biometric_data_unlink_success": "%s odpojen od vybraného občana!",
+                    "biometric_data_link_error": "%s se nepodařilo propojit s občanem!"
+                },
+                "gender": {
+                    "header": "Vyberte pohlaví",
+                    "male": "Muž",
+                    "female": "Žena",
+                    "non_binary": "Nebinární"
+                }
             },
             "fingerprint_app": {
-                "name": "Otisky prstů",
-                "tooltip_save": "Pokud existuje záznam v databázi pro otisk prstu na tomto důkazu, je zde zobrazen a lze jej upravit; jinak lze vytvořit nový záznam.",
-                "no_fingerprint_selected": "Vyberte ze seznamu důkaz obsahující otisk prstu.",
+                "name": "Analýza otisků prstů",
                 "no_items_with_fingerprints": "Ve vašem inventáři nejsou žádné předměty s otisky prstů."
             },
             "dna_app": {
-                "name": "DNA",
-                "tooltip_save": "Pokud existuje záznam v databázi pro DNA na tomto důkazu, je zde zobrazen a lze jej upravit; jinak lze vytvořit nový záznam.",
-                "no_dna_selected": "Vyberte ze seznamu důkaz obsahující DNA.",
+                "name": "Analýza DNA",
                 "no_items_with_dna": "Ve vašem inventáři nejsou žádné předměty s DNA."
+            },
+            "evidence_analysis": {
+                "matching_biometric_data": "Porovnávání %s s databází...",
+                "database_match": {
+                    "header": "Shoda v databázi!",
+                    "description": "Stopa %s na důkazu patří následující osobě:",
+                    "open_citizens_app": "Otevřít v aplikaci Občané"
+                },
+                "no_database_match": {
+                    "header": "Žádná shoda v databázi!",
+                    "description": "Stopa %s na důkazu patří osobě, která je zatím neznámá. Pokud dotyčnou osobu znáte, můžete k ní stopu %s z tohoto důkazu přiřadit v aplikaci občané."
+                }
             },
             "wiretap_app": {
                 "name": "Odposlech",
@@ -180,6 +276,10 @@
                         "placeholder_phone_number": "telefonní číslo",
                         "subscribe_button": "Odebírat",
                         "unsubscribe_button": "Zrušit odběr",
+                        "status_messages": {
+                            "subscribed": "Úspěšně přihlášeno k odběru",
+                            "unsubscribed": "Úspěšně odhlášeno z odběru"
+                        },
                         "notification": {
                             "title": "Odposlech hovoru",
                             "description": "%s se právě účastní telefonního hovoru, který lze odposlouchávat"
@@ -198,7 +298,6 @@
                 "latest_actions": {
                     "header": "Poslední akce",
                     "no_actions_available": "Žádné protokolizované akce",
-                    "loading": "Načítání...",
                     "end_reached": "Konec seznamu",
                     "action_duration": "%s od %s do %s",
                     "actions": {
@@ -210,7 +309,11 @@
                 "running_observation_popup": {
                     "ObservableCall": "Probíhající odposlech telefonního hovoru #%s",
                     "ObservableRadioFreq": "Probíhající odposlech rádiového kanálu na %s MHz",
-                    "ObservableSpyMicrophone": "Poslech špionážního mikrofonu %s"
+                    "ObservableSpyMicrophone": "Poslech špionážního mikrofonu %s",
+                    "status_messages": {
+                        "protocol_save_success": "Protokol o odposlechu byl úspěšně uložen!",
+                        "protocol_save_error": "Protokol o odposlechu se nepodařilo uložit!"
+                    }
                 },
                 "protocol_popup": {
                     "header": {

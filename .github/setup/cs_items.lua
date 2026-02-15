@@ -25,20 +25,13 @@
         end
     }}
 },
-['baggy_empty'] = {
-    label = 'Prázdný sáček',
-    weight = 100,
-    stack = true
-},
-['baggy_blood'] = {
-    label = 'Odebraná krev',
-    weight = 200,
-    stack = false
-},
-['baggy_magazine'] = {
-    label = 'Odebraný zásobník',
-    weight = 200,
-    stack = false
+['forensic_kit'] = {
+    label = 'Forenzní sada',
+    description = 'Tento kufr potřebuješ k zajištění důkazů. Kufr lze použít desetkrát.',
+    weight = 2500,
+    close = false,
+    stack = false,
+    decay = true
 },
 ['hydrogen_peroxide'] = {
     label = 'Peroxid vodíku',
@@ -48,19 +41,9 @@
         export = 'evidences.hydrogen_peroxide'
     }
 },
-['fingerprint_brush'] = {
-    label = 'Štětec na otisky prstů',
-    weight = 250,
-    stack = true
-},
-['fingerprint_taken'] = {
-    label = 'Odebraný otisk prstu',
-    weight = 5,
-    stack = false
-},
 ['fingerprint_scanner'] = {
     label = 'Skener otisků prstů',
-    description = 'Skenování otisků prstů',
+    description = 'Tímto můžeš naskenovat otisk prstu osoby naproti tobě. Pokud se otisk shoduje s databází, zobrazí se ti její identita.',
     weight = 500,
     stack = false,
     close = true,
@@ -68,6 +51,26 @@
     client = {
         export = 'evidences.fingerprint_scanner',
     },
+},
+['collected_blood'] = {
+    label = 'Odebraná krev',
+    weight = 200,
+    stack = false
+},
+['collected_saliva'] = {
+    label = 'Odebraná slina',
+    weight = 200,
+    stack = false
+},
+['collected_magazine'] = {
+    label = 'Odebraný zásobník',
+    weight = 200,
+    stack = false
+},
+['collected_fingerprint'] = {
+    label = 'Odebraný otisk prstu',
+    weight = 5,
+    stack = false
 },
 ['spy_microphone'] = {
     label = 'Špionážní mikrofon',
@@ -78,4 +81,4 @@
     client = {
         export = 'evidences.spy_microphone'
     }
-},
+}

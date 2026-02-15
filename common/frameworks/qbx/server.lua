@@ -1,3 +1,5 @@
+local database <const> = require "server.database"
+
 local framework = {}
 
 function framework.getIdentifier(playerId)
@@ -24,6 +26,47 @@ function framework.getPlayerName(playerId)
     end
 
     return "undefined"
+end
+
+function framework.getCitizens(searchText, limit, offset)
+    local pattern <const> = "%" .. searchText:gsub("\\", "\\\\"):gsub("%%", "\\%%"):gsub("_", "\\_") .. "%"
+
+    return database.query(
+        [[
+            SELECT
+                citizenid AS identifier,
+                CONCAT_WS(' ', JSON_VALUE(charinfo, '$.firstname'), JSON_VALUE(charinfo, '$.lastname')) AS fullName,
+                JSON_VALUE(charinfo, '$.birthdate') AS birthdate,
+                CASE
+                    WHEN JSON_VALUE(charinfo, '$.gender') = '0' THEN 'male'
+                    WHEN JSON_VALUE(charinfo, '$.gender') = '1' THEN 'female'
+                    ELSE 'non_binary'
+                END AS gender
+            FROM players
+            HAVING fullName LIKE ?
+            LIMIT ? OFFSET ?
+        ]],
+        pattern, limit, offset
+    )
+end
+
+function framework.getCitizen(identifier)
+    return databa.selectFirstRow(
+        [[
+            SELECT
+                citizenid AS identifier,
+                CONCAT_WS(' ', JSON_VALUE(charinfo, '$.firstname'), JSON_VALUE(charinfo, '$.lastname')) AS fullName,
+                JSON_VALUE(charinfo, '$.birthdate') AS birthdate,
+                CASE
+                    WHEN JSON_VALUE(charinfo, '$.gender') = '0' THEN 'male'
+                    WHEN JSON_VALUE(charinfo, '$.gender') = '1' THEN 'female'
+                    ELSE 'non_binary'
+                END AS gender
+            FROM players
+            WHERE citizenid = ?
+        ]],
+        identifier
+    )
 end
 
 return framework

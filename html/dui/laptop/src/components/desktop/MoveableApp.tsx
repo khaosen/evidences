@@ -113,8 +113,9 @@ export default function MoveableApp(props: MoveableAppProps) {
                 }}
             >
                 <div onMouseDown={onMouseDown} className="w-full h-[42px] bg-window relative flex justify-end items-center">
-                    <div className="absolute left-1/2 -translate-x-1/2 h-full flex items-center">
-                        <span className="text-25 truncate">{props.app.name.toUpperCase()}</span>
+                    <div className="absolute left-1/2 -translate-x-1/2 h-full flex items-center gap-2">
+                        {props.app.icon("25px", "25px")}
+                        <span className="text-25 truncate uppercase">{props.app.name}</span>
                     </div>
 
                     <div className="h-full flex items-center gap-1.5 mr-4">

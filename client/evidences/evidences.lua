@@ -33,6 +33,10 @@ local function createPlayerTarget(evidenceType, options, action)
         groups = config.permissions.collect or false,
         items = options.target[action].requiredItem or nil,
         canInteract = function(entity, distance, coords, name, bone)
+            if config.isPedDead(cache.ped) then
+                return false
+            end
+            
             -- get all evidences of evidenceType on the player
             local player <const> = GetPlayerServerId(NetworkGetPlayerIndexFromPed(entity))
             local evidences <const> = Player(player).state[string.format("evidences:%s", evidenceType)] or {}
@@ -46,15 +50,13 @@ local function createPlayerTarget(evidenceType, options, action)
             for _, evidence in pairs(targetedEvidences) do
                 local metadata <const> = options.target[action].createMetadata and options.target[action].createMetadata(evidenceType, evidence.data, data.coords) or nil
 
-                local error <const> = lib.callback.await(string.format("evidences:%s", action), false, evidenceType, evidence.owner, {
+                local success <const> = lib.callback.await(string.format("evidences:%s", action), false, evidenceType, evidence.owner, {
                     fun = "removeFromPlayer",
                     arguments = { player }
                 }, metadata)
 
-                if error then
-                    config.notify({
-                        key = string.format("evidences.notifications.common.errors.%s", error)
-                    }, "error")
+                if not success then
+                    config.notify({ key = string.format("evidences.notifications.common.errors.%s", action) }, "error")
                     return
                 end
 
@@ -81,6 +83,10 @@ local function createVehicleDoorTarget(evidenceType, options, action)
         distance = 2,
         bones = { "door_dside_f", "door_pside_f", "door_dside_r", "door_pside_r" },
         canInteract = function(entity, distance, coords, name, bone)
+            if config.isPedDead(cache.ped) then
+                return false
+            end
+
             if cache.vehicle then
                 return false
             end
@@ -111,15 +117,13 @@ local function createVehicleDoorTarget(evidenceType, options, action)
             for _, evidence in pairs(targetedEvidences) do
                 local metadata <const> = options.target[action].createMetadata and options.target[action].createMetadata(evidenceType, evidence.data, data.coords, { door = targetedDoorId }) or nil
 
-                local error <const> = lib.callback.await(string.format("evidences:%s", action), false, evidenceType, evidence.owner, {
+                local success <const> = lib.callback.await(string.format("evidences:%s", action), false, evidenceType, evidence.owner, {
                     fun = "removeFromVehicleDoors",
                     arguments = { VehToNet(data.entity), targetedDoorId }
                 }, metadata)
 
-                if error then
-                    config.notify({
-                        key = string.format("evidences.notifications.common.errors.%s", error)
-                    }, "error")
+                if not success then
+                    config.notify({ key = string.format("evidences.notifications.common.errors.%s", action) }, "error")
                     return
                 end
 
@@ -144,6 +148,10 @@ local function createVehicleSeatTarget(evidenceType, options, action)
         groups = config.permissions.collect or false,
         items = options.target[action].requiredItem or nil,
         canInteract = function(entity, distance, coords, name, bone)
+            if config.isPedDead(cache.ped) then
+                return false
+            end
+
             if distance > 2 then
                 return false
             end
@@ -168,15 +176,13 @@ local function createVehicleSeatTarget(evidenceType, options, action)
             for _, evidence in pairs(targetedEvidences) do
                 local metadata <const> = options.target[action].createMetadata and options.target[action].createMetadata(evidenceType, evidence.data, data.coords, { seat = cache.seat }) or nil
 
-                local error <const> = lib.callback.await(string.format("evidences:%s", action), false, evidenceType, evidence.owner, {
+                local success <const> = lib.callback.await(string.format("evidences:%s", action), false, evidenceType, evidence.owner, {
                     fun = "removeFromVehicleSeats",
                     arguments = { VehToNet(cache.vehicle), cache.seat }
                 }, metadata)
 
-                if error then
-                    config.notify({
-                        key = string.format("evidences.notifications.common.errors.%s", error)
-                    }, "error")
+                if not success then
+                    config.notify({ key = string.format("evidences.notifications.common.errors.%s", action) }, "error")
                     return
                 end
 
@@ -200,6 +206,10 @@ local function createEntityTarget(evidenceType, options, action)
         groups = config.permissions.collect or false,
         items = options.target[action].requiredItem or nil,
         canInteract = function(entity, distance, coords, name, bone)
+            if config.isPedDead(cache.ped) then
+                return false
+            end
+
             if distance > 2 then
                 return false
             end
@@ -224,15 +234,13 @@ local function createEntityTarget(evidenceType, options, action)
             for _, evidence in pairs(targetedEvidences) do
                 local metadata <const> = options.target[action].createMetadata and options.target[action].createMetadata(evidenceType, evidence.data, data.coords) or nil
 
-                local error <const> = lib.callback.await(string.format("evidences:%s", action), false, evidenceType, evidence.owner, {
+                local success <const> = lib.callback.await(string.format("evidences:%s", action), false, evidenceType, evidence.owner, {
                     fun = "removeFromEntity",
                     arguments = { NetworkGetNetworkIdFromEntity(data.entity) }
                 }, metadata)
 
-                if error then
-                    config.notify({
-                        key = string.format("evidences.notifications.common.errors.%s", error)
-                    }, "error")
+                if not success then
+                    config.notify({ key = string.format("evidences.notifications.common.errors.%s", action) }, "error")
                     return
                 end
 
@@ -293,13 +301,13 @@ exports("hydrogen_peroxide", function(data, slot)
     local weapon <const> = exports.ox_inventory:getCurrentWeapon()
     if weapon and weapon.slot and weapon.metadata then
         exports.ox_inventory:useItem(data, function(data)
-            if weapon.metadata["FINGERPRINT"] then
-                TriggerServerEvent("evidences:syncEvidence", "FINGERPRINT", weapon.metadata["FINGERPRINT"].owner,
+            if weapon.metadata.fingerprint then
+                TriggerServerEvent("evidences:syncEvidence", "fingerprint", weapon.metadata["fingerprint"].owner,
                     "removeFromItem", cache.serverId, weapon.slot)
             end
 
-            if weapon.metadata["DNA"] then
-                TriggerServerEvent("evidences:syncEvidence", "BLOOD", weapon.metadata["DNA"].owner,
+            if weapon.metadata.dna then
+                TriggerServerEvent("evidences:syncEvidence", "blood", weapon.metadata["dna"].owner,
                     "removeFromItem", cache.serverId, weapon.slot)
             end
             

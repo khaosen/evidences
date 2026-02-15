@@ -37,7 +37,7 @@ local function checkForTalking()
     if not running then
         running = true
 
-        Citizen.CreateThread(function()
+        CreateThread(function()
             local talking = nil
 
             while next(observers) do

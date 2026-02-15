@@ -29,13 +29,14 @@ function EvidenceAtCoords:constructor(evidenceType, owner, coords, data)
                 distance = 2,
                 groups = config.permissions.collect or false,
                 items = self.options.target.collect.requiredItem or nil,
+                canInteract = function()
+                    return not config.isPedDead(cache.ped)
+                end,
                 onSelect = function(data)
                     local metadata <const> = self.options.target.collect.createMetadata(self.evidenceType, self.data, data.coords)
-                    lib.callback("evidences:collect", false, function(error)
-                        if error then
-                            config.notify({
-                                key = string.format("evidences.notifications.common.errors.%s", error)
-                            }, "error")
+                    lib.callback("evidences:collect", false, function(success)
+                        if not success then
+                            config.notify({ key = "evidences.notifications.common.errors.collect" }, "error")
                             return
                         end
 
@@ -59,12 +60,13 @@ function EvidenceAtCoords:constructor(evidenceType, owner, coords, data)
                 icon = self.options.target.destroy.icon or "fa-solid fa-hand-back-fist",
                 distance = 2,
                 items = self.options.target.destroy.requiredItem or nil,
+                canInteract = function()
+                    return not config.isPedDead(cache.ped)
+                end,
                 onSelect = function(data)
-                    lib.callback("evidences:destroy", false, function(error)
-                        if error then
-                            config.notify({
-                                key = string.format("evidences.notifications.common.errors.%s", error)
-                            }, "error")
+                    lib.callback("evidences:destroy", false, function(success)
+                        if not success then
+                            config.notify({ key = "evidences.notifications.common.errors.destroy" }, "error")
                             return
                         end
 

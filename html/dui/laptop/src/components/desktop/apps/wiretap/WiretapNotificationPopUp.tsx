@@ -23,8 +23,14 @@ export default function WiretapNotificationPopUp() {
     });
 
     const {trigger: subscribe} = useLuaCallback<{ target: string | null }, void>({
-        name: "evidences:subscribe"
-    });
+        name: "evidences:subscribe",
+        onSuccess: (_, args) => appContext.displayNotification({
+            type: "Success",
+            message: args.target
+                ? t("laptop.desktop_screen.wiretap_app.phone_calls.notifications.status_messages.subscribed")
+                : t("laptop.desktop_screen.wiretap_app.phone_calls.notifications.status_messages.unsubscribed")
+        })
+    }); 
 
     useEffect(triggerGetSubscription, []);
 
@@ -46,7 +52,7 @@ export default function WiretapNotificationPopUp() {
 
     return <div className="w-full h-full justify-center items-center p-4 flex flex-col gap-4 bg-window">
         <div className = "w-[60%] h-full flex flex-col justify-evenly items-center">
-            {loading && <p className="text-30 leading-none italic">{t("laptop.desktop_screen.wiretap_app.phone_calls.notifications.status_loading")}</p>}
+            {loading && <p className="text-30 leading-none italic">{t("laptop.desktop_screen.common.statuses.loading")}</p>}
             {!loading && (<>
                 {isSubscribed
                     ? <p className="text-30 leading-none">{t("laptop.desktop_screen.wiretap_app.phone_calls.notifications.status_subscribed", subscribedTarget)}</p>

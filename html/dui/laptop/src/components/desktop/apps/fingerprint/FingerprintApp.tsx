@@ -1,125 +1,32 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "@/components/TranslationContext";
-import EvidenceChooser, { type ChosenEvidence, type EvidenceData, type EvidenceDetails } from "@/components/atoms/EvidenceChooser";
-import EvidenceDataView from "@/components/atoms/EvidenceDataView";
+import EvidenceSidebar from "@/components/atoms/sidebar/EvidenceSidebar";
+import type { Evidence, EvidenceDetails } from "@/types/evidence.type";
+import EvidenceAnalysis from "@/components/atoms/EvidenceAnalysis";
 
 
 export default function FingerprintApp() {
     const { t } = useTranslation();
-    const [fingerprintData, setFingerprintData] = useState<EvidenceData | null>(null);
-    const [chosenEvidence, setChosenEvidence] = useState<ChosenEvidence | null>(null);
+    const [selectedEvidence, setSelectedEvidence] = useState<Evidence | null>(null);
     const [evidenceDetails, setEvidenceDetails] = useState<EvidenceDetails | null>(null);
+    const [evidencesAvailable, setEvidencesAvailable] = useState<boolean>(false);
 
-    const handleEvidenceSelection = useCallback((label: string, imagePath: string, container: number | string, slot: number, identifier: string, details: EvidenceDetails) => {
-        setChosenEvidence({
-            evidence: {
-                label: label,
-                imagePath: imagePath,
-                container: container,
-                slot: slot,
-                identifier: identifier
-            },
-            timestamp: new Date().getTime()
+    const handleEvidenceSelection = (label: string, imagePath: string, inventory: number | string, slot: number, identifier: string, analysed: boolean, details: EvidenceDetails) => {
+        setSelectedEvidence({
+            label: label,
+            imagePath: imagePath,
+            inventory: inventory,
+            slot: slot,
+            identifier: identifier,
+            analysed: analysed
         });
         setEvidenceDetails(details);
-
-        fetch(`https://${location.host}/triggerServerCallback`, {
-            method: "post",
-            headers: {
-                "Content-Type": "application/json; charset=UTF-8",
-            },
-            body: JSON.stringify({
-                name: "evidences:getStoredPersonalDataFromIdentifier",
-                arguments: {
-                    type: "fingerprint",
-                    identifier: identifier
-                }
-            })
-        }).then(response => response.json()).then(response => setFingerprintData(response));
-    }, []);
-
-    const handleEvidenceDetailsChange = useCallback((field: keyof EvidenceDetails, value: string) => {
-        setEvidenceDetails((prev) =>
-            prev
-                ? {
-                    ...prev,
-                    [field]: value,
-                }
-                : null
-        );
-    }, []);
-
-    const handleEvidenceDataChange = useCallback((field: keyof EvidenceData, value: string | boolean) => {
-        setFingerprintData((prev) =>
-            prev
-                ? {
-                    ...prev,
-                    [field]: value,
-                }
-                : null
-        );
-    }, []);
-
-    const handleEvidenceDataSave = useCallback(() => {
-        if (!fingerprintData) return;
-
-        const trimmedFingerprintData = Object.fromEntries(
-            Object.entries(fingerprintData).map(([key, value]) => [key, value.trim() || ""])
-        );
-
-        fetch(`https://${location.host}/triggerServerCallback`, {
-            method: "post",
-            headers: {
-                "Content-Type": "application/json; charset=UTF-8",
-            },
-            body: JSON.stringify({
-                name: "evidences:storePersonalData",
-                arguments: {
-                    ...trimmedFingerprintData,
-                    type: "fingerprint",
-                    biometricData: fingerprintData.identifier
-                }
-            })
-        });
-    }, [fingerprintData]);
-
-    const handleEvidenceLabelling = useCallback(() => {
-        if (!chosenEvidence || !chosenEvidence.evidence || (!evidenceDetails && !fingerprintData)) return;
-
-        const trimmedEvidenceDetails = Object.fromEntries(
-            Object.entries(evidenceDetails || {}).map(([key, value]) => [key, value.trim() || ""])
-        );
-
-        const trimmedFingerprintData = Object.fromEntries(
-            Object.entries(fingerprintData || {}).map(([key, value]) => [key, value.trim() || ""])
-        );
-
-        fetch(`https://${location.host}/triggerServerCallback`, {
-            method: "post",
-            headers: {
-                "Content-Type": "application/json; charset=UTF-8",
-            },
-            body: JSON.stringify({
-                name: "evidences:labelEvidenceItem",
-                arguments: {
-                    container: chosenEvidence.evidence.container,
-                    slot: chosenEvidence.evidence.slot,
-                    information: {
-                        ...trimmedEvidenceDetails,
-                        FINGERPRINT: {
-                            ...trimmedFingerprintData
-                        }
-                    }
-                }
-            })
-        });
-    }, [chosenEvidence, evidenceDetails, fingerprintData]);
+    };
 
     useEffect(() => {
         const handleMessage = (event: MessageEvent) => {
             if (event.data.action && event.data.action == "focus") {
-                setChosenEvidence({ evidence: null, timestamp: new Date().getTime() });
-                setFingerprintData(null);
+                setSelectedEvidence(null);
             }
         };
 
@@ -129,28 +36,16 @@ export default function FingerprintApp() {
     }, []);
 
     return <div className="w-full h-full px-4 pb-4 flex gap-4 bg-window">
-        <EvidenceChooser
-            type="FINGERPRINT"
-            chosenEvidence={chosenEvidence}
+        <EvidenceSidebar
+            type="fingerprint"
+            evidence={selectedEvidence}
             translations={{
                 noItemsWithEvidences: t("laptop.desktop_screen.fingerprint_app.no_items_with_fingerprints")
             }}
             onEvidenceSelection={handleEvidenceSelection}
+            onDataChange={setEvidencesAvailable}
         />
 
-        <EvidenceDataView
-            type="FINGERPRINT"
-            chosenEvidence={chosenEvidence}
-            evidenceDetails={evidenceDetails}
-            evidenceData={fingerprintData}
-            translations={{
-                tooltipSave: t("laptop.desktop_screen.fingerprint_app.tooltip_save"),
-                noEvidenceSelected: t("laptop.desktop_screen.fingerprint_app.no_fingerprint_selected")
-            }}
-            onEvidenceDetailsChange={handleEvidenceDetailsChange}
-            onEvidenceDataChange={handleEvidenceDataChange}
-            onEvidenceDataSave={handleEvidenceDataSave}
-            onEvidenceLabelling={handleEvidenceLabelling}
-        />
+        {evidencesAvailable && <EvidenceAnalysis selectedEvidence={selectedEvidence} evidenceDetails={evidenceDetails} type="fingerprint" />}
     </div>;
 }

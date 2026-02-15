@@ -1,17 +1,42 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-interface useLuaCallbackProps<Response> {
+interface useLuaCallbackProps<Request, Response> {
     name: string;
     defaultData?: Response;
-    onSuccess?: (data: Response) => void;
-    onError?: () => void;
+    onRender?: () => void;
+    onSuccess?: (data: Response, args: Request) => void;
+    onError?: (message: string, args: Request) => void;
 }
 
 
-export default function useLuaCallback<Request, Response>(props: useLuaCallbackProps<Response>) {
+/**
+ * React hook for triggering Lua server callbacks via HTTP.
+ *
+ * @template Request - Type of the request arguments sent to the server
+ * @template Response - Type of the response returned by the server
+ *
+ * @param props.name Name of the Lua server callback to trigger
+ * @param props.defaultData Optional default response data
+ * @param props.onRender Optional callback executed once when the hook is mounted
+ * @param props.onSuccess Optional callback executed when the request succeeds
+ * @param props.onError Optional callback executed when the request fails
+ *
+ * @returns An object containing:
+ * - data: The response data from the server
+ * - loading: Indicates whether the request is in progress
+ * - error: Indicates whether an error occurred
+ * - trigger: Function to trigger the Lua server callback
+ **/
+export default function useLuaCallback<Request, Response>(props: useLuaCallbackProps<Request, Response>) {
     const [data, setData] = useState<Response | undefined>(props.defaultData || undefined);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<boolean>(false);
+
+
+    useEffect(() => {
+        if (props.onRender) props.onRender();
+    }, []);
+    
 
     const trigger = (args: Request) => {
         setLoading(true);
@@ -29,16 +54,26 @@ export default function useLuaCallback<Request, Response>(props: useLuaCallbackP
                 }
             })
         })
-        .then(response => response.json()).then(response => {
-            setData(response);
-            props.onSuccess && props.onSuccess(response);
+        .then(result => result.json()).then(result => {
+            if ("success" in (result || {})) {
+                if (result.success) {
+                    setData(result.response);
+                    props.onSuccess?.(result.response, args);
+                    return;
+                } else {
+                    throw new Error(result.response || "Unknown error");
+                }
+            }
+
+            setData(result);
+            props.onSuccess?.(result, args);
         })
-        .catch(() => {
+        .catch((err) => {
             setError(true)
-            props.onError && props.onError();
+            props.onError?.(err.message, args);
         })
         .finally(() => setLoading(false));
     }
 
-    return { data, loading, error, trigger }
+    return { data, setData, loading, error, trigger }
 }

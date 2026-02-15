@@ -25,20 +25,13 @@
         end
     }}
 },
-['baggy_empty'] = {
-    label = 'Bolsa Vacía',
-    weight = 100,
-    stack = true
-},
-['baggy_blood'] = {
-    label = 'Muestra de Sangre',
-    weight = 200,
-    stack = false
-},
-['baggy_magazine'] = {
-    label = 'Cargador Recolectado',
-    weight = 200,
-    stack = false
+['forensic_kit'] = {
+    label = 'Kit Forense',
+    description = 'Necesitas este maletín para asegurar pruebas. El maletín puede usarse diez veces.',
+    weight = 2500,
+    close = false,
+    stack = false,
+    decay = true
 },
 ['hydrogen_peroxide'] = {
     label = 'Peróxido de Hidrógeno',
@@ -48,19 +41,9 @@
         export = 'evidences.hydrogen_peroxide'
     }
 },
-['fingerprint_brush'] = {
-    label = 'Cepillo de Huellas Dactilares',
-    weight = 250,
-    stack = true
-},
-['fingerprint_taken'] = {
-    label = 'CMuestra de Huella Dactilar',
-    weight = 5,
-    stack = false
-},
 ['fingerprint_scanner'] = {
     label = 'Lector de Huellas Dactilares',
-    description = 'Escanéa huellas dactilares',
+    description = 'Con esto puedes escanear la huella dactilar de la persona frente a ti. Si la huella coincide con una entrada en la base de datos, se te mostrará su identidad.',
     weight = 500,
     stack = false,
     close = true,
@@ -68,6 +51,26 @@
     client = {
         export = 'evidences.fingerprint_scanner',
     },
+},
+['collected_blood'] = {
+    label = 'Muestra de Sangre',
+    weight = 200,
+    stack = false
+},
+['collected_saliva'] = {
+    label = 'Saliva recolectada',
+    weight = 200,
+    stack = false
+},
+['collected_magazine'] = {
+    label = 'Cargador Recolectado',
+    weight = 200,
+    stack = false
+},
+['collected_fingerprint'] = {
+    label = 'CMuestra de Huella Dactilar',
+    weight = 5,
+    stack = false
 },
 ['spy_microphone'] = {
     label = 'Micrófono Espía',
@@ -78,4 +81,4 @@
     client = {
         export = 'evidences.spy_microphone'
     }
-},
+}

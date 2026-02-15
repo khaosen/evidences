@@ -59,9 +59,7 @@ exports.ox_target:addModel(`p_laptop_02_s`, {
                             return
                         end
 
-                        config.notify({
-                            key = "laptop.notifications.error_laptop_pickup"
-                        }, "error")
+                        config.notify({ key = "laptop.notifications.error_laptop_pickup" }, "error")
                     end, coords)
 
                     break

@@ -1,11 +1,14 @@
+--local main = require "server.init"
+
 local api = {}
 
-local biometricData <const> = require "server.evidences.biometric_data"
+local biometricsProvider <const> = require "server.biometrics.biometrics_provider"
 
 api.evidenceTypes = {
-    FINGERPRINT = require "server.evidences.classes.fingerprint",
-    BLOOD = require "server.evidences.classes.dna.blood",
-    MAGAZINE = require "server.evidences.classes.magazine"
+    fingerprint = require "server.evidences.classes.fingerprint",
+    blood = require "server.evidences.classes.dna.blood",
+    saliva = require "server.evidences.classes.dna.saliva",
+    magazine = require "server.evidences.classes.magazine"
 }
 
 local cache = {}
@@ -18,7 +21,7 @@ function api.get(evidenceClass, owner)
     end
 
     if type(evidenceClass) == "string" then
-        evidenceClass = api.evidenceTypes[string.upper(evidenceClass)]
+        evidenceClass = api.evidenceTypes[evidenceClass]
     end
 
     if not owner then
@@ -26,7 +29,7 @@ function api.get(evidenceClass, owner)
     end
 
     if type(owner) == "number" and DoesPlayerExist(owner) then
-        owner = biometricData.getBiometricData(owner, string.lower(evidenceClass.superClassName))
+        owner = biometricsProvider.getBiometricData(owner, evidenceClass.superClassName)
         if not owner then return end
     end
 

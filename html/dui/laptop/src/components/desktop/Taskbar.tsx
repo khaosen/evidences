@@ -3,6 +3,8 @@ import type { ScreenType } from "../App";
 import type { OpenApp } from "../screens/DesktopScreen";
 import TaskbarApps from "./TaskbarApps";
 import { useTranslation } from "../TranslationContext";
+import useLuaCallback from "@/hooks/useLuaCallback";
+
 
 // Props parsed by the parent.
 interface TaskbarProps {
@@ -32,31 +34,25 @@ export default function Taskbar(props: TaskbarProps) {
     // Return to the screen saver sceeen if the user logs out.
     const handleLogout = () => props.switchScreen("screensaver");
 
+    const { trigger: triggerUnfocus } = useLuaCallback<{ key: string }, void>({
+        name: "keydown"
+    });
+
     const handleUnfocus = () => {
         props.switchScreen("screensaver");
 
         // make the player unfocus the laptop by emulating pressing the Escape key
-        fetch(`https://${location.host}/keydown`, {
-            method: "post",
-            headers: {
-                "Content-Type": "application/json; charset=UTF-8",
-            },
-            body: JSON.stringify({ key: "Escape" })
-        });
-    }
+        triggerUnfocus({ key: "Escape" });
+    };
 
     const handleMute = () => {
         const isMuted = !muted;
         setMuted(isMuted);
         props.mute(isMuted);
-    }
+    };
 
     // Format time to a specific format.
-    const formatTime = (date: Date): string =>
-        date.toLocaleTimeString(
-            t("laptop.screen_saver.date_locales"),
-            { hour: "2-digit", minute: "2-digit", hour12: false }
-        );
+    const formatTime = (date: Date): string => date.toLocaleTimeString(t("laptop.desktop_screen.common.date_locales"), { hour: "2-digit", minute: "2-digit", hour12: false });
 
     return <div className="absolute bottom-0 w-full h-[5%] flex items-center bg-[#001221] text-white">
         <button

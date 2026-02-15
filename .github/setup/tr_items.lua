@@ -25,20 +25,13 @@
 		end
 	}}
 },
-['baggy_empty'] = {
-	label = 'Boş Delil Torbası',
-	weight = 100,
-	stack = true
-},
-['baggy_blood'] = {
-	label = 'Delil Kan',
-	weight = 200,
-	stack = false
-},
-['baggy_magazine'] = {
-	label = 'Delil Şarjör',
-	weight = 200,
-	stack = false
+['forensic_kit'] = {
+    label = 'Adli Tıp Kiti',
+    description = 'Delilleri güvence altına almak için bu çantaya ihtiyacın var. Çanta on kez kullanılabilir.',
+    weight = 2500,
+    close = false,
+    stack = false,
+    decay = true
 },
 ['hydrogen_peroxide'] = {
 	label = 'Parmak İzi Temizleyici',
@@ -48,19 +41,9 @@
 		export = 'evidences.hydrogen_peroxide'
 	}
 },
-['fingerprint_brush'] = {
-	label = 'Parmak İzi Fırçası',
-	weight = 250,
-	stack = true
-},
-['fingerprint_taken'] = {
-	label = 'Delil Parmak İzi',
-	weight = 5,
-	stack = false
-},
 ['fingerprint_scanner'] = {
 	label = 'Parmak İzi Tarayıcısı',
-	description = 'Parmak İzlerini Tara',
+	description = 'Bununla karşındaki kişinin parmak izini tarayabilirsin. Parmak izi veritabanındaki bir kayıtla eşleşirse, kimliği sana gösterilir.',
 	weight = 500,
 	stack = false,
 	close = true,
@@ -68,6 +51,26 @@
 	client = {
 		export = 'evidences.fingerprint_scanner',
 	},
+},
+['collected_blood'] = {
+	label = 'Kan delili',
+	weight = 200,
+	stack = false
+},
+['collected_saliva'] = {
+    label = 'Tükürük delili',
+    weight = 200,
+    stack = false
+},
+['collected_magazine'] = {
+	label = 'Şarjör Delili',
+	weight = 200,
+	stack = false
+},
+['collected_fingerprint'] = {
+	label = 'Delil Parmak İzi',
+	weight = 5,
+	stack = false
 },
 ['spy_microphone'] = {
     label = 'Casus Mikrofon',
@@ -78,4 +81,4 @@
     client = {
         export = 'evidences.spy_microphone'
     }
-},
+}

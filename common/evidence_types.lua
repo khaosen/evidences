@@ -22,14 +22,13 @@ local function createMetadata(evidenceType, data, coords, holder)
 end
 
 return {
-    FINGERPRINT = {
+    fingerprint = {
         target = {
             collect = {
                 label = locale("evidences.fingerprint.collecting_label"),
                 icon = "fa-solid fa-fingerprint",
-                requiredItem = "fingerprint_brush",
-                removeRequiredItem = false,
-                collectedItem = "fingerprint_taken",
+                requiredItem = "forensic_kit",
+                collectedItem = "collected_fingerprint",
                 createMetadata = createMetadata
             },
             destroy = {
@@ -40,14 +39,13 @@ return {
         },
         visualize = {}
     },
-    BLOOD = {
+    blood = {
         target = {
             collect = {
                 label = locale("evidences.blood.collecting_label"),
                 icon = "fa-solid fa-droplet",
-                requiredItem = "baggy_empty",
-                removeRequiredItem = true,
-                collectedItem = "baggy_blood",
+                requiredItem = "forensic_kit",
+                collectedItem = "collected_blood",
                 createMetadata = createMetadata
             },
             destroy = {
@@ -82,21 +80,37 @@ return {
             end
         }
     },
-    MAGAZINE = {
+    saliva = {
+        target = {
+            collect = {
+                label = locale("evidences.saliva.collecting_label"),
+                icon = "fa-solid fa-gun",
+                requiredItem = "forensic_kit",
+                collectedItem = "collected_saliva",
+                createMetadata = createMetadata
+            },
+            destroy = {
+                label = locale("evidences.saliva.destroying_label"),
+                icon = "fa-solid fa-gun",
+                requiredItem = nil
+            }
+        },
+        visualize = {}
+    },
+    magazine = {
         target = {
             collect = {
                 label = locale("evidences.magazine.collecting_label"),
                 icon = "fa-solid fa-gun",
-                requiredItem = "baggy_empty",
-                removeRequiredItem = true,
-                collectedItem = "baggy_magazine",
+                requiredItem = "forensic_kit",
+                collectedItem = "collected_magazine",
                 createMetadata = createMetadata
             },
             destroy = {
                 label = locale("evidences.magazine.destroying_label"),
                 icon = "fa-solid fa-gun",
                 requiredItem = nil
-            }
+            },
         },
         visualize = {
             show = function(point, data)

@@ -1,6 +1,6 @@
 local config <const> = require "config"
 
-for _, item in pairs({"evidence_laptop", "evidence_box", "baggy_empty", "baggy_blood", "baggy_magazine", "hydrogen_peroxide", "fingerprint_brush", "fingerprint_taken", "fingerprint_scanner"}) do
+for _, item in pairs({"evidence_laptop", "evidence_box", "forensic_kit", "collected_blood", "collected_saliva", "collected_magazine", "collected_fingerprint", "hydrogen_peroxide", "fingerprint_scanner"}) do
     if not exports.ox_inventory:Items(item) then
         lib.print.error("Setup step missing: The script requires you to create the " .. item .. " item")
         return false
@@ -56,6 +56,18 @@ RegisterNetEvent("evidences:renameEvidenceBox", function(slot, input)
         exports.ox_inventory:SetMetadata(playerId, slot, metadata)
     end
 end)
+
+
+-- Set durability = 100 for newly created forensic_kit items
+exports.ox_inventory:registerHook("createItem", function(payload)
+    local metadata <const> = payload.metadata
+    metadata.durability = 100
+    return metadata
+end, {
+    itemFilter = {
+        forensic_kit = true
+    }
+})
 
 
 return true

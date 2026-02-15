@@ -25,20 +25,13 @@
         end
     }}
 },
-['baggy_empty'] = {
-    label = 'Empty Baggy',
-    weight = 100,
-    stack = true
-},
-['baggy_blood'] = {
-    label = 'Collected Blood',
-    weight = 200,
-    stack = false
-},
-['baggy_magazine'] = {
-    label = 'Collected Magazin',
-    weight = 200,
-    stack = false
+['forensic_kit'] = {
+    label = 'Forensic Kit',
+    description = 'You need this kit to secure evidences. The case can be used ten times.',
+    weight = 2500,
+    close = false,
+    stack = false,
+    decay = true
 },
 ['hydrogen_peroxide'] = {
     label = 'Hydrogen peroxide',
@@ -48,19 +41,9 @@
         export = 'evidences.hydrogen_peroxide'
     }
 },
-['fingerprint_brush'] = {
-    label = 'Fingerprint Brush',
-    weight = 250,
-    stack = true
-},
-['fingerprint_taken'] = {
-    label = 'Collected Fingerprint',
-    weight = 5,
-    stack = false
-},
 ['fingerprint_scanner'] = {
     label = 'Fingerprint Scanner',
-    description = 'Scan Fingerprints',
+    description = 'With this, you can scan the fingerprint of the person opposite you. If the fingerprint matches a database entry, their identity will be displayed to you.',
     weight = 500,
     stack = false,
     close = true,
@@ -68,6 +51,26 @@
     client = {
         export = 'evidences.fingerprint_scanner',
     },
+},
+['collected_blood'] = {
+    label = 'Collected Blood',
+    weight = 200,
+    stack = false
+},
+['collected_saliva'] = {
+    label = 'Collected Saliva',
+    weight = 200,
+    stack = false
+},
+['collected_magazine'] = {
+    label = 'Collected Magazin',
+    weight = 200,
+    stack = false
+},
+['collected_fingerprint'] = {
+    label = 'Collected Fingerprint',
+    weight = 5,
+    stack = false
 },
 ['spy_microphone'] = {
     label = 'Spy Microphone',
@@ -78,4 +81,4 @@
     client = {
         export = 'evidences.spy_microphone'
     }
-},
+}

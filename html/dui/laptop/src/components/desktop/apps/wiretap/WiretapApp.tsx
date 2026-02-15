@@ -6,18 +6,8 @@ import { useTranslation } from "@/components/TranslationContext";
 import useLocalStorage from "@/hooks/useLocalStorage";
 import { sha256 } from "@/utils/hash";
 import WiretapNotificationPopUp from "./WiretapNotificationPopUp";
-
-export interface Observation {
-    type: "ObservableCall" | "ObservableRadioFreq" | "ObservableSpyMicrophone";
-    label?: string;
-    channel?: number;
-    targets?: {
-        [playerId: number]: {
-            playerId: number;
-            name: string;
-        }
-    };
-}
+import type { Observation } from "@/types/observation.type";
+import useLuaCallback from "@/hooks/useLuaCallback";
 
 export default function WiretapApp() {
     const { t } = useTranslation();
@@ -28,7 +18,6 @@ export default function WiretapApp() {
 
     const [activeCalls, setActiveCalls] = useState<{ [channel: number]: Observation }>({});
     const [spyMicrophones, setSpyMicrophones] = useState<{ [label: string]: Observation }>({});
-    const [interceptionChooserReloadKey, setInterceptionChooserReloadKey] = useState<number>(0);
 
     const observation = useRef<Observation | null>(null);
     const [radioFrequency, setRadioFrequency] = useState<string>("");
@@ -48,9 +37,14 @@ export default function WiretapApp() {
     const startInterception = (newObservation: Observation) => {
         observation.current = newObservation;
 
-        appContext.openPopUp(t(`laptop.desktop_screen.wiretap_app.running_observation_popup.${newObservation.type}`, newObservation.channel ?? newObservation.label ?? ""), <RunningWiretap observation={newObservation} onClose={() => {
+        appContext.openPopUp(t(`laptop.desktop_screen.wiretap_app.running_observation_popup.${newObservation.type}`, newObservation.channel ?? newObservation.label ?? ""), <RunningWiretap observation={newObservation} onClose={(success) => {
             observation.current = null;
-            setInterceptionChooserReloadKey(prev => prev + 1);
+            
+            if (success) {
+                appContext.displayNotification({ type: "Success", message: t("laptop.desktop_screen.wiretap_app.running_observation_popup.status_messages.protocol_save_success") });
+            } else {
+                appContext.displayNotification({ type: "Error", message: t("laptop.desktop_screen.wiretap_app.running_observation_popup.status_messages.protocol_save_error") });
+            }
         }} />);
 
         // Set the current observation to null, if all participants left the call
@@ -90,35 +84,24 @@ export default function WiretapApp() {
         startInterception(newObservation);
     }
 
-    useEffect(() => {
-        // Retrieve active calls when opening the app
-        fetch(`https://${location.host}/triggerServerCallback`, {
-            method: "post",
-            headers: {
-                "Content-Type": "application/json; charset=UTF-8",
-            },
-            body: JSON.stringify({
-                name: "evidences:getActiveCalls"
-            })
-        }).then(response => response.json()).then(response => {
-            if (!response) return;
+    const { trigger: retrieveActiveCalls, loading: loadingActiveCalls } = useLuaCallback<void, { [channel: number]: Observation }>({
+        name: "evidences:getActiveCalls",
+        onSuccess: (data) => {
+            if (!data) return;
 
-            const filteredCalls = Object.values(response as Record<string, Observation | null>).filter((call: Observation | null): call is Observation => call !== null);
+            const filteredCalls = Object.values(data as Record<string, Observation | null>).filter((call: Observation | null): call is Observation => call !== null);
             setActiveCalls(filteredCalls);
-        });
+        }
+    });
 
-        // Retrieve list of spy microphones
-        fetch(`https://${location.host}/triggerServerCallback`, {
-            method: "post",
-            headers: {
-                "Content-Type": "application/json; charset=UTF-8",
-            },
-            body: JSON.stringify({
-                name: "evidences:getSpyMicrophones"
-            })
-        }).then(response => response.json()).then(response => {
-            if (response) setSpyMicrophones(response);
-        });
+    const { trigger: retrieveSpyMicrophones, loading: loadingSpyMicrophones } = useLuaCallback<void, { [label: string]: Observation }>({
+        name: "evidences:getSpyMicrophones",
+        onSuccess: (data) => data && setSpyMicrophones(data)
+    });
+
+    useEffect(() => {
+        retrieveActiveCalls();
+        retrieveSpyMicrophones();
 
         const handleMessage = (event: MessageEvent) => {
             // Retrieve updates regarding the active calls
@@ -187,19 +170,23 @@ export default function WiretapApp() {
                         </div>
                         <div className="mt-1 w-full flex-1 min-h-0 overflow-y-auto scrollbar">
                             {appContext.options?.mayInterceptCalls
-                                ? Object.values(activeCalls).length == 0
-                                    ? <div className="w-full h-full flex justify-center items-center gap-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="30px" width="30px" viewBox="0 -960 960 960" fill="black"><path d="M162-120q-18 0-30-12t-12-30v-162q0-13 9-23.5t23-14.5l138-28q14-2 28.5 2.5T342-374l94 94q38-22 72-48.5t65-57.5q33-32 60.5-66.5T681-524l-97-98q-8-8-11-19t-1-27l26-140q2-13 13-22.5t25-9.5h162q18 0 30 12t12 30q0 125-54.5 247T631-329Q531-229 409-174.5T162-120Zm556-480q17-39 26-79t14-81h-88l-18 94 66 66ZM360-244l-66-66-94 20v88q41-3 81-14t79-28Zm358-356ZM360-244Z"/></svg>
-                                        <p className="text-20 leading-none m-0">{t("laptop.desktop_screen.wiretap_app.phone_calls.no_calls_running")}</p>
+                                ? loadingActiveCalls
+                                    ? <div className="w-full h-full flex justify-center items-center">
+                                        <p className="text-20 leading-none m-0">{t("laptop.desktop_screen.common.statuses.loading")}</p>
                                     </div>
-                                    : Object.values(activeCalls).map((call) =>
-                                        <div key={call.channel} className="w-full flex items-center gap-2 rounded-10 p-1 overflow-hidden overflow-ellipsis hover:bg-button hoverable" onClick={() => startObservation(call)}>
-                                            <svg xmlns="http://www.w3.org/2000/svg" height="50px" width="50px" viewBox="0 -960 960 960" fill="black"><path d="M162-120q-18 0-30-12t-12-30v-162q0-13 9-23.5t23-14.5l138-28q14-2 28.5 2.5T342-374l94 94q38-22 72-48.5t65-57.5q33-32 60.5-66.5T681-524l-97-98q-8-8-11-19t-1-27l26-140q2-13 13-22.5t25-9.5h162q18 0 30 12t12 30q0 125-54.5 247T631-329Q531-229 409-174.5T162-120Zm556-480q17-39 26-79t14-81h-88l-18 94 66 66ZM360-244l-66-66-94 20v88q41-3 81-14t79-28Zm358-356ZM360-244Z"/></svg>
-                                            <div className="flex flex-col">
-                                                {Object.values(call.targets!).filter((target) => target).map((target) => <p key={target.playerId} className="text-30 leading-7">{target.name}</p>)}
-                                            </div>
+                                    : Object.values(activeCalls).length == 0
+                                        ? <div className="w-full h-full flex justify-center items-center gap-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="30px" width="30px" viewBox="0 -960 960 960" fill="black"><path d="M162-120q-18 0-30-12t-12-30v-162q0-13 9-23.5t23-14.5l138-28q14-2 28.5 2.5T342-374l94 94q38-22 72-48.5t65-57.5q33-32 60.5-66.5T681-524l-97-98q-8-8-11-19t-1-27l26-140q2-13 13-22.5t25-9.5h162q18 0 30 12t12 30q0 125-54.5 247T631-329Q531-229 409-174.5T162-120Zm556-480q17-39 26-79t14-81h-88l-18 94 66 66ZM360-244l-66-66-94 20v88q41-3 81-14t79-28Zm358-356ZM360-244Z"/></svg>
+                                            <p className="text-20 leading-none m-0">{t("laptop.desktop_screen.wiretap_app.phone_calls.no_calls_running")}</p>
                                         </div>
-                                    )
+                                        : Object.values(activeCalls).map((call) =>
+                                            <div key={call.channel} className="w-full flex items-center gap-2 rounded-10 p-1 overflow-hidden overflow-ellipsis hover:bg-button hoverable" onClick={() => startObservation(call)}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" height="50px" width="50px" viewBox="0 -960 960 960" fill="black"><path d="M162-120q-18 0-30-12t-12-30v-162q0-13 9-23.5t23-14.5l138-28q14-2 28.5 2.5T342-374l94 94q38-22 72-48.5t65-57.5q33-32 60.5-66.5T681-524l-97-98q-8-8-11-19t-1-27l26-140q2-13 13-22.5t25-9.5h162q18 0 30 12t12 30q0 125-54.5 247T631-329Q531-229 409-174.5T162-120Zm556-480q17-39 26-79t14-81h-88l-18 94 66 66ZM360-244l-66-66-94 20v88q41-3 81-14t79-28Zm358-356ZM360-244Z"/></svg>
+                                                <div className="flex flex-col">
+                                                    {Object.values(call.targets!).filter((target) => target).map((target) => <p key={target.playerId} className="text-30 leading-7">{target.name}</p>)}
+                                                </div>
+                                            </div>
+                                        )
                                 : <div className="w-full h-full flex justify-center items-center gap-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" height="30px" width="30px" viewBox="0 -960 960 960" fill="black"><path d="M162-120q-18 0-30-12t-12-30v-162q0-13 9-23.5t23-14.5l138-28q14-2 28.5 2.5T342-374l94 94q38-22 72-48.5t65-57.5q33-32 60.5-66.5T681-524l-97-98q-8-8-11-19t-1-27l26-140q2-13 13-22.5t25-9.5h162q18 0 30 12t12 30q0 125-54.5 247T631-329Q531-229 409-174.5T162-120Zm556-480q17-39 26-79t14-81h-88l-18 94 66 66ZM360-244l-66-66-94 20v88q41-3 81-14t79-28Zm358-356ZM360-244Z"/></svg>
                                     <p className="text-20 leading-none m-0">{t("laptop.desktop_screen.wiretap_app.phone_calls.lacking_permissions")}</p>
@@ -212,17 +199,21 @@ export default function WiretapApp() {
                         <p className="text-20 leading-none m-0 uppercase">{t("laptop.desktop_screen.wiretap_app.spy_microphones.header")}</p>
                         <div className="mt-1 w-full flex-1 min-h-0 overflow-y-auto scrollbar">
                             {appContext.options?.mayListenToSpyMicrophones
-                                ? Object.values(spyMicrophones).length == 0
-                                    ? <div className="w-full h-full flex justify-center items-center gap-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" fill="black" viewBox="0 -960 960 960"><path d="M480-200q66 0 113-47t47-113v-160q0-66-47-113t-113-47q-66 0-113 47t-47 113v160q0 66 47 113t113 47Zm-80-120h160v-80H400v80Zm0-160h160v-80H400v80Zm80 40Zm0 320q-65 0-120.5-32T272-240H160v-80h84q-3-20-3.5-40t-.5-40h-80v-80h80q0-20 .5-40t3.5-40h-84v-80h112q14-23 31.5-43t40.5-35l-64-66 56-56 86 86q28-9 57-9t57 9l88-86 56 56-66 66q23 15 41.5 34.5T688-640h112v80h-84q3 20 3.5 40t.5 40h80v80h-80q0 20-.5 40t-3.5 40h84v80H688q-32 56-87.5 88T480-120Z"/></svg>
-                                        <p className="text-20 leading-none m-0">{t("laptop.desktop_screen.wiretap_app.spy_microphones.no_spy_microphones_placed")}</p>
+                                ? loadingSpyMicrophones
+                                    ? <div className="w-full h-full flex justify-center items-center">
+                                        <p className="text-20 leading-none m-0">{t("laptop.desktop_screen.common.statuses.loading")}</p>
                                     </div>
-                                    : Object.values(spyMicrophones).map((spyMicrohpone) =>
-                                          <div key={spyMicrohpone.label} className="w-full flex items-center gap-2 rounded-2 p-1 overflow-hidden overflow-ellipsis hover:bg-button hoverable" onClick={() => startObservation(spyMicrohpone)}>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="50px" height="50px" fill="black" viewBox="0 -960 960 960"><path d="M480-200q66 0 113-47t47-113v-160q0-66-47-113t-113-47q-66 0-113 47t-47 113v160q0 66 47 113t113 47Zm-80-120h160v-80H400v80Zm0-160h160v-80H400v80Zm80 40Zm0 320q-65 0-120.5-32T272-240H160v-80h84q-3-20-3.5-40t-.5-40h-80v-80h80q0-20 .5-40t3.5-40h-84v-80h112q14-23 31.5-43t40.5-35l-64-66 56-56 86 86q28-9 57-9t57 9l88-86 56 56-66 66q23 15 41.5 34.5T688-640h112v80h-84q3 20 3.5 40t.5 40h80v80h-80q0 20-.5 40t-3.5 40h84v80H688q-32 56-87.5 88T480-120Z"/></svg>
-                                            <p className="text-30">{spyMicrohpone.label}</p>
+                                    : Object.values(spyMicrophones).length == 0
+                                        ? <div className="w-full h-full flex justify-center items-center gap-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" fill="black" viewBox="0 -960 960 960"><path d="M480-200q66 0 113-47t47-113v-160q0-66-47-113t-113-47q-66 0-113 47t-47 113v160q0 66 47 113t113 47Zm-80-120h160v-80H400v80Zm0-160h160v-80H400v80Zm80 40Zm0 320q-65 0-120.5-32T272-240H160v-80h84q-3-20-3.5-40t-.5-40h-80v-80h80q0-20 .5-40t3.5-40h-84v-80h112q14-23 31.5-43t40.5-35l-64-66 56-56 86 86q28-9 57-9t57 9l88-86 56 56-66 66q23 15 41.5 34.5T688-640h112v80h-84q3 20 3.5 40t.5 40h80v80h-80q0 20-.5 40t-3.5 40h84v80H688q-32 56-87.5 88T480-120Z"/></svg>
+                                            <p className="text-20 leading-none m-0">{t("laptop.desktop_screen.wiretap_app.spy_microphones.no_spy_microphones_placed")}</p>
                                         </div>
-                                    )
+                                        : Object.values(spyMicrophones).map((spyMicrohpone) =>
+                                            <div key={spyMicrohpone.label} className="w-full flex items-center gap-2 rounded-2 p-1 overflow-hidden overflow-ellipsis hover:bg-button hoverable" onClick={() => startObservation(spyMicrohpone)}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="50px" height="50px" fill="black" viewBox="0 -960 960 960"><path d="M480-200q66 0 113-47t47-113v-160q0-66-47-113t-113-47q-66 0-113 47t-47 113v160q0 66 47 113t113 47Zm-80-120h160v-80H400v80Zm0-160h160v-80H400v80Zm80 40Zm0 320q-65 0-120.5-32T272-240H160v-80h84q-3-20-3.5-40t-.5-40h-80v-80h80q0-20 .5-40t3.5-40h-84v-80h112q14-23 31.5-43t40.5-35l-64-66 56-56 86 86q28-9 57-9t57 9l88-86 56 56-66 66q23 15 41.5 34.5T688-640h112v80h-84q3 20 3.5 40t.5 40h80v80h-80q0 20-.5 40t-3.5 40h84v80H688q-32 56-87.5 88T480-120Z"/></svg>
+                                                <p className="text-30">{spyMicrohpone.label}</p>
+                                            </div>
+                                        )
                                 : <div className="w-full h-full flex justify-center items-center gap-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" fill="black" viewBox="0 -960 960 960"><path d="M480-200q66 0 113-47t47-113v-160q0-66-47-113t-113-47q-66 0-113 47t-47 113v160q0 66 47 113t113 47Zm-80-120h160v-80H400v80Zm0-160h160v-80H400v80Zm80 40Zm0 320q-65 0-120.5-32T272-240H160v-80h84q-3-20-3.5-40t-.5-40h-80v-80h80q0-20 .5-40t3.5-40h-84v-80h112q14-23 31.5-43t40.5-35l-64-66 56-56 86 86q28-9 57-9t57 9l88-86 56 56-66 66q23 15 41.5 34.5T688-640h112v80h-84q3 20 3.5 40t.5 40h80v80h-80q0 20-.5 40t-3.5 40h84v80H688q-32 56-87.5 88T480-120Z"/></svg>
                                     <p className="text-20 leading-none m-0">{t("laptop.desktop_screen.wiretap_app.spy_microphones.lacking_permissions")}</p>
@@ -249,7 +240,7 @@ export default function WiretapApp() {
                 </div>
             </div>
 
-            <InterceptionChooser reloadKey={interceptionChooserReloadKey} />
+            <InterceptionChooser />
         </div>
     </div>;
 }

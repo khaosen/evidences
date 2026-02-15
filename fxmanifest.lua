@@ -16,12 +16,12 @@ dependencies {
 
 client_scripts {
     'client/init.lua',
-    'client/evidences/evidence_at_coords.lua'
+    'client/evidences/evidence_at_coords.lua',
 }
 
 server_scripts {
     '@oxmysql/lib/MySQL.lua',
-    'server/init.lua'
+    'server/init.lua',
 }
 
 shared_scripts {

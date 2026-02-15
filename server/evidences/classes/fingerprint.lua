@@ -1,8 +1,8 @@
-local FINGERPRINT = lib.class("FINGERPRINT", require "server.evidences.classes.evidence")
+local fingerprint = lib.class("fingerprint", require "server.evidences.classes.evidence")
+fingerprint.superClassName = "fingerprint"
 
-function FINGERPRINT:constructor(owner)
+function fingerprint:constructor(owner)
     self:super(owner)
 end
 
-FINGERPRINT.superClassName = "FINGERPRINT"
-return FINGERPRINT
+return fingerprint

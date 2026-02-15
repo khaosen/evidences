@@ -1,12 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import AudioWave from "./AudioWave";
 import { useTranslation } from "@/components/TranslationContext";
-import type { Observation } from "./WiretapApp";
 import { useAppContext } from "@/hooks/useAppContext";
+import useLuaCallback from "@/hooks/useLuaCallback";
+import type { Observation } from "@/types/observation.type";
+import type { Interception, Wiretap } from "@/types/wiretap.type";
+import type { InterceptionStoredEvent } from "@/types/events.type";
 
 interface RunningWiretapProps {
     observation: Observation;
-    onClose: () => void;
+    onClose: (success: boolean) => void;
 }
 
 export default function RunningWiretap(props: RunningWiretapProps) {
@@ -29,39 +32,42 @@ export default function RunningWiretap(props: RunningWiretapProps) {
 
     useEffect(() => { currentProtocol.current = protocol; }, [protocol]);
 
-    const startObservation = () => {
-        const identifier = props.observation.type == "ObservableSpyMicrophone" ? "label" : "channel";
 
-        fetch(`https://${location.host}/triggerServerCallback`, {
-            method: "post",
-            headers: {
-                "Content-Type": "application/json; charset=UTF-8",
-            },
-            body: JSON.stringify({
-                name: `evidences:observe${props.observation.type}`,
-                arguments: {
-                    [identifier]: props.observation[identifier]
-                }
-            })
-        });
+    const { trigger: triggerObserve } = useLuaCallback<{ label: string } | { channel: number }, void>({
+        name: `evidences:observe${props.observation.type}`
+    });
+
+    const startObservation = () => {
+        const args = props.observation.type === "ObservableSpyMicrophone"
+            ? props.observation.label && { label: props.observation.label }
+            : props.observation.channel && { channel: props.observation.channel };
+        if (!args) return;
+        triggerObserve(args);
     };
+
+
+    const { trigger: triggerIgnore } = useLuaCallback<{ label: string } | { channel: number }, void>({
+        name: `evidences:ignore${props.observation.type}`
+    });
 
     const stopObservation = () => {
-        const identifier = props.observation.type == "ObservableSpyMicrophone" ? "label" : "channel";
-
-        fetch(`https://${location.host}/triggerServerCallback`, {
-            method: "post",
-            headers: {
-                "Content-Type": "application/json; charset=UTF-8",
-            },
-            body: JSON.stringify({
-                name: `evidences:ignore${props.observation.type}`,
-                arguments: {
-                    [identifier]: props.observation[identifier]
-                }
-            })
-        });
+        const args = props.observation.type === "ObservableSpyMicrophone"
+            ? props.observation.label && { label: props.observation.label }
+            : props.observation.channel && { channel: props.observation.channel };
+        if (!args) return;
+        triggerIgnore(args);
     };
+
+    const { trigger: triggerStoreWiretap } = useLuaCallback<Wiretap, Interception>({
+        name: "evidences:storeWiretap",
+        onSuccess: (data) => {
+            props.onClose(true);
+            const event = new CustomEvent<InterceptionStoredEvent>("evidences:interceptionStored", { detail: { interception: data } });
+            window.dispatchEvent(event);
+        },
+        onError: () => props.onClose(false)
+    });
+    
 
     useEffect(() => {
         const startedAt = Date.now();
@@ -98,33 +104,26 @@ export default function RunningWiretap(props: RunningWiretapProps) {
 
             stopObservation();
 
-            fetch(`https://${location.host}/triggerServerCallback`, {
-                method: "post",
-                headers: {
-                    "Content-Type": "application/json; charset=UTF-8",
-                },
-                body: JSON.stringify({
-                    name: "evidences:storeWiretap",
-                    arguments: {
-                        type: props.observation.type,
-                        startedAt: startedAt,
-                        endedAt: Date.now(),
-                        // The playerName is never undefined, otherwise the player can't even login to the laptop
-                        observer: appContext.playerName || "",
-                        target: props.observation.type == "ObservableCall"
-                                    ? involvedTargets.current.join(", ")
-                                    : props.observation.type == "ObservableRadioFreq"
-                                        ? props.observation.channel
-                                        : props.observation.label,
-                        protocol: currentProtocol.current
-                    }
-                })
-            }).then(() => props.onClose());
+            const target = props.observation.type == "ObservableCall"
+                                ? involvedTargets.current.join(", ")
+                                : props.observation.type == "ObservableRadioFreq"
+                                    ? props.observation.channel
+                                    : props.observation.label;
+            if (target == null || target == undefined) return;
+
+            triggerStoreWiretap({
+                type: props.observation.type,
+                startedAt: startedAt,
+                endedAt: Date.now(),
+                observer: appContext.playerName || "",
+                target: target.toString(),
+                protocol: currentProtocol.current
+            });
         };
     }, []);
 
     const getFormattedTime = (): string => {
-        return new Date().toLocaleTimeString(t("laptop.screen_saver.date_locales"), { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false });
+        return new Date().toLocaleTimeString(t("laptop.desktop_screen.common.date_locales"), { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false });
     };
 
     const handleFocus = () => {

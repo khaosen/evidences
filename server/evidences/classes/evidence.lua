@@ -1,10 +1,10 @@
 local eventHandler <const> = require "common.events.handler"
 
----@class EVIDENCE : OxClass
+---@class evidence : OxClass
 ---@field owner string The identifier for the evidence (e.g. the fingerprint, dna or serial number of a weapon)
-local EVIDENCE = lib.class("EVIDENCE")
+local evidence = lib.class("evidence")
 
-function EVIDENCE:constructor(owner)
+function evidence:constructor(owner)
     self.owner = owner
     self.eventHandlers = {}
 end
@@ -41,7 +41,7 @@ end
 -- While destroying the evidence triggers the removeFromEntity() function, collecting the evidence also transfers it to an item created for that purpose.
 ---@param entity number The netId of the entity the evidence should be bound to
 ---@param metadata? table
-function EVIDENCE:atEntity(entity, metadata)
+function evidence:atEntity(entity, metadata)
     if not DoesEntityExist(entity) then
         entity = NetworkGetEntityFromNetworkId(entity)
     end
@@ -51,7 +51,7 @@ end
 
 -- Removes the evidence from an entity is bound to.
 ---@param entity number The netId of the entity
-function EVIDENCE:removeFromEntity(entity)
+function evidence:removeFromEntity(entity)
     if not DoesEntityExist(entity) then
         entity = NetworkGetEntityFromNetworkId(entity)
     end
@@ -85,7 +85,7 @@ end
 ---@param vehicle number The netId of the vehicle the evidence should be bound to
 ---@param seatId number The id of the seat (look at https://docs.fivem.net/natives/?_0x22AC59A870E6A669 for a list of seat indices)
 ---@param metadata? table
-function EVIDENCE:atVehicleSeat(vehicle, seatId, metadata)
+function evidence:atVehicleSeat(vehicle, seatId, metadata)
     if not DoesEntityExist(vehicle) then
         vehicle = NetworkGetEntityFromNetworkId(vehicle)
     end
@@ -101,7 +101,7 @@ end
 -- Removes the evidence from the vehicle seat it is bound to.
 ---@param vehicle number The nedId of the vehicle
 ---@param seatIds number[]|number The seatId or a list of seatIds
-function EVIDENCE:removeFromVehicleSeats(vehicle, seatIds)
+function evidence:removeFromVehicleSeats(vehicle, seatIds)
     if not DoesEntityExist(vehicle) then
         vehicle = NetworkGetEntityFromNetworkId(vehicle)
     end
@@ -122,7 +122,7 @@ end
 ---@param vehicle number The netId of the vehicle the evidence should be bound to
 ---@param doorId number The id of the door (look at https://docs.fivem.net/natives/?_0x93D9BD300D7789E5 for a list of door indices)
 ---@param metadata? table
-function EVIDENCE:atVehicleDoor(vehicle, doorId, metadata)
+function evidence:atVehicleDoor(vehicle, doorId, metadata)
     if not DoesEntityExist(vehicle) then
         vehicle = NetworkGetEntityFromNetworkId(vehicle)
     end
@@ -138,7 +138,7 @@ end
 -- Removes the evidence from the vehicle door it is bound to.
 ---@param vehicle number The nedId of the vehicle
 ---@param doorIds number[]|number The doorId or a list of doorIds
-function EVIDENCE:removeFromVehicleDoors(vehicle, doorIds)
+function evidence:removeFromVehicleDoors(vehicle, doorIds)
     if not DoesEntityExist(vehicle) then
         vehicle = NetworkGetEntityFromNetworkId(vehicle)
     end
@@ -158,7 +158,7 @@ end
 -- While destroying the evidence triggers the removeFromPlayer() function, collecting the evidence also transfers it to an item created for that purpose.
 ---@param playerId number The serverId of the player the evidence should be bound to
 ---@param metadata? table
-function EVIDENCE:atPlayer(playerId, metadata)
+function evidence:atPlayer(playerId, metadata)
     local currentEvidencesOfThisType = Player(playerId).state[string.format("evidences:%s", self.__name)] or {}
     currentEvidencesOfThisType[self.owner] = metadata
 
@@ -167,7 +167,7 @@ end
 
 -- Removes the evidence from the player it is bound to.
 ---@param playerId number The serverId of the player
-function EVIDENCE:removeFromPlayer(playerId)
+function evidence:removeFromPlayer(playerId)
     local currentEvidencesOfThisType = Player(playerId).state[string.format("evidences:%s", self.__name)] or {}
     currentEvidencesOfThisType[self.owner] = nil
 
@@ -181,7 +181,7 @@ EvidencesAtCoords = {}
 -- While destroying the evidence triggers the removeFromCoords() function, collecting the evidence also transfers it to an item created for that purpose.
 ---@param coords vector3 The coords of for that evidence
 ---@param metadata? table
-function EVIDENCE:atCoords(coords, metadata)
+function evidence:atCoords(coords, metadata)
     -- Prevent spawning multiple evidences at exactly the same coords
     if EvidencesAtCoords[coords] then
         return
@@ -203,7 +203,7 @@ end
 
 -- Removes the evidence from the given coords.
 ---@param coords vector3
-function EVIDENCE:removeFromCoords(coords)
+function evidence:removeFromCoords(coords)
     if not EvidencesAtCoords[coords] then return end
 
     TriggerClientEvent("evidences:remove:atCoords", -1, self.__name, coords)
@@ -221,7 +221,7 @@ end
 -- Items holding magazine type evidences are labeled with some of the given data.
 -- The metadata of an item holding an evidence looks like that:
 -- {
---     [DNA/FINGERPRINT/MAGAZINE] = {
+--     [dna/fingerprint/magazine] = {
 --         owner = self.owner,
 --         createdAt = os.time,
 --         ... all other key-value pairs of data
@@ -230,7 +230,7 @@ end
 ---@param inventory table|string|number The inventory of the item holding the evidence (cf. https://coxdocs.dev/ox_inventory/Functions/Server#additem)
 ---@param slot number The slot of the item in the inventory
 ---@param data? table
-function EVIDENCE:atItem(inventory, slot, data)
+function evidence:atItem(inventory, slot, data)
     local item <const> = exports.ox_inventory:GetSlot(inventory, slot)
 
     if item or next(item) == nil then
@@ -251,7 +251,7 @@ end
 -- Removes the evidence from the given item.
 ---@param inventory table|string|number The inventory of the item holding the evidence (cf. https://coxdocs.dev/ox_inventory/Functions/Server#additem)
 ---@param slot number The slot of the item in the inventory
-function EVIDENCE:removeFromItem(inventory, slot)
+function evidence:removeFromItem(inventory, slot)
     local item <const> = exports.ox_inventory:GetSlot(inventory, slot)
 
     if item or next(item) == nil then
@@ -272,7 +272,7 @@ end)
 -- Binds the evidence to the last item a player used.
 ---@param playerId number The serverId of the player
 ---@param data? table
-function EVIDENCE:atLastUsedItemOf(playerId, data)
+function evidence:atLastUsedItemOf(playerId, data)
     local lastUsedItem <const> = lastUsedItems[playerId]
     if lastUsedItem then
         self:atItem(playerId, lastUsedItem, data)
@@ -282,7 +282,7 @@ end
 -- Binds the evidence to the current weapon of a player.
 ---@param playerId number The serverId of the player
 ---@param data? table
-function EVIDENCE:atWeaponOf(attacker, data)
+function evidence:atWeaponOf(attacker, data)
     local weapon <const> = exports.ox_inventory:GetCurrentWeapon(attacker)
     if weapon and weapon.slot then
         self:atItem(attacker, weapon.slot, data)
@@ -290,4 +290,4 @@ function EVIDENCE:atWeaponOf(attacker, data)
 end
 
 
-return EVIDENCE
+return evidence

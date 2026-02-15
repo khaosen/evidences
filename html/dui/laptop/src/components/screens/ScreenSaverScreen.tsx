@@ -38,11 +38,11 @@ export default function ScreenSaverScreen(props: ScreenSaverScreenProps) {
 
 
     const formatTime = (date: Date): string => {
-        return date.toLocaleTimeString(t("laptop.screen_saver.date_locales"), { hour: "2-digit", minute: "2-digit", hour12: false });
+        return date.toLocaleTimeString(t("laptop.desktop_screen.common.date_locales"), { hour: "2-digit", minute: "2-digit", hour12: false });
     };
 
     const formatDate = (date: Date): string => {
-        return date.toLocaleDateString(t("laptop.screen_saver.date_locales"), { weekday: "long", day: "numeric", month: "long" });
+        return date.toLocaleDateString(t("laptop.desktop_screen.common.date_locales"), { weekday: "long", day: "numeric", month: "long" });
     };
 
 

@@ -1,6 +1,6 @@
 local lastHealth = nil
 
-Citizen.CreateThread(function() -- detects healing
+CreateThread(function() -- detects healing
     Wait(500)
     lastHealth = GetEntityHealth(cache.ped)
     
@@ -11,7 +11,7 @@ Citizen.CreateThread(function() -- detects healing
         end
 
         for _, evidence in ipairs(EvidencesAtCoords) do
-            if evidence.evidenceType == "BLOOD" then
+            if evidence.evidenceType == "blood" then
                 if evidence:isExposedToRain() then
                     evidence:destroy()
                 end
@@ -33,14 +33,14 @@ AddEventHandler("gameEventTriggered", function(name, args)
                 if (args[12] or 0) == 1 then
                     local victim <const> = cache.serverId
                     local attacker <const> = GetPlayerServerId(NetworkGetPlayerIndexFromPed(args[2]))
-                    TriggerServerEvent("evidences:syncEvidence", "BLOOD",
+                    TriggerServerEvent("evidences:syncEvidence", "blood",
                         victim, "atWeaponOf", attacker)
                 end
                 
                 -- vehicle blood
                 if cache.vehicle then
                     if not IsPedOnAnyBike(ped) then
-                        TriggerServerEvent("evidences:syncEvidence", "BLOOD", cache.serverId,
+                        TriggerServerEvent("evidences:syncEvidence", "blood", cache.serverId,
                             "atVehicleSeat", NetworkGetNetworkIdFromEntity(cache.vehicle), cache.seat, {
                                 plate = GetVehicleNumberPlateText(cache.vehicle)
                             })
@@ -52,7 +52,7 @@ AddEventHandler("gameEventTriggered", function(name, args)
                 local coords <const> = GetEntityCoords(cache.ped)
                 local success <const>, groundZ <const> = GetGroundZFor_3dCoord(coords.x, coords.y, coords.z, false)
                 if success then
-                    TriggerServerEvent("evidences:syncEvidence", "BLOOD", cache.serverId,
+                    TriggerServerEvent("evidences:syncEvidence", "blood", cache.serverId,
                         "atCoords", vector3(coords.x, coords.y, groundZ))
                 end
             end
