@@ -4,6 +4,7 @@ import Taskbar from "../desktop/Taskbar";
 import type { Options, ScreenType } from "../App";
 import React, { useState } from "react";
 import type { App } from "@/data/apps";
+import type { AppArgs } from "@/types/appargs.type";
 
 
 // Interface for the props parsed by the parent.
@@ -17,7 +18,7 @@ interface DesktopScreenProps {
 
 // Extends the App type to include an additional state for open applications.
 // Adds a "minimized" flag to track whether the app is minimized.
-export type OpenApp = App & { minimized: boolean, isPopUp?: boolean, parent?: OpenApp, zIndex: number };
+export type OpenApp = App & { minimized: boolean, isPopUp?: boolean, parent?: OpenApp, zIndex: number, args?: AppArgs };
 
 
 // Renders the desktop screen of the laptop.
@@ -57,17 +58,17 @@ export default function DesktopScreen(props: DesktopScreenProps) {
     // Opens an app by adding it to the list of open apps if it's not already open.
     // Sets the app's minimized state to false and brings it into focus.
     // Called when the user opens an app.
-    function handleAppOpen(app: App) {
-        const openApp: OpenApp = { ...app, minimized: false, zIndex: 1 };
+    function handleAppOpen(app: App, args?: AppArgs) {
+        const openApp: OpenApp = { ...app, minimized: false, zIndex: 1, args: args };
 
         const existingApp = openApps.find((a) => a.name === app.name);
-        if (existingApp && existingApp.minimized) {
+        if (!args && existingApp && existingApp.minimized) {
             // Maximize the app
             handleMaximizeApp(openApp);
         } else {
             // Open the app
             setOpenApps((prev) => {
-                if (existingApp) return prev;
+                if (existingApp) return prev.map(a => a.id === app.id ? openApp : a);
                 return [...prev, openApp];
             });
             updateZIndexOfApp(openApp);
@@ -94,14 +95,15 @@ export default function DesktopScreen(props: DesktopScreenProps) {
         const existingPopUp = openApps.find((a) => a.parent?.name === parentApp.name && a.name === name && a.isPopUp);
 
         if (existingPopUp) {
-            setOpenApps((apps) => apps.map((a) => a == existingPopUp ? { ...existingPopUp, content: content } : a));
+            setOpenApps((apps) => apps.map((a) => a == existingPopUp ? { ...existingPopUp, content: () => content } : a));
             return;
         }
 
         const popupApp: OpenApp = {
+            id: parentApp.id + "_" + name,
             name: name,
             icon: parentApp.icon,
-            content: content,
+            content: () => content,
             minimized: false,
             isPopUp: true,
             parent: parentApp,

@@ -6,31 +6,37 @@ import { useTranslation } from "@/components/TranslationContext";
 import fingerprintIcon from "@/assets/app_icons/fingerprint.png";
 import dnaIcon from "@/assets/app_icons/dna.png";
 import wiretapIcon from "@/assets/app_icons/wiretap.png";
+import { useTranslation } from "@/components/TranslationContext";
 
 export interface App {
+    id: string;
     name: string;
     icon: (width: string, height: string) => React.ReactNode;
-    content: React.ReactNode;
+    content: (props?: any) => React.ReactNode;
 }
 
-export const AppsList = () => {
+
+export const AppsList = (): App[] => {
     const { t } = useTranslation();
 
     return [
         {
+            id: "fingerprint",
             name: t("laptop.desktop_screen.fingerprint_app.name"),
             icon: (width: string, height: string) => <img style={{ width, height }} className="object-contain max-h-full max-w-full" src={fingerprintIcon} draggable="false" />,
-            content: <FingerprintApp />
+            content: (props) => <FingerprintApp {...props} />
         },
         {
+            id: "dna",
             name: t("laptop.desktop_screen.dna_app.name"),
             icon: (width: string, height: string) => <img style={{ width, height }} className="object-contain max-h-full max-w-full" src={dnaIcon} draggable="false" />,
-            content: <DNAApp />
+            content: (props) => <DNAApp {...props} />
         },
         {
+            id: "wiretap",
             name: t("laptop.desktop_screen.wiretap_app.name"),
             icon: (width: string, height: string) => <img style={{ width, height }} className="object-contain max-h-full max-w-full" src={wiretapIcon} draggable="false" />,
-            content: <WiretapApp />
+            content: (props) => <WiretapApp {...props} />
         }
     ];
 };

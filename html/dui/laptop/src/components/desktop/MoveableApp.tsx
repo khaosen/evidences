@@ -1,6 +1,10 @@
 import React, { createContext, useEffect, useRef, useState } from "react";
 import type { OpenApp } from "../screens/DesktopScreen";
 import type { Options } from "../App";
+import { useNotificationQueue } from "@/hooks/useNotificationQueue";
+import type { AppArgs } from "@/types/appargs.type";
+import type { Notification } from "@/types/notification.type";
+import { Notifications } from "../atoms/Notifications";
 
 
 // Props parsed by the parent.
@@ -16,6 +20,8 @@ interface MoveableAppProps {
     onFocus: (app: OpenApp) => void;
     onMinimize: (app: OpenApp) => void;
     openPopUp: (name: string, content: React.ReactNode) => void;
+    openApp: (appId: string, args?: AppArgs) => void;
+    close: () => void;
     onUpdatePosition: (x: number, y: number) => void;
 }
 
@@ -24,6 +30,9 @@ interface AppContextType {
     playerName: string | undefined;
     options: Options | undefined;
     openPopUp: (name: string, content: React.ReactNode) => void;
+    openApp: (appId: string, args?: AppArgs) => void;
+    close: () => void;
+    displayNotification: (notification: Notification) => void;
 }
 
 export const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -35,6 +44,9 @@ export default function MoveableApp(props: MoveableAppProps) {
     const [position, setPosition] = useState(props.defaultPosition || { x: 0, y: 0 });
     const [dragging, setDragging] = useState(false);
     const [offset, setOffset] = useState(props.defaultPosition || { x: 0, y: 0 });
+
+    const { notifications, displayNotification, closeNotification } = useNotificationQueue();
+
 
     useEffect(() => {
         props.onUpdatePosition(position.x, position.y);
@@ -128,8 +140,9 @@ export default function MoveableApp(props: MoveableAppProps) {
                     </div>
                 </div>
                 <div className="w-full bg-transparent" style={{ height: (props.height - 42) + "px" }}>
-                    <AppContext.Provider value={{ options: props.options, playerName: props.playerName, openPopUp: props.openPopUp }}>
-                        {props.app.content}
+                    <Notifications notifications={notifications} onClose={closeNotification} />
+                    <AppContext.Provider value={{ options: props.options, playerName: props.playerName, openPopUp: props.openPopUp, openApp: props.openApp, close: props.close, displayNotification: displayNotification }}>
+                        {props.app.content(props.app.args)}
                     </AppContext.Provider>
                 </div>
             </div>

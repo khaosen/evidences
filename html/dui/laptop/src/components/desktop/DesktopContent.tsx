@@ -5,6 +5,7 @@ import { AppsList, type App } from "@/data/apps";
 import { useRef } from "react";
 import type { Options } from "../App";
 import { useTranslation } from "../TranslationContext";
+import type { AppArgs } from "@/types/appargs.type";
 
 
 // Props parsed by the parent.
@@ -12,7 +13,7 @@ interface DesktopContentProps {
     playerName: string | undefined;
     options: Options | undefined;
     openApps: OpenApp[];
-    openApp: (app: App) => void;
+    openApp: (app: App, args?: AppArgs) => void;
     closeApp: (app: OpenApp) => void;
     focusApp: (app: OpenApp) => void;
     onMinimize: (app: OpenApp) => void;
@@ -25,13 +26,22 @@ export default function DesktopContent(props: DesktopContentProps) {
     const { t } = useTranslation();
     const lastFocusedAppPosition = useRef({ x: 0, y: 0 });
     const defaultPosition = { ...lastFocusedAppPosition.current };
-    const filteredAppsList = AppsList().filter((app) => {
+    const appList = AppsList();
+    const filteredAppsList = appList.filter((app) => {
         if (app.name == t("laptop.desktop_screen.wiretap_app.name")) {
             return props.options?.isWiretapAppEnabled || false;
         }
 
         return true;
     });
+
+
+    const handleAppOpen = (appId: string, args?: AppArgs) => {
+        const app = appList.find(app => app.id === appId);
+        if (!app) return;
+        props.openApp(app, args);
+    }
+
 
     return <div className="w-full h-full relative">
         <AppIcons apps={filteredAppsList} openApp={props.openApp} />
@@ -50,7 +60,9 @@ export default function DesktopContent(props: DesktopContentProps) {
             return <MoveableApp
                 key={app.name}
                 app={app}
+                openApp={handleAppOpen}
                 openPopUp={(name, content) => props.openPopUp(app, name, content)}
+                close={() => props.closeApp(app)}
                 isPopUp={app.isPopUp}
                 defaultPosition={defaultPosition}
                 width={width}
