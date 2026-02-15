@@ -104,6 +104,18 @@ return {
                 local rotation <const> = data.magazineRotation
 
                 if model and rotation then
+                    for _, nearbyObject in pairs(lib.getNearbyObjects(point.coords, 5)) do
+                        nearbyObject = nearbyObject.object
+                        if GetEntityModel(nearbyObject) == model then
+                            if not DoesEntityBelongToThisScript(nearbyObject) then
+                                if not IsEntityAttached(nearbyObject) then
+                                    SetEntityAsMissionEntity(nearbyObject)
+                                    DeleteObject(nearbyObject)
+                                end
+                            end
+                        end
+                    end
+
                     lib.requestModel(model)
 
                     point.entity = CreateObject(model, point.coords.x, point.coords.y, point.coords.z, false, false, false)

@@ -52,19 +52,16 @@ AddEventHandler("ox_inventory:currentWeapon", function(weapon)
             local naturallySpawnedMagazine <const> = getNaturallySpawnedMagazine(magazineModel)
             if naturallySpawnedMagazine then
 
-                if cache.vehicle and cache.seat then -- vehicle magazine
+                if cache.vehicle and cache.seat and not IsPedOnAnyBike(ped) then -- vehicle magazine
+                    SetEntityAsMissionEntity(naturallySpawnedMagazine)
+                    DeleteObject(naturallySpawnedMagazine)
 
-                    if not IsPedOnAnyBike(ped) then
-                        SetEntityAsMissionEntity(naturallySpawnedMagazine)
-                        DeleteObject(naturallySpawnedMagazine)
-
-                        TriggerServerEvent("evidences:syncEvidence", "MAGAZINE", weapon.metadata.serial, 
-                            "atVehicleSeat", NetworkGetNetworkIdFromEntity(cache.vehicle), cache.seat, {
-                                plate = GetVehicleNumberPlateText(cache.vehicle),
-                                weaponLabel = weapon.label or "unknown",
-                                serialNumber = weapon.metadata.serial
-                            })
-                    end
+                    TriggerServerEvent("evidences:syncEvidence", "MAGAZINE", weapon.metadata.serial, 
+                        "atVehicleSeat", NetworkGetNetworkIdFromEntity(cache.vehicle), cache.seat, {
+                            plate = GetVehicleNumberPlateText(cache.vehicle),
+                            weaponLabel = weapon.label or "unknown",
+                            serialNumber = weapon.metadata.serial
+                        })
 
                 else -- ground magazine
 
@@ -73,22 +70,21 @@ AddEventHandler("ox_inventory:currentWeapon", function(weapon)
                         if DoesEntityExist(naturallySpawnedMagazine) then
                             local heightAboveGround = GetEntityHeightAboveGround(naturallySpawnedMagazine)
 
-                            if lastHeightAboveGround == heightAboveGround then
-                                Wait(2000)
-                                return {
-                                    coords = GetEntityCoords(naturallySpawnedMagazine),
-                                    rotation = GetEntityRotation(naturallySpawnedMagazine)
-                                }
+                            if lastHeightAboveGround and math.abs(lastHeightAboveGround - heightAboveGround) < 0.0005 then
+                                if heightAboveGround < 0.25 then
+                                    return {
+                                        coords = GetEntityCoords(naturallySpawnedMagazine),
+                                        rotation = GetEntityRotation(naturallySpawnedMagazine)
+                                    }
+                                end
                             end
 
                             lastHeightAboveGround = heightAboveGround
+                            Wait(150)
                         end
-                    end, false, 3000)
+                    end, "No magazine evidence was created because no native GTA-created magazine was lying on the ground within four seconds of reloading", 4000)
 
                     if result then
-                        SetEntityAsMissionEntity(naturallySpawnedMagazine)
-                        DeleteObject(naturallySpawnedMagazine)
-
                         TriggerServerEvent("evidences:syncEvidence", "MAGAZINE", weapon.metadata.serial,
                             "atCoords", result.coords, {
                                 weaponLabel = weapon.label or "unknown",
