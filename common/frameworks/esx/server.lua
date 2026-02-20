@@ -50,7 +50,7 @@ function framework.getCitizen(identifier)
                     WHEN LOWER(sex) = 'f' THEN 'female'
                     ELSE 'non_binary'
                 END AS gender
-            FROM USERS
+            FROM users
             WHERE disabled = 0 AND identifier = ?
         ]],
         identifier
