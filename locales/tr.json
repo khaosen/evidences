@@ -94,6 +94,7 @@
     },
     "fingerprint_scanner": {
         "target": "Parmağınızı tarayıcıya yerleştirin",
+        "input_help": "Bu işlemi iptal etmek için %s kullanın",
         "scan_match": {
             "title": "Parmak izi tarandı",
             "description": "Veritabanı eşleşmesi: %s (%s • %s)"

@@ -94,6 +94,7 @@
     },
     "fingerprint_scanner": {
         "target": "Coloque su dedo en el escáner",
+        "input_help": "Use %s para cancelar esta acción",
         "scan_match": {
             "title": "Huella escaneada",
             "description": "Coincidencia en la base de datos: %s (%s • %s)"

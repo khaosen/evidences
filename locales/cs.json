@@ -94,6 +94,7 @@
     },
     "fingerprint_scanner": {
         "target": "Položte prst na skener",
+        "input_help": "Použijte %s pro zrušení této akce",
         "scan_match": {
             "title": "Otisk prstu naskenován",
             "description": "Shoda v databázi: %s (%s • %s)"

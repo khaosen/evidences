@@ -19,6 +19,7 @@ AddReplaceTexture("p_cs_cam_phone", "phone_screen", dui.dictName, dui.txtName)
 
 local function cancel()
     if scannerProp then
+        config.inputHelp.hide()
         ClearPedTasks(cache.ped)
         SetNuiFocus(false, false)
         DeleteEntity(scannerProp)
@@ -76,6 +77,11 @@ exports("fingerprint_scanner", function(data, slot)
             )
 
             lib.playAnim(cache.ped, "random@hitch_lift", "idle_f", 8.0, 8.0, -1, 49, 0.0, false, 0, false)
+
+            config.inputHelp.show(locale("fingerprint_scanner.input_help"), {
+                tildeDelimitedCodes = { "~INPUT_FRONTEND_CANCEL~" },
+                mappedValues = { "[ESC]" }
+            })
         end)
     end
 end)

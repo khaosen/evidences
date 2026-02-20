@@ -94,6 +94,7 @@
     },
     "fingerprint_scanner": {
         "target": "Finger auflegen",
+        "input_help": "Benutze %s um abzubrechen",
         "scan_match": {
             "title": "Fingerabdruck eingescannt",
             "description": "Treffer in der Datenbank: %s (%s • %s)"

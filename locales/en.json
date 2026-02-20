@@ -94,6 +94,7 @@
     },
     "fingerprint_scanner": {
         "target": "Place your finger on the scanner",
+        "input_help": "Use %s to cancel this action",
         "scan_match": {
             "title": "Fingerprint scanned",
             "description": "Database match: %s (%s • %s)"
