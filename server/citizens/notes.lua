@@ -1,3 +1,5 @@
+local config <const> = require "config"
+local framework <const> = require "common.frameworks.framework"
 local database <const> = require "server.database"
 
 MySQL.update.await(
@@ -14,6 +16,13 @@ MySQL.update.await(
 )
 
 lib.callback.register("evidences:storeNote", function(source, arguments)
+    if not framework.hasPermission(config.permissions.access, source) then
+        return {
+            success = false,
+            response = "laptop.notifications.no_permission.description"
+        }
+    end
+
     return database.insert(
         [[
             INSERT INTO citizen_notes (id, identifier, modifiedAt, modifiedBy, title, text)
@@ -33,15 +42,29 @@ lib.callback.register("evidences:storeNote", function(source, arguments)
 end)
 
 lib.callback.register("evidences:deleteNote", function(source, arguments)
+    if not framework.hasPermission(config.permissions.access, source) then
+        return {
+            success = false,
+            response = "laptop.notifications.no_permission.description"
+        }
+    end
+
     return database.update("DELETE FROM citizen_notes WHERE id = ?", arguments.id)
 end)
 
 lib.callback.register("evidences:getNotes", function(source, arguments)
+    if not framework.hasPermission(config.permissions.access, source) then
+        return {
+            success = false,
+            response = "laptop.notifications.no_permission.description"
+        }
+    end
+
     return database.query(
         [[
             SELECT * FROM citizen_notes WHERE identifier = ?
-            ORDER BY modifiedAt DESC LIMIT ? OFFSET ?
+            ORDER BY modifiedAt DESC LIMIT 10 OFFSET ?
         ]],
-        arguments.identifier, arguments.limit, arguments.offset
+        arguments.identifier, arguments.offset or 0
     )
 end)

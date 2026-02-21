@@ -61,7 +61,7 @@ config.wiretap = {
     spyMicrophones = {
         radius = 5,
 
-        -- Allowed jobs and their minimum grades required to listen to spy microphones. If they destroy them, they get the spy microphone item back into their inventory.
+        -- Allowed jobs and their minimum grades required to listen to spy microphones.
         -- If permissions = {} the spy microphones section is disabled for everyone.
         permissions = {
             police = 0,
@@ -107,7 +107,7 @@ config.permissions = {
 -- if set to false, all citizens must be registered manually by police
 -- if set to true, citizens are synced; they cannot be edited or deleted (buttons for that actions are not visible, too)
 config.citizens = {
-    synced = true
+    synced = false
 }
 
 

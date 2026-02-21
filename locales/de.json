@@ -138,6 +138,10 @@
             "consent": {
                 "title": "Evidences",
                 "description": "Der Spieler hat zugestimmt"
+            },
+            "no_permission": {
+                "title": "Evidences",
+                "description": "Keine Rechte"
             }
         }
     },
@@ -151,7 +155,11 @@
                 "title": "Evidences",
                 "description": "Fehler beim Aufheben des Laptops"
             },
-            "input_help": "Drücke %s, um den Laptop zu platzieren.%sBenutze %s um abzubrechen"
+            "input_help": "Drücke %s, um den Laptop zu platzieren.%sBenutze %s um abzubrechen",
+            "no_permission": {
+                "title": "Evidences",
+                "description": "Keine Rechte"
+            }
         },
         "target": {
             "interact": "Zugreifen",
@@ -339,7 +347,6 @@
             "label_textfield_title": "Name",
             "label_textfield_details": "Anhand dieses Namens kannst du die Wanze in der Abhör-App auf dem Laptop finden"
         },
-        "target_destroy": "Wanze entfernen",
         "target_collect": "Wanze aufheben"
     }
 }

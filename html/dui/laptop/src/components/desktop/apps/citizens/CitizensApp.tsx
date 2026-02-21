@@ -40,7 +40,7 @@ export default function CitizensApp({citizen}: CitizensAppProps) {
     const offset = useRef<number>(0);
     const [isFullyLoaded, setFullyLoaded] = useState<boolean>(false);
 
-    const { trigger, loading } = useLuaCallback<{ searchText: string, limit: number, offset: number }, Citizen[]>({
+    const { trigger, loading } = useLuaCallback<{ searchText: string, offset: number }, Citizen[]>({
         name: "evidences:getCitizens",
         onSuccess: (data) => {
             if (!data) return;
@@ -64,8 +64,7 @@ export default function CitizensApp({citizen}: CitizensAppProps) {
 
         trigger({
             searchText: searchText,
-            limit: 10,
-            offset: offset.current,
+            offset: offset.current
         });
     }, [loading, isFullyLoaded, debouncedSearchText]);
 
@@ -134,6 +133,7 @@ export default function CitizensApp({citizen}: CitizensAppProps) {
                         placeholder={t("laptop.desktop_screen.common.statuses.search")}
                         onChange={(e) => setSearchText(e.target.value)}
                         value={searchText}
+                        maxLength={25}
                     />
                 </div>
 
@@ -284,6 +284,7 @@ const DisplayCitizen = (props: DisplayCitizenProps) => {
                             placeholder="Firstname Lastname"
                             disabled={!isEditingCitizen}
                             className={`text-30 leading-none p-0 bg-transparent border-none shadow-none outline-none appearance-none ${isEditingCitizen && "textable"}`}
+                            maxLength={25}
                         />
                     </div>
                     <div className="flex items-center gap-2">
@@ -294,6 +295,7 @@ const DisplayCitizen = (props: DisplayCitizenProps) => {
                             placeholder={formatDate(Date.now())}
                             disabled={!isEditingCitizen}
                             className={`text-30 leading-none p-0 bg-transparent border-none shadow-none outline-none appearance-none ${isEditingCitizen && "textable"}`}
+                            maxLength={25}
                         />
                     </div>
                     <div className="flex items-center gap-2">

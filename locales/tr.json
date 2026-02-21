@@ -138,6 +138,10 @@
             "consent": {
                 "title": "Kanıtlar",
                 "description": "Oyuncu onay verdi"
+            },
+            "no_permission": {
+                "title": "Evidences",
+                "description": "Yetkiniz yok"
             }
         }
     },
@@ -151,7 +155,11 @@
                 "title": "Deliller",
                 "description": "Dizüstü bilgisayar alınırken hata oluştu"
             },
-            "input_help": "Dizüstü bilgisayarı yerleştirmek için %s tuşuna basın.%sBu işlemi iptal etmek için %s kullanın"
+            "input_help": "Dizüstü bilgisayarı yerleştirmek için %s tuşuna basın.%sBu işlemi iptal etmek için %s kullanın",
+            "no_permission": {
+                "title": "Evidences",
+                "description": "Yetkiniz yok"
+            }
         },
         "target": {
             "interact": "Etkileşim",
@@ -339,7 +347,6 @@
             "label_textfield_title": "Ad",
             "label_textfield_details": "Kanıt dizüstü bilgisayarındaki dinleme uygulamasında bu casus mikrofonu tanımlamak için benzersiz bir ad seçin"
         },
-        "target_destroy": "Casus mikrofonu yok et",
         "target_collect": "Casus mikrofonu topla"
     }
 }

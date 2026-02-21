@@ -51,9 +51,7 @@ export default function CitizenBiomericDataSection(props: CitizenBiomericDataSec
             const translation = t(message);
             appContext.displayNotification({
                 type: "Error",
-                message: translation != message
-                    ? translation
-                    : t("laptop.desktop_screen.citizens_app.status_messages.biometric_data_link_error", t(`laptop.desktop_screen.common.${args.type}`))
+                message: t("laptop.desktop_screen.citizens_app.status_messages.biometric_data_link_error", t(`laptop.desktop_screen.common.${args.type}`))
             });
             getLinkedBiometricData({ identifier: props.citizen.identifier });
         }

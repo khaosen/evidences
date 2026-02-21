@@ -12,10 +12,11 @@ for resource, framework in pairs(supportedFrameworks) do
 
         -- Checks whether a player has permission to perform a specific action.
         ---@param tableWithRequiredPermissions table The table containing the required permissions
-        ---@return boolean True if the player has permission, false otherwise
-        frameworkImplentation.hasPermission = function(tableWithRequiredPermissions)
+        ---@param playerId? number The id of the player to execute the permission check for (only required on server)
+        ---@return boolean true if the player has permission, false otherwise
+        frameworkImplentation.hasPermission = function(tableWithRequiredPermissions, playerId)
             for job, minGrade in pairs(tableWithRequiredPermissions or {}) do
-                local grade <const> = frameworkImplentation.getGrade(job)
+                local grade <const> = frameworkImplentation.getGrade(job, playerId)
 
                 if grade and grade >= minGrade then
                     return true

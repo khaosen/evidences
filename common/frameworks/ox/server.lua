@@ -1,7 +1,7 @@
 local database <const> = require "server.database"
+local ox = require "@ox_core.lib.init"
 
 local framework = {}
-local ox = require "@ox_core.lib.init"
 
 function framework.getIdentifier(playerId)
     local oxPlayer <const> = ox.GetPlayer(playerId)
@@ -23,9 +23,14 @@ function framework.getPlayerName(playerId)
     return "undefined"
 end
 
+function framework.getGrade(job, playerId)
+    local oxPlayer <const> = ox.GetPlayer(playerId)
+    return oxPlayer and oxPlayer.getGroups()[job] or false
+end
+
 -- https://github.com/CommunityOx/ox_core/blob/main/sql/install.sql
-function framework.getCitizens(searchText, limit, offset)
-    local pattern <const> = "%" .. searchText:gsub("\\", "\\\\"):gsub("%%", "\\%%"):gsub("_", "\\_") .. "%"
+function framework.getCitizens(searchText, offset)
+    local pattern <const> = "%" .. searchText:sub(1, 25):gsub("\\", "\\\\"):gsub("%%", "\\%%"):gsub("_", "\\_") .. "%"
 
     return database.query(
         [[
@@ -36,9 +41,9 @@ function framework.getCitizens(searchText, limit, offset)
                 gender
             FROM characters
             WHERE deleted IS NULL AND fullName LIKE ?
-            LIMIT ? OFFSET ?
+            LIMIT 10 OFFSET ?
         ]],
-        pattern, limit, offset
+        pattern, offset
     )
 end
 

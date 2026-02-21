@@ -138,6 +138,10 @@
             "consent": {
                 "title": "Důkazy",
                 "description": "Hráč vyjádřil souhlas"
+            },
+            "no_permission": {
+                "title": "Evidences",
+                "description": "Nemáte oprávnění"
             }
         }
     },
@@ -151,7 +155,11 @@
                 "title": "Důkazy",
                 "description": "Chyba při zvedání laptopu"
             },
-            "input_help": "Stiskněte %s pro položení laptopu.%sPoužijte %s pro zrušení této akce"
+            "input_help": "Stiskněte %s pro položení laptopu.%sPoužijte %s pro zrušení této akce",
+            "no_permission": {
+                "title": "Evidences",
+                "description": "Nemáte oprávnění"
+            }
         },
         "target": {
             "interact": "Použít",
@@ -339,7 +347,6 @@
             "label_textfield_title": "Jméno",
             "label_textfield_details": "Vyberte jedinečný název pro identifikaci tohoto špionážního mikrofonu v aplikaci pro odposlech na notebooku s důkazy"
         },
-        "target_destroy": "Zničte špionážní mikrofon",
         "target_collect": "Sebrat špionážní mikrofon"
     }
 }

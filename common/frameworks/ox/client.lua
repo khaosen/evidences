@@ -1,5 +1,6 @@
-local framework = {}
 local ox <const> = require "@ox_core.lib.init"
+
+local framework = {}
 
 function framework.getPlayerName()
     local oxPlayer <const> = ox.GetPlayer()

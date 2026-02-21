@@ -58,8 +58,6 @@ exports.ox_target:addModel(`p_laptop_02_s`, {
                             lib.playAnim(cache.ped, "mp_common", "givetake1_a")
                             return
                         end
-
-                        config.notify({ key = "laptop.notifications.error_laptop_pickup" }, "error")
                     end, coords)
 
                     break

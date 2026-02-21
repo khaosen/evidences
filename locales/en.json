@@ -136,8 +136,12 @@
                 "description": "The player declined"
             },
             "consent": {
-                "title": "Evidence",
+                "title": "Evidences",
                 "description": "The player has consented"
+            },
+            "no_permission": {
+                "title": "Evidences",
+                "description": "No permissions"
             }
         }
     },
@@ -151,7 +155,11 @@
                 "title": "Evidences",
                 "description": "Error picking up the laptop"
             },
-            "input_help": "Press %s to place the laptop.%sUse %s to cancel this action"
+            "input_help": "Press %s to place the laptop.%sUse %s to cancel this action",
+            "no_permission": {
+                "title": "Evidences",
+                "description": "No permissions"
+            }
         },
         "target": {
             "interact": "Interact",
@@ -339,7 +347,6 @@
             "label_textfield_title": "Label",
             "label_textfield_details": "Choose a unique name to identify this spy microphone in the wiretap app on the evidence laptop"
         },
-        "target_destroy": "Destroy spy microphone",
         "target_collect": "Collect spy microphone"
     }
 }

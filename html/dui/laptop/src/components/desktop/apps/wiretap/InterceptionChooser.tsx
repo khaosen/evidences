@@ -22,7 +22,7 @@ export default function InterceptionChooser() {
         appContext.openPopUp(t(`laptop.desktop_screen.wiretap_app.protocol_popup.header.${interception.type}`, interception.id), <WiretapProtocol interception={interception} />);
     };
 
-    const { trigger, loading } = useLuaCallback<{ limit: number, offset: number }, Interception[]>({
+    const { trigger, loading } = useLuaCallback<{ offset: number }, Interception[]>({
         name: "evidences:getWiretaps",
         onSuccess: (data) => {
             if (!data) return;
@@ -44,10 +44,7 @@ export default function InterceptionChooser() {
             setFullyLoaded(false);
         }
 
-        trigger({
-            limit: 10,
-            offset: offset.current
-        });
+        trigger({ offset: offset.current });
     }, [loading, isFullyLoaded]);
 
     useEffect(() => {

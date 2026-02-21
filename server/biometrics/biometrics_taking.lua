@@ -1,7 +1,13 @@
+local config <const> = require "config"
 local framework <const> = require "common.frameworks.framework"
 local actions <const> = require "server.evidences.actions"
 
 lib.callback.register("evidences:takeBiometricData", function(playerId, targetId, type, enforce)
+    if not framework.hasPermission(config.permissions.collect, playerId) then
+        TriggerClientEvent("evidences:notify", playerId, { key = "biometrics_taking.notifications.no_permission" }, "error")
+        return false
+    end
+
     if not enforce then
         TriggerClientEvent("evidences:notify", playerId, { key = "biometrics_taking.notifications.request_sent" }, "inform")
 

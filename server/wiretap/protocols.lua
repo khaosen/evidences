@@ -1,5 +1,6 @@
-local database <const> = require "server.database"
 local config <const> = require "config"
+local framework <const> = require "common.frameworks.framework"
+local database <const> = require "server.database"
 local actionStorageDuration <const> = config.wiretap.actionStorageDuration
 
 MySQL.update.await(
@@ -22,6 +23,13 @@ if actionStorageDuration and type(actionStorageDuration) == "number" and actionS
 end
 
 lib.callback.register("evidences:storeWiretap", function(source, arguments)
+    if not framework.hasPermission(config.permissions.access, source) then
+        return {
+            success = false,
+            response = "laptop.notifications.no_permission.description"
+        }
+    end
+
     return database.insert(
         [[
             INSERT INTO wiretaps (type, startedAt, endedAt, observer, target, protocol)
@@ -35,5 +43,12 @@ lib.callback.register("evidences:storeWiretap", function(source, arguments)
 end)
 
 lib.callback.register("evidences:getWiretaps", function(source, arguments)
-    return database.query("SELECT * FROM wiretaps ORDER BY endedAt DESC LIMIT ? OFFSET ?", arguments.limit, arguments.offset)
+    if not framework.hasPermission(config.permissions.access, source) then
+        return {
+            success = false,
+            response = "laptop.notifications.no_permission.description"
+        }
+    end
+    
+    return database.query("SELECT * FROM wiretaps ORDER BY endedAt DESC LIMIT 10 OFFSET ?", arguments.offset)
 end)

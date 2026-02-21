@@ -32,11 +32,11 @@ function SpyMicrophone:register()
                     
                     exports.ox_target:addLocalEntity(entity, {
                         name = "spy_microphone_" .. this.label,
-                        label = mayCollectSpyMicrophone and locale("spy_microphone.target_collect") or locale("spy_microphone.target_destroy"),
-                        icon = mayCollectSpyMicrophone and "fa-solid fa-hand" or "fa-solid fa-trash",
+                        label = locale("spy_microphone.target_collect"),
+                        icon = "fa-solid fa-hand",
                         distance = 2,
                         onSelect = function(data)
-                            TriggerServerEvent("evidences:destroySpyMicrophone", this.label, mayCollectSpyMicrophone)
+                            TriggerServerEvent("evidences:destroySpyMicrophone", this.label)
                             lib.playAnim(cache.ped, "mp_common", "givetake1_a")
                         end
                     })

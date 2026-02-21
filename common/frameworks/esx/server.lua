@@ -1,7 +1,7 @@
 local database <const> = require "server.database"
+local ESX <const> = exports.es_extended:getSharedObject()
 
 local framework = {}
-local ESX <const> = exports.es_extended:getSharedObject()
 
 function framework.getIdentifier(playerId)
     local xPlayer <const> = ESX.GetPlayerFromId(playerId)
@@ -13,11 +13,24 @@ function framework.getPlayerName(playerId)
     return xPlayer and xPlayer.getName() or "undefined"
 end
 
+function framework.getGrade(job, playerId)
+    local xPlayer <const> = ESX.GetPlayerFromId(playerId)
+
+    if xPlayer then
+        local playerJob <const> = xPlayer.getJob()
+        if playerJob then
+            return playerJob.name == job and playerJob.grade or false
+        end
+    end
+
+    return false
+end
+
 -- https://github.com/esx-framework/esx_core/blob/b3deeae1ebd6a465310857001e02b34236d97a0e/%5Bcore%5D/es_extended/es_extended.sql#L11
 -- https://github.com/esx-framework/esx_core/blob/main/%5Bcore%5D/esx_identity/esx_identity.sql
 -- https://github.com/esx-framework/esx_core/blob/main/%5Bcore%5D/esx_identity/server/main.lua
-function framework.getCitizens(searchText, limit, offset)
-    local pattern <const> = "%" .. searchText:gsub("\\", "\\\\"):gsub("%%", "\\%%"):gsub("_", "\\_") .. "%"
+function framework.getCitizens(searchText, offset)
+    local pattern <const> = "%" .. searchText:sub(1, 25):gsub("\\", "\\\\"):gsub("%%", "\\%%"):gsub("_", "\\_") .. "%"
 
     return database.query(
         [[
@@ -32,9 +45,9 @@ function framework.getCitizens(searchText, limit, offset)
                 END AS gender
             FROM users WHERE disabled = 0
             HAVING fullName LIKE ?
-            LIMIT ? OFFSET ?
+            LIMIT 10 OFFSET ?
         ]],
-        pattern, limit, offset
+        pattern, offset
     )
 end
 

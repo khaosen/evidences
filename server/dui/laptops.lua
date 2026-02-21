@@ -1,3 +1,5 @@
+local config <const> = require "config"
+local framework <const> = require "common.frameworks.framework"
 local database <const> = require "server.database"
 
 MySQL.update.await(
@@ -31,6 +33,11 @@ lib.callback.register("evidences:getLaptops", function(source)
 end)
 
 lib.callback.register("evidences:placeLaptop", function(source, coords)
+    if not framework.hasPermission(config.permissions.place, source) then
+        TriggerClientEvent("evidences:notify", playerId, { key = "laptop.notifications.no_permission" }, "error")
+        return false
+    end
+
     if database.insert(
         [[
             INSERT INTO evidence_laptops (x, y, z, w)
@@ -41,9 +48,17 @@ lib.callback.register("evidences:placeLaptop", function(source, coords)
         TriggerClientEvent("evidences:spawnLaptops", -1, coords)
         return true
     end
+
+    TriggerClientEvent("evidences:notify", playerId, { key = "laptop.notifications.error_laptop_creation" }, "error")
+    return false
 end)
 
 lib.callback.register("evidences:pickupLaptop", function(source, coords)
+    if not framework.hasPermission(config.permissions.pickup, source) then
+        TriggerClientEvent("evidences:notify", playerId, { key = "laptop.notifications.no_permission" }, "success")
+        return false
+    end
+
     if database.update(
         [[
             DELETE FROM evidence_laptops
@@ -59,4 +74,7 @@ lib.callback.register("evidences:pickupLaptop", function(source, coords)
             return true
         end
     end
+
+    TriggerClientEvent("evidences:notify", playerId, { key = "laptop.notifications.error_laptop_pickup" }, "error")
+    return false
 end)

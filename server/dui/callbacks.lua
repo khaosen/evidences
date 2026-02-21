@@ -1,3 +1,5 @@
+local config <const> = require "config"
+local framework <const> = require "common.frameworks.framework"
 local imagePath <const> = GetConvar("inventory:imagepath", "nui://ox_inventory/web/images") .. "/%s.png"
 
 -- https://github.com/CommunityOx/ox_inventory/blob/6be13009eebc618b282f584782d98ff16ea2f9ed/web/src/helpers/index.ts#L140
@@ -89,6 +91,13 @@ local function getItemsMatchingFilter(source, filter)
 end
 
 lib.callback.register("evidences:getPlayersFirearms", function(source, arguments)
+    if not framework.hasPermission(config.permissions.access, source) then
+        return {
+            success = false,
+            response = "laptop.notifications.no_permission.description"
+        }
+    end
+
     return getItemsMatchingFilter(source, function(item)
         local metadata <const> = item.metadata
         local serialNumber <const> = metadata and metadata.serial
@@ -105,6 +114,13 @@ lib.callback.register("evidences:getPlayersFirearms", function(source, arguments
 end)
 
 lib.callback.register("evidences:getPlayersItemsWithBiometricData", function(source, arguments)
+    if not framework.hasPermission(config.permissions.access, source) then
+        return {
+            success = false,
+            response = "laptop.notifications.no_permission.description"
+        }
+    end
+
     local type <const> = arguments.type
     if not type then return {} end
 
@@ -140,6 +156,13 @@ local function getItem(source, inventory, slot)
 end
 
 lib.callback.register("evidences:updateAdditionalData", function(source, arguments)
+    if not framework.hasPermission(config.permissions.access, source) then
+        return {
+            success = false,
+            response = "laptop.notifications.no_permission.description"
+        }
+    end
+
     local item <const> = getItem(source, arguments.inventory, arguments.slot)
 
     if item then
@@ -156,6 +179,13 @@ lib.callback.register("evidences:updateAdditionalData", function(source, argumen
 end)
 
 lib.callback.register("evidences:setAnalysed", function(source, arguments)
+    if not framework.hasPermission(config.permissions.access, source) then
+        return {
+            success = false,
+            response = "laptop.notifications.no_permission.description"
+        }
+    end
+
     local item <const> = getItem(source, arguments.inventory, arguments.slot)
 
     if item then

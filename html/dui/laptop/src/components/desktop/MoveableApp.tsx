@@ -26,7 +26,7 @@ interface MoveableAppProps {
 }
 
 
-interface AppContextType {
+export interface AppContextType {
     playerName: string | undefined;
     options: Options | undefined;
     openPopUp: (name: string, content: React.ReactNode) => void;

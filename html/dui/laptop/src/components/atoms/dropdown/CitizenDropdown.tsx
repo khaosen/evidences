@@ -18,7 +18,7 @@ export default function CitizenDropdown(props: CitizenDropdownProps) {
     const [searchText, setSearchText] = useState<string>("");
     const debouncedSearchText = useDebounce(searchText);
 
-    const { trigger, loading } = useLuaCallback<{ searchText: string | null, limit: number, offset: number }, Citizen[]>({
+    const { trigger, loading } = useLuaCallback<{ searchText: string | null, offset: number }, Citizen[]>({
         name: "evidences:getCitizens",
         onSuccess: (data) => {
             if (!data) return;
@@ -44,8 +44,7 @@ export default function CitizenDropdown(props: CitizenDropdownProps) {
 
         trigger({
             searchText: searchText,
-            limit: 10,
-            offset: offset.current,
+            offset: offset.current
         });
     }, [loading, isFullyLoaded, debouncedSearchText]);
 

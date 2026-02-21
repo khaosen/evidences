@@ -20,7 +20,7 @@ export default function CitizenNotesSection(props: CitizenNotesSectionProps) {
     const offset = useRef<number>(0);
     const [isFullyLoaded, setFullyLoaded] = useState<boolean>(false);
 
-    const { trigger, loading } = useLuaCallback<{ identifier: string, limit: number, offset: number }, Note[]>({
+    const { trigger, loading } = useLuaCallback<{ identifier: string, offset: number }, Note[]>({
         name: "evidences:getNotes",
         onSuccess: (data) => {
             if (!data) return;
@@ -44,8 +44,7 @@ export default function CitizenNotesSection(props: CitizenNotesSectionProps) {
 
         trigger({
             identifier: props.citizen.identifier,
-            limit: 10,
-            offset: offset.current,
+            offset: offset.current
         });
     }, [loading, isFullyLoaded]);
 

@@ -1,3 +1,5 @@
+local config <const> = require "config"
+local framework <const> = require "common.frameworks.framework"
 local database <const> = require "server.database"
 local citizens <const> = require "server.citizens.citizens"
 local allowedTypes <const> = { "fingerprint", "dna" }
@@ -25,6 +27,13 @@ MySQL.update.await(
 )
 
 lib.callback.register("evidences:linkBiometricDataToIdentifier", function(source, arguments)
+    if not framework.hasPermission(config.permissions.access, source) then
+        return {
+            success = false,
+            response = "laptop.notifications.no_permission.description"
+        }
+    end
+
     local type <const> = arguments.type
     local biometricData <const> = arguments.biometricData
     local identifier <const> = arguments.identifier
@@ -61,10 +70,24 @@ function linkedBiometrics.getCitizenLinkedToBiometricData(type, biometricData)
 end
 
 lib.callback.register("evidences:getCitizenLinkedToBiometricData", function(source, arguments)
+    if not framework.hasPermission(config.permissions.access, source) then
+        return {
+            success = false,
+            response = "laptop.notifications.no_permission.description"
+        }
+    end
+
     return linkedBiometrics.getCitizenLinkedToBiometricData(arguments.type, arguments.biometricData)
 end)
 
 lib.callback.register("evidences:getBiometricDataLinkedToIdentifier", function(source, arguments)
+    if not framework.hasPermission(config.permissions.access, source) then
+        return {
+            success = false,
+            response = "laptop.notifications.no_permission.description"
+        }
+    end
+    
     return database.selectFirstRow(
         [[
             SELECT lf.fingerprint, ld.dna

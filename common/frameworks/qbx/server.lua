@@ -28,8 +28,19 @@ function framework.getPlayerName(playerId)
     return "undefined"
 end
 
-function framework.getCitizens(searchText, limit, offset)
-    local pattern <const> = "%" .. searchText:gsub("\\", "\\\\"):gsub("%%", "\\%%"):gsub("_", "\\_") .. "%"
+function framework.getGrade(job, playerId)
+    local player <const> = exports.qbx_core:GetPlayer(playerId)
+
+    if player then
+        local playerData <const> = player.PlayerData
+        return playerData and playerData.jobs[job] or false
+    end
+
+    return false
+end
+
+function framework.getCitizens(searchText, offset)
+    local pattern <const> = "%" .. searchText:sub(1, 25):gsub("\\", "\\\\"):gsub("%%", "\\%%"):gsub("_", "\\_") .. "%"
 
     return database.query(
         [[
@@ -44,14 +55,14 @@ function framework.getCitizens(searchText, limit, offset)
                 END AS gender
             FROM players
             HAVING fullName LIKE ?
-            LIMIT ? OFFSET ?
+            LIMIT 10 OFFSET ?
         ]],
-        pattern, limit, offset
+        pattern, offset
     )
 end
 
 function framework.getCitizen(identifier)
-    return databa.selectFirstRow(
+    return database.selectFirstRow(
         [[
             SELECT
                 citizenid AS identifier,

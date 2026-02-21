@@ -1,3 +1,5 @@
+local config <const> = require "config"
+local framework <const> = require "common.frameworks.framework"
 local evidenceTypes <const> = require "common.evidence_types"
 local api <const> = require "server.evidences.api"
 
@@ -19,6 +21,10 @@ lib.callback.register("evidences:destroy", function(source, evidenceType, owner,
 end)
 
 function actions.collect(source, evidenceType, owner, remove, metadata)
+    if not framework.hasPermission(config.permissions.collect, source) then
+        return false
+    end
+
     local options <const> = evidenceTypes[evidenceType]
     local collectedItem <const> = options.target.collect.collectedItem
     

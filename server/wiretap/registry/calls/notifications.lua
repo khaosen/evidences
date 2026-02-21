@@ -1,3 +1,5 @@
+local config <const> = require "config"
+local framework <const> = require "common.frameworks.framework"
 local eventHandler <const> = require "common.events.handler"
 
 local subscribers = {}
@@ -19,6 +21,13 @@ eventHandler.on("observationTargetAdded", function(event)
 end)
 
 lib.callback.register("evidences:subscribe", function(source, arguments)
+    if not framework.hasPermission(config.wiretap.calls.permissions, source) then
+        return {
+            success = false,
+            response = "laptop.notifications.no_permission.description"
+        }
+    end
+
     if arguments then
         subscribers[source] = arguments.target or nil
     end

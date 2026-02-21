@@ -1,4 +1,6 @@
+import { useTranslation } from "@/components/TranslationContext";
 import { useEffect, useState } from "react";
+import { useAppContext } from "./useAppContext";
 
 interface useLuaCallbackProps<Request, Response> {
     name: string;
@@ -28,6 +30,9 @@ interface useLuaCallbackProps<Request, Response> {
  * - trigger: Function to trigger the Lua server callback
  **/
 export default function useLuaCallback<Request, Response>(props: useLuaCallbackProps<Request, Response>) {
+    const appContext = useAppContext(false);
+    const { t } = useTranslation();
+
     const [data, setData] = useState<Response | undefined>(props.defaultData || undefined);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<boolean>(false);
@@ -61,6 +66,17 @@ export default function useLuaCallback<Request, Response>(props: useLuaCallbackP
                     props.onSuccess?.(result.response, args);
                     return;
                 } else {
+                    if (appContext) {
+                        const translatedResponse = t(result.response);
+                        if (translatedResponse != result.response) {
+                            appContext.displayNotification({
+                                type: "Error",
+                                message: translatedResponse
+                            });
+                            return;
+                        }
+                    }
+
                     throw new Error(result.response || "Unknown error");
                 }
             }

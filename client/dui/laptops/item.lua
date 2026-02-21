@@ -6,7 +6,7 @@ local tempObject = nil
 
 exports("evidence_laptop", function(data, slot)
     if not framework.hasPermission(config.permissions.place) then
-        config.notify({ key = "laptop.notifications.error_laptop_creation" }, "error")
+        config.notify({ key = "laptop.notifications.no_permission" }, "error")
         return
     end
 
@@ -68,8 +68,6 @@ exports("evidence_laptop", function(data, slot)
                     end)
                     return
                 end
-
-                config.notify({ key = "laptop.notifications.error_laptop_creation" }, "error")
             end, finalCoords)
         end
     end)

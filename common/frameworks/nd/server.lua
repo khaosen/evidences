@@ -12,9 +12,14 @@ function framework.getPlayerName(playerId)
     return player and (player.firstname .. " " .. player.lastname) or "undefined"
 end
 
+function framework.getGrade(job, playerId)
+    local player <const> = exports.ND_Core:getPlayer(playerId)
+    return (player and player.groups[job]) and player.groups[job].rank or false
+end
+
 -- https://github.com/ND-Framework/ND_Core/blob/main/database/characters.sql
-function framework.getCitizens(searchText, limit, offset)
-    local pattern <const> = "%" .. searchText:gsub("\\", "\\\\"):gsub("%%", "\\%%"):gsub("_", "\\_") .. "%"
+function framework.getCitizens(searchText, offset)
+    local pattern <const> = "%" .. searchText:sub(1, 25):gsub("\\", "\\\\"):gsub("%%", "\\%%"):gsub("_", "\\_") .. "%"
 
     return database.query(
         [[
@@ -25,9 +30,9 @@ function framework.getCitizens(searchText, limit, offset)
                 LOWER(gender) AS gender
             FROM nd_characters
             HAVING fullName LIKE ?
-            LIMIT ? OFFSET ?
+            LIMIT 10 OFFSET ?
         ]],
-        pattern, limit, offset
+        pattern, offset
     )
 end
 
