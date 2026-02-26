@@ -11,7 +11,7 @@ if not config.citizens.synced then
     MySQL.update.await(
         [[
             CREATE TABLE IF NOT EXISTS citizens (
-                identifier VARCHAR(500) PRIMARY KEY DEFAULT UUID(),
+                identifier VARCHAR(500) PRIMARY KEY DEFAULT (UUID()),
                 fullName TEXT NOT NULL,
                 birthdate TEXT NOT NULL,
                 gender ENUM('male', 'female', 'non_binary') NOT NULL
@@ -46,8 +46,8 @@ if not config.citizens.synced then
 
         return database.selectFirstColumn(
             [[
-                INSERT INTO citizens (fullName, birthdate, gender)
-                VALUES (?, ?, ?)
+                INSERT INTO citizens (identifier, fullName, birthdate, gender)
+                VALUES (UUID(), ?, ?, ?)
                 RETURNING identifier
             ]],
             arguments.fullName, arguments.birthdate, arguments.gender,
