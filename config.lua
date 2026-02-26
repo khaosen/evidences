@@ -107,7 +107,7 @@ config.permissions = {
 -- if set to false, all citizens must be registered manually by police
 -- if set to true, citizens are synced; they cannot be edited or deleted (buttons for that actions are not visible, too)
 config.citizens = {
-    synced = false
+    synced = true
 }
 
 
@@ -171,7 +171,7 @@ end
 
 
 config.logging = {
-    enabled = true,
+    enabled = false,
 
     -- By default every event is logged.
     -- You can disable logging for specific events here.
