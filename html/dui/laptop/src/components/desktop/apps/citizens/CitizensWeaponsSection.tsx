@@ -16,7 +16,7 @@ export default function CitizenWeaponsSection() {
             </div>
         </div>
         <div className="w-full flex flex-1 justify-center items-center">
-            <p className="text-20 leading-none">This feature is coming soon!</p>
+            <p className="text-20 leading-none">{t("laptop.desktop_screen.citizens_app.statuses.coming_soon")}</p>
             {/*<p className="text-20 leading-none">{t("laptop.desktop_screen.citizens_app.statuses.no_registered_firearms")}</p>*/}
         </div>
     </div>

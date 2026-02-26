@@ -207,6 +207,7 @@
             },
             "citizens_app": {
                 "name": "Citizens",
+                "create_citizen": "Create citizen",
                 "personal_data": "Personal Data",
                 "biometric_data": "Biometric Data",
                 "notes": {
@@ -221,6 +222,7 @@
                     "no_citizens_found": "No citizens found",
                     "no_notes_found": "No notes found",
                     "no_registered_firearms": "No registered firearms",
+                    "coming_soon": "This feature is coming soon!",
                     "select_evidence": "Select evidence"
                 },
                 "status_messages": {

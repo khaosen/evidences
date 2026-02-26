@@ -207,6 +207,7 @@
             },
             "citizens_app": {
                 "name": "Bürger",
+                "create_citizen": "Bürger erstellen",
                 "personal_data": "Persönliche Daten",
                 "biometric_data": "Biometrische Daten",
                 "registered_weapons": "Registrierte Waffen",
@@ -221,6 +222,7 @@
                     "no_citizens_found": "Keine Bürger gefunden",
                     "no_notes_found": "Keine Notizen gefunden",
                     "no_registered_firearms": "Keine registrierten Waffen",
+                    "coming_soon": "Diese Funktion ist bald verfügbar!",
                     "select_evidence": "Beweismittel auswählen"
                 },
                 "status_messages": {

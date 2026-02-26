@@ -114,8 +114,8 @@
     },
     "biometrics_taking": {
         "description": "El oficial %s quiere tomar una %s. ¿Das tu consentimiento?",
-        "deny": "Ablehnen",
-        "accept": "Akzeptieren",
+        "deny": "Denegar",
+        "accept": "Aceptar",
         "target": {
             "take_fingerprint": "Tomar huella dactilar",
             "take_dna": "Tomar muestra de ADN",
@@ -207,6 +207,7 @@
             },
             "citizens_app": {
                 "name": "Ciudadanos",
+                "create_citizen": "Crear ciudadano",
                 "personal_data": "Datos Personales",
                 "biometric_data": "Datos Biométricos",
                 "notes": {
@@ -221,6 +222,7 @@
                     "no_citizens_found": "No se encontraron ciudadanos",
                     "no_notes_found": "No se encontraron notas",
                     "no_registered_firearms": "No hay armas de fuego registradas",
+                    "coming_soon": "¡Esta función estará disponible pronto!",
                     "select_evidence": "Seleccionar prueba"
                 },
                 "status_messages": {

@@ -114,8 +114,8 @@
     },
     "biometrics_taking": {
         "description": "Policista %s od vás chce odebrat %s. Souhlasíte?",
-        "deny": "Ablehnen",
-        "accept": "Akzeptieren",
+        "deny": "Odmítnout",
+        "accept": "Přijmout",
         "target": {
             "take_fingerprint": "Odebrat otisky prstů",
             "take_dna": "Odebrat DNA",
@@ -207,6 +207,7 @@
             },
             "citizens_app": {
                 "name": "Občané",
+                "create_citizen": "Vytvořit občana",
                 "personal_data": "Osobní údaje",
                 "biometric_data": "Biometrické údaje",
                 "notes": {
@@ -221,6 +222,7 @@
                     "no_citizens_found": "Nenalezeni žádní občané",
                     "no_notes_found": "Nenalezeny žádné poznámky",
                     "no_registered_firearms": "Žádné registrované střelné zbraně",
+                    "coming_soon": "Tato funkce bude brzy k dispozici!",
                     "select_evidence": "Vybrat důkaz"
                 },
                 "status_messages": {

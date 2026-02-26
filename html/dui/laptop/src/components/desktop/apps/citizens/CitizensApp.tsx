@@ -82,7 +82,7 @@ export default function CitizensApp({citizen}: CitizensAppProps) {
     }, [loading]);
 
     const handleCitizensRegistration = () => {
-        appContext.openPopUp("CREATE CITIZEN", <CreateCitizenPopUp onUpdateCitizen={onUpdateCitizen} onClose={() =>
+        appContext.openPopUp(t("laptop.desktop_screen.citizens_app.create_citizen"), <CreateCitizenPopUp onUpdateCitizen={onUpdateCitizen} onClose={() =>
             appContext.displayNotification({ type: "Success", message: t("laptop.desktop_screen.citizens_app.status_messages.citizen_creation_success") })
         } />);
     }

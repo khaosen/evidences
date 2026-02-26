@@ -114,8 +114,8 @@
     },
     "biometrics_taking": {
         "description": "Polis memuru %s sizden %s örneği almak istiyor. Onaylıyor musunuz?",
-        "deny": "Ablehnen",
-        "accept": "Akzeptieren",
+        "deny": "Reddet",
+        "accept": "Kabul Et",
         "target": {
             "take_fingerprint": "Parmak izi al",
             "take_dna": "DNA örneği al",
@@ -207,6 +207,7 @@
             },
             "citizens_app": {
                 "name": "Vatandaşlar",
+                "create_citizen": "Vatandaş oluştur",
                 "personal_data": "Kişisel Veriler",
                 "biometric_data": "Biyometrik Veriler",
                 "notes": {
@@ -221,6 +222,7 @@
                     "no_citizens_found": "Vatandaş bulunamadı",
                     "no_notes_found": "Not bulunamadı",
                     "no_registered_firearms": "Kayıtlı ateşli silah yok",
+                    "coming_soon": "Bu özellik yakında kullanıma sunulacak!",
                     "select_evidence": "Kanıt seç"
                 },
                 "status_messages": {
