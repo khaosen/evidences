@@ -1,4 +1,5 @@
 local config <const> = require "config"
+local logger <const> = require "server.logger"
 
 for _, item in pairs({"evidence_laptop", "evidence_box", "forensic_kit", "collected_blood", "collected_saliva", "collected_magazine", "collected_fingerprint", "hydrogen_peroxide", "fingerprint_scanner"}) do
     if not exports.ox_inventory:Items(item) then

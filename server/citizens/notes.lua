@@ -1,6 +1,7 @@
 local config <const> = require "config"
 local framework <const> = require "common.frameworks.framework"
 local database <const> = require "server.database"
+local logger <const> = require "server.logger"
 
 MySQL.update.await(
     [[
@@ -36,7 +37,12 @@ lib.callback.register("evidences:storeNote", function(source, arguments)
         arguments.id, arguments.identifier, arguments.modifiedAt, arguments.modifiedBy, arguments.title, arguments.text, 
         arguments.modifiedAt, arguments.modifiedBy, arguments.title, arguments.text,
         function(id)
-            arguments.id = arguments.id or id
+            if not arguments.id then
+                arguments.id = id
+                logger.log(source, "Note created", arguments)
+            end
+
+            logger.log(source, "Note edited", arguments)
             return arguments
         end)
 end)
@@ -49,6 +55,7 @@ lib.callback.register("evidences:deleteNote", function(source, arguments)
         }
     end
 
+    logger.log(source, "Note deletion requested", arguments)
     return database.update("DELETE FROM citizen_notes WHERE id = ?", arguments.id)
 end)
 

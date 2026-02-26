@@ -1,4 +1,5 @@
 local database <const> = require "server.database"
+local logger <const> = require "server.logger"
 
 local biometricsProvider = {}
 

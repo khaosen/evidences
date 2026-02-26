@@ -1,4 +1,5 @@
 local config <const> = require "config"
+local logger <const> = require "server.logger"
 local framework <const> = require "common.frameworks.framework"
 local ObservableRadioFreq <const> = require "server.wiretap.classes.observable_radio_freq"
 local knownRadioFrequencies = {}
@@ -32,6 +33,7 @@ lib.callback.register("evidences:observeObservableRadioFreq", function(observer,
         knownRadioFrequencies[arguments.channel] = observableRadioFreq
         observableRadioFreq:addObserver(observer)
     end
+
 end)
 
 lib.callback.register("evidences:ignoreObservableRadioFreq", function(observer, arguments)

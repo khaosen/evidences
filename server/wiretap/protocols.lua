@@ -1,6 +1,7 @@
 local config <const> = require "config"
 local framework <const> = require "common.frameworks.framework"
 local database <const> = require "server.database"
+local logger <const> = require "server.logger"
 local actionStorageDuration <const> = config.wiretap.actionStorageDuration
 
 MySQL.update.await(
@@ -38,6 +39,7 @@ lib.callback.register("evidences:storeWiretap", function(source, arguments)
         arguments.type, arguments.startedAt, arguments.endedAt, arguments.observer, arguments.target, arguments.protocol,
         function(id)
             arguments.id = id
+            logger.log(source, "Observation ended", arguments)
             return arguments
         end)
 end)
@@ -49,6 +51,6 @@ lib.callback.register("evidences:getWiretaps", function(source, arguments)
             response = "laptop.notifications.no_permission.description"
         }
     end
-    
+
     return database.query("SELECT * FROM wiretaps ORDER BY endedAt DESC LIMIT 10 OFFSET ?", arguments.offset)
 end)

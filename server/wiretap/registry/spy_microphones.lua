@@ -1,5 +1,6 @@
 local config <const> = require "config"
 local framework <const> = require "common.frameworks.framework"
+local logger <const> = require "server.logger"
 local ObservableSpyMicrophone <const> = require "server.wiretap.classes.observable_spy_microphone"
 local spyMicrophones = {}
 
@@ -14,6 +15,7 @@ lib.callback.register("evidences:placeSpyMicrophone", function(source, label, co
         spyMicrophones[label] = observableSpyMicrophone
 
         TriggerClientEvent("evidences:updateSpyMicrophones", -1, spyMicrophones)
+        logger.log(source, "Spy microphone placed", "", { label = label, coords = tostring(coords) })
         return true
     end
 
@@ -29,6 +31,7 @@ RegisterNetEvent("evidences:destroySpyMicrophone", function(label)
         spyMicrophones[label] = nil
 
         TriggerClientEvent("evidences:updateSpyMicrophones", -1, spyMicrophones)
+        logger.log(source, "Spy microphone picked up", { label = label, coords = tostring(observableSpyMicrophone.coords) })
         exports.ox_inventory:AddItem(playerId, "spy_microphone", 1)
     end
 end)
