@@ -3,6 +3,7 @@ local supportedFrameworks <const> = {
     ["es_extended"] = "esx",
     ["ND_Core"] = "nd",
     ["ox_core"] = "ox",
+    ["qb-core"] = "qb",
     ["qbx_core"] = "qbx"
 }
 
