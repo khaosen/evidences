@@ -15,7 +15,7 @@ Evidences is an advanced FiveM script adding evidences like blood, fingerprints 
 This item-based script provides law enforcement authorities with all the information they need to reconstruct the sequence of events of a crime, identify the perpetrators, and prove their guilt later on. If the criminals acted without caution, fingerprints and DNA traces can be secured at the crime scene and compared with database records of previous offenders by using the evidence laptop. In addition, dropped magazines provide information about the weapon used at the crime scene. Now the laptop also has an app that can be used to wiretap phone calls, for example.
 
 <p align="center">
-    <img width="49%" height="auto" src="https://github.com/user-attachments/assets/230d793d-a002-4d1f-9a96-9bbe91d57ff8" />
+    <img width="49%" height="auto" src="https://github.com/user-attachments/assets/cfe50bcf-102b-4696-9ff9-20565cd3afac" />
     <img width="49%" height="auto" src="https://github.com/user-attachments/assets/d4a1931a-584c-4a1d-a09e-69a0255c286d" />
 </p>
 
