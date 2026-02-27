@@ -5,12 +5,12 @@ local framework = {}
 
 function framework.getIdentifier(playerId)
     local oxPlayer <const> = ox.GetPlayer(playerId)
-    return oxPlayer and oxPlayer.charId or nil
+    return oxPlayer and oxPlayer.charId
 end
 
 function framework.getPlayerName(playerId)
     local oxPlayer <const> = ox.GetPlayer(playerId)
-    
+
     return oxPlayer and oxPlayer.get("name") or "undefined"
 end
 
